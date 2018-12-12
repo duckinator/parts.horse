@@ -8,9 +8,6 @@ Style:      {{ page.style }}
 Datasheet:  <{{ site.url }}/ds/{{ page.part_name }}>
 Tags:       {{ page.tags | join: ', ' }}
 
-{{ content }}
-
-
       ┏━━━━━━━━┓{% for pins in page.pins %}
   {{ pins[0][1] }} ┫{{ pins[0][0] }}    {{ pins[1][0] }}┣ {{ pins[1][1] }}{% endfor %}
       ┗━━━━━━━━┛
@@ -25,3 +22,4 @@ for pin in page.pin_functions %}
     endif %}{%
 endfor %}
 
+{{ content }}
