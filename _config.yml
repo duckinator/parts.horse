@@ -1,0 +1,24 @@
+safe: true
+include: [_headers]
+exclude: [.gitignore, _bin, CNAME, LICENSE, Gemfile, Gemfile.lock]
+timezone: America/New_York
+name: "Part Info"
+
+defaults:
+  -
+    scope:
+      path: "" # All files in the project.
+    values:
+      layout: "default"
+  -
+    scope:
+      path: "parts" # All files under /parts.
+      type: "posts"
+    values:
+      layout: "part"
+  -
+    scope:
+      path: "categories" # All files under /categories.
+      type: "posts"
+    values:
+      layout: "category"

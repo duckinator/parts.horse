@@ -1,0 +1,14 @@
+---
+title: parts list
+---
+
+{% comment %}TODO: Pagination.{% endcomment %}
+
+Documented parts:
+
+<ul>
+{% for post in site.categories.parts %}
+  <li><a href="{{ post.url }}">{{ post.name }}</a></li>
+{% endfor %}
+</ul>
+

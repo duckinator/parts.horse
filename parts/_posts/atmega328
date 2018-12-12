@@ -1,0 +1,58 @@
+---
+name:       atmega328
+details:    https://www.microchip.com/wwwproducts/en/atmega328
+summary:    8-bit microcontroller; 32KB of program memory.
+style:      28-pin DIP
+tags:       avr, microcontroller, microchip, 8-bit
+---
+
+      ┏━━━━━━━━━┓
+  PC6 ┫1      28┣ PC5
+  PD0 ┫2      27┣ PC4
+  PD1 ┫3      26┣ PC3
+  PD2 ┫4      25┣ PC2
+  PD3 ┫5      24┣ PC1
+  PD4 ┫6      23┣ PC0
+  VCC ┫7      22┣ GND
+  GND ┫8      21┣ AREF
+  PB6 ┫9      20┣ AVCC
+  PB7 ┫10     19┣ PB5
+  PD5 ┫11     18┣ PB4
+  PD6 ┫12     17┣ PB3
+  PD7 ┫13     16┣ PB2
+  PB0 ┫14     15┣ PB1
+      ┗━━━━━━━━━┛
+
+
+  Pin ┃  Name  ┃  Function(s)
+══════┃════════┃═════════════════════════
+  1   ┃  PC6   ┃ PCINT14, RESET
+  2   ┃  PD0   ┃ PCINT16, RXD
+  3   ┃  PD1   ┃ PCINT17, TXD
+  4   ┃  PD2   ┃ PCINT18, INT0
+  5   ┃  PD3   ┃ PCINT19, INT1, OC2B
+  6   ┃  PD4   ┃ PCINT20, XCK,  T0
+  7   ┃  VCC   ┃
+  8   ┃  GND   ┃
+  9   ┃  PB6   ┃ PCINT6,  XTAL1, TOSC1
+  10  ┃  PB7   ┃ PCINT7,  XTAL2, TOSC2
+  11  ┃  PD5   ┃ PCINT21, OC0B,  T1
+  12  ┃  PD6   ┃ PCINT22, OC0A,  AIN0
+  13  ┃  PD7   ┃ PCINT23, AIN1
+  14  ┃  PB0   ┃ PCINT0,  CLKO,  ICP1
+──────╂────────╂─────────────────────────
+  15  ┃  PB1   ┃ OC1A, PCINT1
+  16  ┃  PB2   ┃ SS,   PCINT2, OC1B
+  17  ┃  PB3   ┃ MOSI, PCINT3, OC2A
+  18  ┃  PB4   ┃ MISO, PCINT4
+  19  ┃  PB5   ┃ SCK,  PCINT5
+  20  ┃  AVCC  ┃ AVCC
+  21  ┃  AREF  ┃ AREF
+  22  ┃  GND   ┃
+  23  ┃  PC0   ┃ ADC0, PCINT8
+  24  ┃  PC1   ┃ ADC1, PCINT9
+  25  ┃  PC2   ┃ ADC2, PCINT10
+  26  ┃  PC3   ┃ ADC3, PCINT11
+  27  ┃  PC4   ┃ ADC4, PCINT12, SDA
+  28  ┃  PC5   ┃ ADC5, PCINT13, SCL
+

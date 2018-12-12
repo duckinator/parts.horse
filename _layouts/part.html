@@ -1,0 +1,11 @@
+---
+xlayout: default
+---
+
+Part:       {{ page.name }}
+Summary:    {{ page.summary }}
+Styles:     {{ page.styles }}
+Datasheet:  {{ site.url }}/ds/{{ name }}
+Tags:       {{ tags | join: ', ' }}
+
+{{ content }}

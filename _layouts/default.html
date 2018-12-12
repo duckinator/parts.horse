@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.name }}</title>
+
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="ID=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <header>
+      <h1>{{ site.name }}</h1>
+
+      <nav>
+        <a href="/">Home</a> &middot; <a href="/categories">Categories</a> &middot; <a href="/search">Search</a>
+      </nav>
+    </header>
+    <main>
+      {{ content }}
+    </main>
+  </body>
+</html>
