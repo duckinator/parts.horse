@@ -11,17 +11,17 @@ Tags:       {{ page.tags | join: ', ' }}
 {{ content }}
 
 
-      ┏━━━━━━┓{% for pins in page.pins %}
-  {{ pins[0][1] }} ┫{{ pins[0][0] }}  {{ pins[1][0] }}┣ {{ pins[1][1] }}{% endfor %}
-      ┗━━━━━━┛
+      ┏━━━━━━━━┓{% for pins in page.pins %}
+  {{ pins[0][1] }} ┫{{ pins[0][0] }}    {{ pins[1][0] }}┣ {{ pins[1][1] }}{% endfor %}
+      ┗━━━━━━━━┛
 
-  Pin ┃  Name  ┃  Function(s)
-══════┃════════┃═════════════════════════{%
+  Pin ┃  Name   ┃  Function(s)
+══════┃═════════┃═════════════════════════{%
 for pin in page.pin_functions %}
 {%  if pin == "--"
-%}──────╂────────╂─────────────────────────────────────────────────{%
+%}──────╂─────────╂─────────────────────────────────────────────────{%
     else
-%}  {{ pin[0] | prepend: '   ' | slice: -3, 3 }} ┃ {{ pin[1] | prepend: '    ' | slice: -4, 4 }}   ┃  {{ pin[2] }}{%
+%}  {{ pin[0] | prepend: '    ' | slice: -3, 3 }} ┃ {{ pin[1] | prepend: '     ' | slice: -5, 5 }}   ┃  {{ pin[2] }}{%
     endif %}{%
 endfor %}
 
