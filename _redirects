@@ -1,4 +1,4 @@
-/ds/*   /datasheets/:slug    302
+/ds/*   /datasheets/:splat  302
 
 /datasheets/atmega328   https://ww1.microchip.com/downloads/en/DeviceDoc/ATmega48A-PA-88A-PA-168A-PA-328-P-DS-DS40002061A.pdf 302
 
