@@ -1,5 +1,5 @@
 safe: true
-include: [_headers]
+include: [_headers, _redirects]
 exclude: [.gitignore, _bin, CNAME, LICENSE, Gemfile, Gemfile.lock]
 timezone: America/New_York
 name: "Part Info"
