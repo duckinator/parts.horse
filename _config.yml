@@ -24,3 +24,8 @@ defaults:
       type: "posts"
     values:
       layout: "category"
+  -
+    scope:
+      path: "ds" # All files under /ds
+    values:
+      layout: "datasheet-redirect"
