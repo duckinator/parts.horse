@@ -4,6 +4,8 @@ exclude: [.gitignore, _bin, CNAME, LICENSE, Gemfile, Gemfile.lock]
 timezone: America/New_York
 name: "Part Info"
 
+url: https://part-info.netlify.com
+
 defaults:
   -
     scope:
