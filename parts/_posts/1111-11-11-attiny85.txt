@@ -3,7 +3,10 @@ name:       attiny85
 details:    https://www.microchip.com/wwwproducts/en/attiny85
 summary:    8-bit microcontroller; 8KB of program memory.
 style:      8-pin DIP
-tags:       avr, microcontroller, microchip, 8-bit
+tags:
+ - avr
+ - microcontroller
+ - 8-bit
 ---
 
       ┏━━━━━┓

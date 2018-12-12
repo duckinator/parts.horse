@@ -4,8 +4,8 @@ xlayout: default
 
 Part:       {{ page.name }}
 Summary:    {{ page.summary }}
-Styles:     {{ page.styles }}
+Style:      {{ page.style }}
 Datasheet:  {{ site.url }}/ds/{{ name }}
-Tags:       {{ tags | join: ', ' }}
+Tags:       {{ page.tags | join: ', ' }}
 
 {{ content }}
