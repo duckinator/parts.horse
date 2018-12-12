@@ -13,8 +13,8 @@ defaults:
   -
     scope:
       path: "parts" # All files under /parts.
-      type: "posts"
     values:
+      part: true
       layout: "part"
   -
     scope:

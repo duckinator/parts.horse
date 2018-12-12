@@ -7,8 +7,10 @@ title: parts list
 Documented parts:
 
 <ul>
-{% for post in site.categories.parts %}
-  <li><a href="{{ post.url }}">{{ post.name }}</a></li>
+{% for page in site.pages %}
+  {% if page.part == true %}
+  <li><a href="{{ page.url }}">{{ page.name | replace: '.txt', '' }}</a></li>
+  {% endif %}
 {% endfor %}
 </ul>
 
