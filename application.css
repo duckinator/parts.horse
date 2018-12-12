@@ -6,6 +6,4 @@ body {
   background: #eeefff;
   white-space: pre;
 }
-header {
-  margin-bottom: 1em;
-}
+h1 { margin-bottom: 0; }
