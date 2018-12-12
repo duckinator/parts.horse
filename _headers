@@ -1,10 +1,2 @@
 /parts/*
   Content-Type: text/plain; charset=utf-8
-
-/ds/atmega328
-  Location: http://ww1.microchip.com/downloads/en/DeviceDoc/ATmega48A-PA-88A-PA-168A-PA-328-P-DS-DS40002061A.pdf
-
-/ds/attiny85
-  Location: http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet.pdf
-
-
