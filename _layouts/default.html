@@ -1,32 +1,8 @@
 <!doctype html>
-<html>
-  <head>
-    <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.name }}</title>
+<title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.name }}</title>
+<meta charset="utf-8">
+<h1>{{ site.name }}</h1>
+<a href="/">Home</a> <!-- &middot; <a href="/categories">Categories</a> &middot; <a href="/search">Search</a> -->
+<script src="/autolink.js"></script>
 
-    <meta charset="utf-8">
-
-    <meta http-equiv="X-UA-Compatible" content="ID=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-      body {
-        font-family: sans-serif;
-        margin: auto;
-        width: 80ch;
-        background: #eeefff;
-      }
-      header { margin-bottom: 1em; }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>{{ site.name }}</h1>
-
-      <nav>
-        <a href="/">Home</a> <!-- &middot; <a href="/categories">Categories</a> &middot; <a href="/search">Search</a> -->
-      </nav>
-    </header>
-    <main>
-      {{ content }}
-    </main>
-  </body>
-</html>
+{{ content }}

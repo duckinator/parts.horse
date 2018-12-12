@@ -1,0 +1,10 @@
+body {
+  font-family: sans-serif;
+  margin: auto;
+  width: 80ch;
+  background: #eeefff;
+  white-space: pre;
+}
+header {
+  margin-bottom: 1em;
+}
