@@ -1,5 +1,5 @@
 ---
-name:       atmega328
+part_name:  atmega328
 details:    https://www.microchip.com/wwwproducts/en/atmega328
 summary:    8-bit microcontroller; 32KB of program memory.
 style:      28-pin DIP

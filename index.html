@@ -9,7 +9,7 @@ Documented parts:
 <ul>
 {% for page in site.pages %}
   {% if page.part == true %}
-  <li><a href="{{ page.url }}">{{ page.name | replace: '.txt', '' }}</a></li>
+  <li><a href="{{ page.url }}">{{ page.part_name }}</a></li>
   {% endif %}
 {% endfor %}
 </ul>
