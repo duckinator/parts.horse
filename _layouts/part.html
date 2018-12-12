@@ -5,7 +5,7 @@ xlayout: default
 Part:       {{ page.name }}
 Summary:    {{ page.summary }}
 Style:      {{ page.style }}
-Datasheet:  {{ site.url }}/ds/{{ name }}
+Datasheet:  {{ site.url }}/ds/{{ page.part_name }}
 Tags:       {{ page.tags | join: ', ' }}
 
 {{ content }}
