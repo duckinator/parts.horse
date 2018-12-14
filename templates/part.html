@@ -1,0 +1,29 @@
+{% extends parent_template %}
+
+{% block content %}
+
+Part:       {{ page.name }}
+Summary:    {{ page.summary }}
+Style:      {{ page.style }}
+Datasheet:  {{ link(site.url + '/ds/' + page.part_name) }}
+Tags:       {{ page.tags | join(', ') }}
+
+      ┏━━━━━━━━┓
+{%- for pins in page.pins %}
+  {{ pins[0][1] | ljust(3) }} ┫{{ pins[0][0] | ljust(3) }}    {{ pins[1][0] | ljust(3) }}┣ {{ pins[1][1] | ljust(3) }}
+{%- endfor %}
+      ┗━━━━━━━━┛
+
+  Pin ┃  Name   ┃  Function(s)
+══════┃═════════┃═════════════════════════{%
+for pin in page.pin_functions %}
+{% if pin == "--" -%}
+──────╂─────────╂─────────────────────────────────────────────────
+{%- else -%}
+{{ pin[0] | ljust(3) }} ┃ {{ pin[1] | ljust(5) }}   ┃  {{ pin[2] }}
+{%- endif -%}
+{%- endfor %}
+
+{% block details %}{% endblock %}
+
+{% endblock %}

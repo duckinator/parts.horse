@@ -6,4 +6,5 @@ body {
   background: #eeefff;
   white-space: pre;
 }
+body header { white-space: normal; }
 h1 { margin-bottom: 0; }
