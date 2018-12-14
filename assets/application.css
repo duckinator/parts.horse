@@ -1,10 +1,16 @@
 body {
-  font-family: sans-serif;
+  font-size: 120%;
+  font-family: monospace;
   padding: 1em;
   margin: auto;
   width: 80ch;
   background: #eeefff;
   white-space: pre;
+  line-height: 2em;
+}
+
+.pin-info {
+  line-height: 1em;
 }
 body header { white-space: normal; }
 h1 { margin-bottom: 0; }

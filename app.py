@@ -2,6 +2,7 @@
 
 import cherrypy
 from jinja2 import Environment, FileSystemLoader
+import json
 import os
 from pathlib import Path
 
@@ -9,11 +10,9 @@ class Helpers:
     def environment():
         env = Environment(loader=FileSystemLoader('templates'))
 
-        # Add all of the functions defined in Filters to the environment.
-        filters = Filters.__dict__
-        for key in filters.keys():
-            if callable(filters[key]):
-                env.filters[key] = filters[key]
+        env.filters['link'] = Filters.link
+        env.filters['ljust'] = Filters.ljust
+        env.filters['rjust'] = Filters.rjust
 
         return env
 
@@ -21,7 +20,7 @@ class Helpers:
         return ('text/html' in cherrypy.request.headers['Accept'].split(','))
 
     def response_type():
-        if is_html_response():
+        if Helpers.is_html_response():
             return 'text/html'
         else:
             return 'text/plain'
@@ -71,7 +70,16 @@ class PartDirectory(object):
                 "name": "Parts Horse",
                 "url": "<TODO: DETERMINE BASE URL>",
                 }
-        page = {}
+
+        print(self.env.filters)
+        data_file = Path("content/parts").joinpath(part_name.replace('/', '-') + '.json')
+        page = json.loads(data_file.read_text())
+        print(page)
+
+        page["datasheet"] = site["url"] + '/ds/' + page["name"]
+
+        cherrypy.response.headers["Link"] = "</application.css>;rel=stylesheet"
+        cherrypy.response.headers["Content-Type"] = Helpers.response_type() + "; charset=utf-8"
 
         return self.template.render(
                 site=site,

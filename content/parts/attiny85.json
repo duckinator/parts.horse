@@ -1,25 +1,25 @@
 {
-  "part_name":        "attiny85",
-  "details":          "https://www.microchip.com/wwwproducts/en/attiny85",
-  "summary":          "8-bit microcontroller; 8KB of program memory.",
-  "style":            "DIP",
-  "number_of_pins":   8,
+  "name":           "attiny85",
+  "details":        "https://www.microchip.com/wwwproducts/en/attiny85",
+  "summary":        "8-bit microcontroller; 8KB of program memory.",
+  "style":          "DIP",
+  "number_of_pins": 8,
   "tags": ["avr", "microcontroller", "8-bit"],
   "pins": [
-    [["1 ", "PB5"], [" 8", "VCC"]],
-    [["2 ", "PB3"], [" 7", "PB2"]],
-    [["3 ", "PB4"], [" 6", "PB1"]],
-    [["4 ", "GND"], [" 5", "PB0"]]
+    [["1", "PB5"], [" 8", "VCC"]],
+    [["2", "PB3"], [" 7", "PB2"]],
+    [["3", "PB4"], [" 6", "PB1"]],
+    [["4", "GND"], [" 5", "PB0"]]
   ],
   "pin_functions": [
-    [1, "PB5", "PCINT5, ~RESET, ADC0, dW"],
-    [2, "PB3", "PCINT3,  XTAL1, CLKI, OC1B, ADC3"],
-    [3, "PB4", "PCINT4,  XTAL2, CLKO, OC1B, ADC2"],
-    [4, "GND", "GND"],
+    ["1", "PB5", "PCINT5, ~RESET, ADC0, dW"],
+    ["2", "PB3", "PCINT3,  XTAL1, CLKI, OC1B, ADC3"],
+    ["3", "PB4", "PCINT4,  XTAL2, CLKO, OC1B, ADC2"],
+    ["4", "GND", "GND"],
     "--",
-    [5, "PB0", "PCINT0, AINO, AREF, DI, MOSI, OC0A, ~OC1A, SDA"],
-    [6, "PB1", "PCINT1, AIN1,       DO, MISO, OC0B,  OC1A"],
-    [7, "PB2", "PCINT2, ADC1, INT0, SCK, SCL, T0, USCK"],
-    [8, "VCC", "VCC"]
+    ["5", "PB0", "PCINT0, AINO, AREF, DI, MOSI, OC0A, ~OC1A, SDA"],
+    ["6", "PB1", "PCINT1, AIN1,       DO, MISO, OC0B,  OC1A"],
+    ["7", "PB2", "PCINT2, ADC1, INT0, SCK, SCL, T0, USCK"],
+    ["8", "VCC", "VCC"]
   ]
 }
