@@ -16,6 +16,16 @@ class Helpers:
 
         return env
 
+    def site_config():
+        site = {}
+        port = cherrypy.config.get('server.socket_port')
+        url = os.environ.get('SITE_URL', 'http://{}'.format(cherrypy.request.headers['Host']))
+
+        site['name'] = os.environ.get('SITE_NAME') or 'Parts Horse'
+        site['url']  = url
+
+        return site
+
     def is_html_response():
         return ('text/html' in cherrypy.request.headers['Accept'].split(','))
 
@@ -63,19 +73,17 @@ class PartDirectory(object):
     @cherrypy.expose
     def index(self, part_name):
         part_name = part_name.lower()
-        site = {
-                "name": "Parts Horse",
-                "url": "<TODO: DETERMINE BASE URL>",
-                }
 
-        data_file = Path("content/parts").joinpath(part_name.replace('/', '-') + '.json')
+        site = Helpers.site_config()
+
+        data_file = Path('content/parts').joinpath(part_name.replace('/', '-') + '.json')
         page = json.loads(data_file.read_text())
 
-        page["datasheet"] = site["url"] + '/ds/' + page["name"]
-        page["is_html"] = Helpers.is_html_response()
+        page['datasheet'] = site['url'] + '/ds/' + page['name']
+        page['is_html'] = Helpers.is_html_response()
 
-        cherrypy.response.headers["Link"] = "</application.css>;rel=stylesheet"
-        cherrypy.response.headers["Content-Type"] = Helpers.response_type() + "; charset=utf-8"
+        cherrypy.response.headers['Link'] = '</application.css>;rel=stylesheet'
+        cherrypy.response.headers['Content-Type'] = Helpers.response_type() + '; charset=utf-8'
 
         return self.template.render(
                 site=site,
