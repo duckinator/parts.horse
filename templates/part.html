@@ -1,12 +1,13 @@
 {% extends parent_template %}
 {% block content %}
+
+{% if page.is_html %}<pre>{% endif %}
 Part:       {{ page.name }}
 Summary:    {{ page.summary }}
 Style:      {{ page.style }}
 Datasheet:  {{ page.datasheet | link }}
 Tags:       {{ page.tags | join(', ') }}
 
-{% if parent_template == 'base.html' %}<section class="pin-info">{% endif %}
       ┏━━━━━━━━┓
 {%- for pins in page.pins %}
   {{ pins[0][1] | ljust(3) }} ┫{{ pins[0][0] | ljust(3) }}  {{ pins[1][0] | ljust(3) }}┣ {{ pins[1][1] | ljust(3) }}
@@ -21,7 +22,7 @@ for pin in page.pin_functions %}
 {%- else %}  {{ pin[0] | ljust(3) }} ┃ {{ pin[1] | ljust(5) }}   ┃  {{ pin[2] }}
 {%- endif -%}
 {%- endfor %}
-{% if parent_template == 'base.html' %}</section>{% endif %}
+{% if page.is_html %}</pre>{% endif %}
 
 {% block details %}{% endblock %}
 

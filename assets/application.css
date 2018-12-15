@@ -5,11 +5,10 @@ body {
   margin: auto;
   width: 80ch;
   background: #eeefff;
-  white-space: pre;
   line-height: 2em;
 }
 
-.pin-info {
+pre {
   line-height: 1em;
 }
 body header { white-space: normal; }

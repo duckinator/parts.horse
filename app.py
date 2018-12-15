@@ -44,7 +44,6 @@ class PartHomePage(object):
         return 'awoo'
 
 class PartDirectory(object):
-    #@cherrypy.tools.accept(media='text/plain')
     def __init__(self):
         self.env = Helpers.environment()
         self.template = self.env.get_template('part.html')
@@ -64,19 +63,16 @@ class PartDirectory(object):
     @cherrypy.expose
     def index(self, part_name):
         part_name = part_name.lower()
-        data = []
-
         site = {
                 "name": "Parts Horse",
                 "url": "<TODO: DETERMINE BASE URL>",
                 }
 
-        print(self.env.filters)
         data_file = Path("content/parts").joinpath(part_name.replace('/', '-') + '.json')
         page = json.loads(data_file.read_text())
-        print(page)
 
         page["datasheet"] = site["url"] + '/ds/' + page["name"]
+        page["is_html"] = Helpers.is_html_response()
 
         cherrypy.response.headers["Link"] = "</application.css>;rel=stylesheet"
         cherrypy.response.headers["Content-Type"] = Helpers.response_type() + "; charset=utf-8"
