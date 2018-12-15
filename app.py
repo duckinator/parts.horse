@@ -16,7 +16,7 @@ class Helpers:
 
         return env
 
-    def site_config():
+    def site_dict():
         site = {}
         port = cherrypy.config.get('server.socket_port')
         url = os.environ.get('SITE_URL', 'http://{}'.format(cherrypy.request.headers['Host']))
@@ -25,6 +25,17 @@ class Helpers:
         site['url']  = url
 
         return site
+
+    def page_dict(part_name):
+        data_file = Path('content/parts').joinpath(part_name.replace('/', '-') + '.json')
+        site = Helpers.site_dict()
+        page = json.loads(data_file.read_text())
+
+        page['datasheet_redirect_target'] = page['datasheet']
+        page['datasheet'] = site['url'] + '/ds/' + page['name']
+        page['is_html'] = Helpers.is_html_response()
+
+        return page
 
     def is_html_response():
         return ('text/html' in cherrypy.request.headers['Accept'].split(','))
@@ -74,13 +85,8 @@ class PartDirectory(object):
     def index(self, part_name):
         part_name = part_name.lower()
 
-        site = Helpers.site_config()
-
-        data_file = Path('content/parts').joinpath(part_name.replace('/', '-') + '.json')
-        page = json.loads(data_file.read_text())
-
-        page['datasheet'] = site['url'] + '/ds/' + page['name']
-        page['is_html'] = Helpers.is_html_response()
+        site = Helpers.site_dict()
+        page = Helpers.page_dict(part_name)
 
         cherrypy.response.headers['Link'] = '</application.css>;rel=stylesheet'
         cherrypy.response.headers['Content-Type'] = Helpers.response_type() + '; charset=utf-8'
@@ -90,6 +96,20 @@ class PartDirectory(object):
                 page=page,
                 parent_template=self.get_parent_template(),
         )
+
+class DatasheetRedirects(object):
+    def _cp_dispatch(self, vpath):
+        if len(vpath) == 1:
+            cherrypy.request.params['part_name'] = vpath.pop()
+            return self
+        return vpath
+
+    @cherrypy.expose
+    def index(self, part_name):
+        page = Helpers.page_dict(part_name)
+        cherrypy.response.headers['Location'] = page['datasheet_redirect_target']
+        cherrypy.response.status = 302
+        return page['datasheet_redirect_target']
 
 class PartSearch(object):
     pass
@@ -114,6 +134,8 @@ if __name__ == '__main__':
     cherrypy.tree.mount(PartHomePage(),  '/',       home_config)
     cherrypy.tree.mount(PartDirectory(), '/parts',  directory_config)
     cherrypy.tree.mount(PartSearch(),    '/search', search_config)
+    cherrypy.tree.mount(DatasheetRedirects(),   '/datasheets')
+    cherrypy.tree.mount(DatasheetRedirects(),   '/ds')
 
     cherrypy.config.update({'server.socket_port': int(os.environ.get('PORT', 5000))})
 

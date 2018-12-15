@@ -1,5 +1,6 @@
 {
   "name":           "atmega328",
+  "datasheet":      "https://ww1.microchip.com/downloads/en/DeviceDoc/ATmega48A-PA-88A-PA-168A-PA-328-P-DS-DS40002061A.pdf",
   "details":        "https://www.microchip.com/wwwproducts/en/atmega328",
   "summary":        "8-bit microcontroller; 32KB of program memory.",
   "style":          "DIP",
