@@ -7,12 +7,18 @@ import os
 from pathlib import Path
 
 class Helpers:
+    def link(value):
+        if Helpers.is_html_response():
+            return '<a href="{url}">{url}</a>'.format(url=value)
+        else:
+            return '<{url}>'.format(url=value)
+
     def environment():
         env = Environment(loader=FileSystemLoader('templates'))
 
-        env.filters['link'] = Filters.link
-        env.filters['ljust'] = Filters.ljust
-        env.filters['rjust'] = Filters.rjust
+        env.filters['link'] = Helpers.link
+        env.filters['ljust'] = lambda value, *args: value.ljust(*args)
+        env.filters['rjust'] = lambda value, *args: value.rjust(*args)
 
         return env
 
@@ -46,23 +52,12 @@ class Helpers:
         else:
             return 'text/plain'
 
-class Filters:
-    def link(value):
-        if Helpers.is_html_response():
-            return '<a href="{url}">{url}</a>'.format(url=value)
-        else:
-            return '<{url}>'.format(url=value)
-
-    def ljust(value, pad_size, padding=' '):
-        return value.ljust(pad_size, padding)
-
-    def rjust(value, pad_size, padding=' '):
-        return value.rjust(pad_size, padding)
 
 class PartHomePage(object):
     @cherrypy.expose
     def index(self):
         return 'awoo'
+
 
 class PartDirectory(object):
     def __init__(self):
@@ -97,6 +92,7 @@ class PartDirectory(object):
                 parent_template=self.get_parent_template(),
         )
 
+
 class DatasheetRedirects(object):
     def _cp_dispatch(self, vpath):
         if len(vpath) == 1:
@@ -111,8 +107,10 @@ class DatasheetRedirects(object):
         cherrypy.response.status = 302
         return page['datasheet_redirect_target']
 
+
 class PartSearch(object):
     pass
+
 
 if __name__ == '__main__':
     site_dir = str(Path(__file__).resolve().parent)
@@ -125,14 +123,11 @@ if __name__ == '__main__':
                 }
             }
 
-    directory_config = {
-            }
-
     search_config = {
             }
 
     cherrypy.tree.mount(PartHomePage(),  '/',       home_config)
-    cherrypy.tree.mount(PartDirectory(), '/parts',  directory_config)
+    cherrypy.tree.mount(PartDirectory(), '/parts')
     cherrypy.tree.mount(PartSearch(),    '/search', search_config)
     cherrypy.tree.mount(DatasheetRedirects(),   '/datasheets')
     cherrypy.tree.mount(DatasheetRedirects(),   '/ds')
