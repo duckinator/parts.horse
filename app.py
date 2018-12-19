@@ -132,7 +132,10 @@ if __name__ == '__main__':
     cherrypy.tree.mount(DatasheetRedirects(),   '/datasheets')
     cherrypy.tree.mount(DatasheetRedirects(),   '/ds')
 
-    cherrypy.config.update({'server.socket_port': int(os.environ.get('PORT', 5000))})
+    cherrypy.config.update({
+        'server.socket_host': '0.0.0.0',
+        'server.socket_port': int(os.environ.get('PORT', 5000)),
+    })
 
     cherrypy.engine.start()
     cherrypy.engine.block()
