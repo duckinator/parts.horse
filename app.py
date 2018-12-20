@@ -36,7 +36,11 @@ class Helpers:
         part_name = part_name.replace('/', '-').lower()
         data_file = Path('content/parts').joinpath(part_name + '.json')
         site = Helpers.site_dict()
-        page = json.loads(data_file.read_text())
+        try:
+            page = json.loads(data_file.read_text())
+        except json.decoder.JSONDecodeError:
+            print("[ERROR] Invalid JSON file: {}.".format(data_file))
+            raise
 
         page['datasheet_redirect_target'] = page['datasheet']
         page['datasheet'] = site['url'] + '/ds/' + part_name
