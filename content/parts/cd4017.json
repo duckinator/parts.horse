@@ -7,7 +7,7 @@
   "summary":        "Decade counter/divider with 10 decoded outputs.",
   "style":          "DIP",
   "number_of_pins": 16,
-  "tags": [],
+  "tags": ["cmos", "decade", "counter", "divider"],
   "pins": [
     [["1",  "D5"],  ["16", "Vdd"]],
     [["2",  "D1"],  ["15", "RESET"]],
