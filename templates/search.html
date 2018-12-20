@@ -10,6 +10,7 @@
 {% for result in page.results %}
 <li class="search-result"><a href="{{ result.canonical_url }}">{{ result.name }}</a>
   <p class="summary">{{ result.summary }}</p>
+  <p class="pins">Pins: {{ result.number_of_pins }}</p>
   <p class="tags">Tags: {{ result.tags | join(', ') }}</p>
 </li>
 {% endfor %}

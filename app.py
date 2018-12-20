@@ -33,13 +33,13 @@ class Helpers:
         return site
 
     def page_dict(part_name, extra={}):
-        part_name = part_name.replace('/', '-')
+        part_name = part_name.replace('/', '-').lower()
         data_file = Path('content/parts').joinpath(part_name + '.json')
         site = Helpers.site_dict()
         page = json.loads(data_file.read_text())
 
         page['datasheet_redirect_target'] = page['datasheet']
-        page['datasheet'] = site['url'] + '/ds/' + page['name']
+        page['datasheet'] = site['url'] + '/ds/' + part_name
         page['is_html'] = Helpers.is_html_response()
         page['url_path'] = '/parts/' + part_name
         page['canonical_url'] = site['url'] + page['url_path']
