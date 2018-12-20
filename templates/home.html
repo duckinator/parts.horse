@@ -1,0 +1,19 @@
+{% extends parent_template %}
+
+{%- block content %}
+
+{%- if parent_template == 'base.html' %}
+<form class="search" action="/search" method="get">
+  <input type="text" id="q" name="q" value="{{ page.query }}">
+  <input type="submit" value="Search">
+</form>
+{% else %}
+API Overview:
+
+    Search      /search?q=<query>
+    View Part   /parts/<part name>
+
+Source code is available at <https://github.com/duckinator/parts-horse>.
+{% endif %}
+
+{%- endblock %}

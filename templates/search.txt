@@ -1,0 +1,13 @@
+{% extends 'base.txt' %}
+{%- block content %}
+QUERY: {{ page.query }}
+
+{% for result in page.results %}
+{%- set idx = loop.index | string %}
+{%- set idx = idx + '.' -%}
+{{ idx | ljust(3) }} {{ result.name }} <{{ result.canonical_url }}>
+     {{ result.summary }}
+     Tags: {{ result.tags | join(', ') }}
+
+{% endfor %}
+{%- endblock %}

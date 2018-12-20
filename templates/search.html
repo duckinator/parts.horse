@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<form class="search" action="/search" method="get">
+  <input type="text" id="q" name="q" value="{{ page.query }}">
+  <input type="submit" value="Search">
+</form>
+
+<ol class="search-results">
+{% for result in page.results %}
+<li class="search-result"><a href="{{ result.canonical_url }}">{{ result.name }}</a>
+  <p class="summary">{{ result.summary }}</p>
+  <p class="tags">Tags: {{ result.tags | join(', ') }}</p>
+</li>
+{% endfor %}
+</ol>
+
+{% endblock %}
