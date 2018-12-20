@@ -1,36 +1,20 @@
 {
   "INCOMPLETE":     true,
-  "name":           "L4931 Voltage Regulator",
-  "datasheet":      "",
-  "details":        "",
-  "summary":        "",
-  "style":          "DIP",
-  "number_of_pins": -1,
-  "tags": [],
+  "name":           "L4931 - Voltage Regulator",
+  "datasheet":      "https://www.st.com/resource/en/datasheet/l4931.pdf",
+  "details":        "https://www.st.com/en/power-management/l4931.html",
+  "summary":        "3.3V voltage regulator.",
+  "style":          "TO-92",
+  "number_of_pins": 3,
+  "tags": ["voltage regulator"],
   "pins": [
-    [["1",  "1A"],  ["14", "Vdd"]],
-    [["2",  "1B"],  ["13", "4B"]],
-    [["3",  "1Y"],  ["12", "4A"]],
-    [["4",  "2Y"],  ["11", "4Y"]],
-    [["5",  "2A"],  ["10", "3Y"]],
-    [["6",  "2B"],  [" 9", "3B"]],
-    [["7",  "Vss"], [" 8", "3A"]]
+    [["1",  "Vout"], ["", ""]],
+    [["2",  "GND"],  ["", ""]],
+    [["3",  "Vin"],  ["", ""]]
   ],
   "pin_functions": [
     ["1",   "", ""],
     ["2",   "", ""],
-    ["3",   "", ""],
-    ["4",   "", ""],
-    ["5",   "", ""],
-    ["6",   "", ""],
-    ["7",   "", ""],
-    "",
-    ["8",   "", ""],
-    ["9",   "", ""],
-    ["10",  "", ""],
-    ["11",  "", ""],
-    ["12",  "", ""],
-    ["13",  "", ""],
-    ["14",  "", ""]
+    ["3",   "", ""]
   ]
 }
