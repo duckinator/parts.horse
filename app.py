@@ -133,12 +133,13 @@ class PartSearch(object):
         return path.name.replace('.json', '')
 
     def chunk_relevance(self, data, chunk):
+        chunk = chunk.lower()
         rs = [
-                chunk in data['datasheet_redirect_target'],
-                chunk in data['style'],
-                chunk in data['summary'],
-                chunk in data['tags'],
-                chunk in data['name'],
+                chunk in data['datasheet_redirect_target'].lower(),
+                chunk in data['style'].lower(),
+                chunk in data['summary'].lower(),
+                chunk in map(lambda x: x.lower(), data['tags']),
+                chunk in data['name'].lower(),
             ]
 
         return sum(rs)
