@@ -177,7 +177,7 @@ class PartSearch(object):
         return sorted(results, key=lambda x: x['relevance'])
 
     @cherrypy.expose
-    def index(self, q):
+    def index(self, q=''):
         if q:
             PartSearch.add_recent(q)
             results = self.search(q, min_relevance=1)
