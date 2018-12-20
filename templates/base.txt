@@ -1,3 +1,2 @@
 {{ site.name }}
-
 {% block content %}{% endblock %}

@@ -33,13 +33,16 @@ class Helpers:
         return site
 
     def page_dict(part_name, extra={}):
-        data_file = Path('content/parts').joinpath(part_name.replace('/', '-') + '.json')
+        part_name = part_name.replace('/', '-')
+        data_file = Path('content/parts').joinpath(part_name + '.json')
         site = Helpers.site_dict()
         page = json.loads(data_file.read_text())
 
         page['datasheet_redirect_target'] = page['datasheet']
         page['datasheet'] = site['url'] + '/ds/' + page['name']
         page['is_html'] = Helpers.is_html_response()
+        page['url_path'] = '/parts/' + part_name
+        page['canonical_url'] = site['url'] + page['url_path']
 
         for k in extra.keys():
             page[k] = extra[k]
@@ -61,16 +64,11 @@ class Helpers:
         else:
             return 'base.txt'
 
-    def render(template, page, auto_response_type=True):
+    def render(template, page):
         site = Helpers.site_dict()
 
-        if auto_response_type:
-            response_type = Helpers.response_type()
-        else:
-            response_type = 'text/html'
-
         cherrypy.response.headers['Link'] = '</application.css>;rel=stylesheet'
-        cherrypy.response.headers['Content-Type'] = response_type + '; charset=utf-8'
+        cherrypy.response.headers['Content-Type'] = Helpers.response_type() + '; charset=utf-8'
 
         return template.render(
                 site=site,
@@ -121,7 +119,9 @@ class DatasheetRedirects(object):
 class PartSearch(object):
     def __init__(self):
         self.env = Helpers.environment()
-        self.template = self.env.get_template('search.html')
+        self.html_template = self.env.get_template('search.html')
+        self.text_template = self.env.get_template('search.txt')
+
         parts_files = Path('content/parts').glob('**/*.json')
         self.parts_list = list(map(self.path_to_name, parts_files))
 
@@ -168,7 +168,12 @@ class PartSearch(object):
         }
         print(list(results))
 
-        return Helpers.render(self.template, page)
+        if Helpers.is_html_response():
+            template = self.html_template
+        else:
+            template = self.text_template
+
+        return Helpers.render(template, page)
 
 
 if __name__ == '__main__':

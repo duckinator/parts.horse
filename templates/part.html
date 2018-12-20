@@ -1,5 +1,5 @@
-{% extends parent_template %}
-{% block content %}
+{% extends parent_template -%}
+{%- block content -%}
 
 {% if page.is_html %}<pre>{% endif %}
 Part:       {{ page.name }}
@@ -15,15 +15,15 @@ Tags:       {{ page.tags | join(', ') }}
       ┗━━━━━━━━┛
 
   Pin ┃  Name   ┃  Function(s)
-══════┃═════════┃═════════════════════════════════════════════════{%
-for pin in page.pin_functions %}
+══════┃═════════┃═════════════════════════════════════════════════
+{%- for pin in page.pin_functions %}
 {% if pin == "--" -%}
 ──────╂─────────╂─────────────────────────────────────────────────
 {%- else %}  {{ pin[0] | ljust(3) }} ┃ {{ pin[1] | ljust(5) }}   ┃  {{ pin[2] }}
-{%- endif -%}
+{%- endif %}
 {%- endfor %}
 {% if page.is_html %}</pre>{% endif %}
 
-{% block details %}{% endblock %}
+{%- block details %}{% endblock %}
 
-{% endblock %}
+{%- endblock %}

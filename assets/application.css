@@ -13,3 +13,16 @@ pre {
 }
 body header { white-space: normal; }
 h1 { margin-bottom: 0; }
+
+.search-result {
+  line-height: 1em;
+  padding-bottom: 1.5em;
+}
+
+.search-result .summary {
+
+}
+
+.search-result .tags {
+  font-size: 0.8em;
+}
