@@ -32,7 +32,7 @@ class Helpers:
 
         return site
 
-    def page_dict(part_name):
+    def page_dict(part_name, extra={}):
         data_file = Path('content/parts').joinpath(part_name.replace('/', '-') + '.json')
         site = Helpers.site_dict()
         page = json.loads(data_file.read_text())
@@ -40,6 +40,9 @@ class Helpers:
         page['datasheet_redirect_target'] = page['datasheet']
         page['datasheet'] = site['url'] + '/ds/' + page['name']
         page['is_html'] = Helpers.is_html_response()
+
+        for k in extra.keys():
+            page[k] = extra[k]
 
         return page
 
@@ -51,6 +54,29 @@ class Helpers:
             return 'text/html'
         else:
             return 'text/plain'
+
+    def get_parent_template():
+        if Helpers.is_html_response():
+            return 'base.html'
+        else:
+            return 'base.txt'
+
+    def render(template, page, auto_response_type=True):
+        site = Helpers.site_dict()
+
+        if auto_response_type:
+            response_type = Helpers.response_type()
+        else:
+            response_type = 'text/html'
+
+        cherrypy.response.headers['Link'] = '</application.css>;rel=stylesheet'
+        cherrypy.response.headers['Content-Type'] = response_type + '; charset=utf-8'
+
+        return template.render(
+                site=site,
+                page=page,
+                parent_template=Helpers.get_parent_template(),
+        )
 
 
 class PartHomePage(object):
@@ -70,27 +96,11 @@ class PartDirectory(object):
             return self
         return vpath
 
-    def get_parent_template(self):
-        if Helpers.is_html_response():
-            return 'base.html'
-        else:
-            return 'base.txt'
-
     @cherrypy.expose
     def index(self, part_name):
-        part_name = part_name.lower()
-
-        site = Helpers.site_dict()
-        page = Helpers.page_dict(part_name)
-
-        cherrypy.response.headers['Link'] = '</application.css>;rel=stylesheet'
-        cherrypy.response.headers['Content-Type'] = Helpers.response_type() + '; charset=utf-8'
-
-        return self.template.render(
-                site=site,
-                page=page,
-                parent_template=self.get_parent_template(),
-        )
+        part = part_name.lower()
+        page = Helpers.page_dict(part)
+        return Helpers.render(self.template, page)
 
 
 class DatasheetRedirects(object):
@@ -109,7 +119,56 @@ class DatasheetRedirects(object):
 
 
 class PartSearch(object):
-    pass
+    def __init__(self):
+        self.env = Helpers.environment()
+        self.template = self.env.get_template('search.html')
+        parts_files = Path('content/parts').glob('**/*.json')
+        self.parts_list = list(map(self.path_to_name, parts_files))
+
+    def path_to_name(self, path):
+        return path.name.replace('.json', '')
+
+    def chunk_relevance(self, data, chunk):
+        rs = [
+                chunk in data['datasheet_redirect_target'],
+                chunk in data['style'],
+                chunk in data['summary'],
+                chunk in data['tags'],
+                chunk in data['name'],
+            ]
+
+        return sum(rs)
+
+    def relevance(self, part, query):
+        data = Helpers.page_dict(part)
+        # Remove empty strings, None, etc.
+        chunks = filter(lambda x: x, query.split(' '))
+        # Determine the relevance of each chunk.
+        rs = map(lambda c: self.chunk_relevance(data, c), chunks)
+        return sum(rs)
+
+    def search(self, query, min_relevance=1):
+        # Split by word, and remove empty strings, None, etc.
+        chunks = filter(lambda x: x, query.split(' '))
+        relevances = map(lambda p: [p, self.relevance(p, query)], self.parts_list)
+        results = filter(lambda x: x[1] >= min_relevance, relevances)
+        results = map(lambda r: Helpers.page_dict(r[0], {'relevance': r}), results)
+        return sorted(results, key=lambda x: x['relevance'])
+
+    @cherrypy.expose
+    def index(self, q):
+        if q:
+            results = self.search(q, min_relevance=0)
+        else:
+            results = []
+
+        page = {
+            'query': q,
+            'results': results,
+        }
+        print(list(results))
+
+        return Helpers.render(self.template, page)
 
 
 if __name__ == '__main__':

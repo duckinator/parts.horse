@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<form class="search" action="/search" method="get">
+  <input type="text" id="q" name="q" value="{{ page.query }}">
+  <input type="submit" value="Search">
+</form>
+
+{% for result in page.results %}
+{{ result }}
+{% endfor %}
+
+{% endblock %}
