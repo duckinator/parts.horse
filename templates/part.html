@@ -14,15 +14,15 @@ Tags:       {{ page.tags | join(', ') }}
 {%- endfor %}
            ┗━━━━━━━━┛
 
-{%- elif page.style == 'TO-92' -%}
+{%- elif page.style == 'TO-92' %}
 
 TODO: Figure out how to render TO-92 things.
 
-{%- else -%}
+{% else %}
 
 Not sure how to render {{ page.style }} ICs.
 
-{%- endif %}
+{% endif %}
 
   Pin ┃  Name   ┃  Function(s)
 ══════┃═════════┃═════════════════════════════════════════════════
