@@ -162,7 +162,7 @@ class PartSearch(object):
     @cherrypy.expose
     def index(self, q):
         if q:
-            results = self.search(q, min_relevance=0)
+            results = self.search(q, min_relevance=1)
         else:
             results = []
 
