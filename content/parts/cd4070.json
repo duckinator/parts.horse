@@ -31,4 +31,5 @@
     ["12",  "4A",   "Input for XOR gate #4."],
     ["13",  "4B",   "Input for XOR gate #4."],
     ["14",  "Vdd",  "Supply voltage."]
+  ]
 }
