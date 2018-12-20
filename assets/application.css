@@ -9,26 +9,29 @@ body {
   font-size: 150%;
   padding: 1em;
   margin: auto;
-  width: 80ch;
+  max-width: 80ch;
   background: #eeefff;
   line-height: 3em;
 }
 
-a { padding: 1em 0; }
+a, input { padding: 1em; }
+
+a { padding: 0.5em 0; }
 input {
-  padding: 1em;
+  font-size: 1em;
+  padding: 0.5em;
   display: inline-block;
   border: 1px solid #bbb;
-  border-radius: 1em;
+  border-radius: 0.5em;
 }
 
 #q {
-  border-radius: 1em 0 0 1em;
+  border-radius: 0.5em 0 0 0.5em;
   margin-right: 0;
   min-width: 25ch;
 }
 #q + input[type=submit] {
-  border-radius: 0 1em 1em 0;
+  border-radius: 0 0.5em 0.5em 0;
   margin-left: 0;
 }
 
