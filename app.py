@@ -171,7 +171,6 @@ class PartSearch(object):
             'query': q,
             'results': results,
         }
-        print(list(results))
 
         if Helpers.is_html_response():
             template = self.html_template
