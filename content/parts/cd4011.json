@@ -5,7 +5,7 @@
   "summary":        "Four 2-input NAND gates.",
   "style":          "DIP",
   "number_of_pins": 14,
-  "tags": ["cmos", "logic", "gate", "and"],
+  "tags": ["cmos", "logic", "nand"],
   "pins": [
     [["1",  "1A"],  ["14", "Vdd"]],
     [["2",  "1B"],  ["13", "4B"]],
