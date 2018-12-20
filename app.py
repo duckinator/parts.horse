@@ -78,9 +78,13 @@ class Helpers:
 
 
 class PartHomePage(object):
+    def __init__(self):
+        self.env = Helpers.environment()
+        self.template = self.env.get_template('home.html')
+
     @cherrypy.expose
     def index(self):
-        return 'awoo'
+        return Helpers.render(self.template, {})
 
 
 class PartDirectory(object):
