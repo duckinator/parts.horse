@@ -130,7 +130,7 @@ class DatasheetRedirects(object):
 class PartSearch(object):
     recent_queries = collections.deque(maxlen=30)
     def add_recent(query):
-        if not query in PartSearch.recent_queries:
+        if not query.lower() in map(lambda x: x.lower(), PartSearch.recent_queries):
             PartSearch.recent_queries.append(query)
 
     def recent():
