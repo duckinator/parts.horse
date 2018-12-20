@@ -7,12 +7,22 @@ Summary:    {{ page.summary }}
 Style:      {{ page.style }}
 Datasheet:  {{ page.datasheet | link }}
 Tags:       {{ page.tags | join(', ') }}
-
+{% if page.style == 'DIP' %}
            ┏━━━━━━━━┓
 {%- for pins in page.pins %}
   {{ pins[0][1] | rjust(8) }} ┫{{ pins[0][0] | ljust(3) }}  {{ pins[1][0] | rjust(3) }}┣ {{ pins[1][1] | ljust(3) }}
 {%- endfor %}
            ┗━━━━━━━━┛
+
+{%- elif page.style == 'TO-92' -%}
+
+TODO: Figure out how to render TO-92 things.
+
+{%- else -%}
+
+Not sure how to render {{ page.style }} ICs.
+
+{%- endif %}
 
   Pin ┃  Name   ┃  Function(s)
 ══════┃═════════┃═════════════════════════════════════════════════
