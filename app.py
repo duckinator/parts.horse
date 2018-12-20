@@ -2,9 +2,12 @@
 
 import cherrypy
 from jinja2 import Environment, FileSystemLoader
+
+import collections
 import json
 import os
 from pathlib import Path
+import random
 
 class Helpers:
     def link(value):
@@ -88,7 +91,7 @@ class PartHomePage(object):
 
     @cherrypy.expose
     def index(self):
-        return Helpers.render(self.template, {})
+        return Helpers.render(self.template, {"recent": PartSearch.recent()})
 
 
 class PartDirectory(object):
@@ -125,6 +128,15 @@ class DatasheetRedirects(object):
 
 
 class PartSearch(object):
+    recent_queries = collections.deque(maxlen=30)
+    def add_recent(query):
+        if not query in PartSearch.recent_queries:
+            PartSearch.recent_queries.append(query)
+
+    def recent():
+        r = PartSearch.recent_queries
+        return random.sample(r, min(10, len(r)))
+
     def __init__(self):
         self.env = Helpers.environment()
         self.html_template = self.env.get_template('search.html')
@@ -167,6 +179,7 @@ class PartSearch(object):
     @cherrypy.expose
     def index(self, q):
         if q:
+            PartSearch.add_recent(q)
             results = self.search(q, min_relevance=1)
         else:
             results = []
