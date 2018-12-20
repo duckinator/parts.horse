@@ -8,11 +8,11 @@ Style:      {{ page.style }}
 Datasheet:  {{ page.datasheet | link }}
 Tags:       {{ page.tags | join(', ') }}
 
-      ┏━━━━━━━━┓
+           ┏━━━━━━━━┓
 {%- for pins in page.pins %}
-  {{ pins[0][1] | ljust(3) }} ┫{{ pins[0][0] | ljust(3) }}  {{ pins[1][0] | ljust(3) }}┣ {{ pins[1][1] | ljust(3) }}
+  {{ pins[0][1] | rjust(8) }} ┫{{ pins[0][0] | ljust(3) }}  {{ pins[1][0] | rjust(3) }}┣ {{ pins[1][1] | ljust(3) }}
 {%- endfor %}
-      ┗━━━━━━━━┛
+           ┗━━━━━━━━┛
 
   Pin ┃  Name   ┃  Function(s)
 ══════┃═════════┃═════════════════════════════════════════════════

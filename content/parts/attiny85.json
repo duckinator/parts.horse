@@ -1,8 +1,8 @@
 {
-  "name":           "attiny85",
+  "name":           "ATtiny85",
   "datasheet":      "https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-2586-AVR-8-bit-Microcontroller-ATtiny25-ATtiny45-ATtiny85_Datasheet.pdf",
   "details":        "https://www.microchip.com/wwwproducts/en/attiny85",
-  "summary":        "8-bit microcontroller; 8KB of program memory.",
+  "summary":        "8-bit AVR microcontroller with 8KB of program memory.",
   "style":          "DIP",
   "number_of_pins": 8,
   "tags": ["avr", "microcontroller", "8-bit"],

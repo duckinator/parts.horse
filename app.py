@@ -33,13 +33,17 @@ class Helpers:
         return site
 
     def page_dict(part_name, extra={}):
-        part_name = part_name.replace('/', '-')
+        part_name = part_name.replace('/', '-').lower()
         data_file = Path('content/parts').joinpath(part_name + '.json')
         site = Helpers.site_dict()
-        page = json.loads(data_file.read_text())
+        try:
+            page = json.loads(data_file.read_text())
+        except json.decoder.JSONDecodeError:
+            print("[ERROR] Invalid JSON file: {}.".format(data_file))
+            raise
 
         page['datasheet_redirect_target'] = page['datasheet']
-        page['datasheet'] = site['url'] + '/ds/' + page['name']
+        page['datasheet'] = site['url'] + '/ds/' + part_name
         page['is_html'] = Helpers.is_html_response()
         page['url_path'] = '/parts/' + part_name
         page['canonical_url'] = site['url'] + page['url_path']
@@ -133,12 +137,13 @@ class PartSearch(object):
         return path.name.replace('.json', '')
 
     def chunk_relevance(self, data, chunk):
+        chunk = chunk.lower()
         rs = [
-                chunk in data['datasheet_redirect_target'],
-                chunk in data['style'],
-                chunk in data['summary'],
-                chunk in data['tags'],
-                chunk in data['name'],
+                chunk in data['datasheet_redirect_target'].lower(),
+                chunk in data['style'].lower(),
+                chunk in data['summary'].lower(),
+                chunk in map(lambda x: x.lower(), data['tags']),
+                chunk in data['name'].lower(),
             ]
 
         return sum(rs)
@@ -170,7 +175,6 @@ class PartSearch(object):
             'query': q,
             'results': results,
         }
-        print(list(results))
 
         if Helpers.is_html_response():
             template = self.html_template

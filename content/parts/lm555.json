@@ -1,0 +1,27 @@
+{
+  "NEEDS_VERIFIED": true,
+  "name":           "LM555, NA555, NE555, SA555, SE555",
+  "datasheet":      "http://www.ti.com/lit/ds/symlink/lm555.pdf",
+  "details":        "http://www.ti.com/product/lm555",
+  "summary":        "Single precision timer.",
+  "style":          "DIP",
+  "number_of_pins": 8,
+  "tags": ["timer", "555"],
+  "pins": [
+    [["1",  "GND"],     [" 8", "Vcc"]],
+    [["2",  "TRIG"],    [" 7", "DISCH"]],
+    [["3",  "OUT"],     [" 6", "THRES"]],
+    [["4",  "RESET"],   [" 5", "CONT"]]
+  ],
+  "pin_functions": [
+    ["1",   "GND",      ""],
+    ["2",   "TRIG",     ""],
+    ["3",   "OUT",      ""],
+    ["4",   "RESET",    ""],
+    "--",
+    ["5",   "CONT",     ""],
+    ["6",   "THRES",    ""],
+    ["7",   "DISCH",    ""],
+    ["8",   "Vcc",      ""]
+  ]
+}

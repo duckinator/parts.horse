@@ -1,0 +1,36 @@
+{
+  "INCOMPLETE":     true,
+  "name":           "LM324 - Quad Operational Amplifier",
+  "datasheet":      "http://pdf.datasheetcatalog.com/datasheet/fairchild/LM324.pdf",
+  "details":        "",
+  "summary":        "Four op-amps.",
+  "style":          "DIP",
+  "number_of_pins": 14,
+  "tags": ["op-amp", "amplifier"],
+  "pins": [
+    [["1",  "OUT1"],    ["14", "OUT4"]],
+    [["2",  "IN1 (-)"], ["13", "IN4 (-)"]],
+    [["3",  "IN1 (+)"], ["12", "IN4 (+)"]],
+    [["4",  "Vcc"],     ["11", "GND"]],
+    [["5",  "IN2 (+)"], ["10", "IN3 (+)"]],
+    [["6",  "IN2 (-)"], [" 9", "IN3 (-)"]],
+    [["7",  "OUT2"],    [" 8", "OUT3"]]
+  ],
+  "pin_functions": [
+    ["1",   "", ""],
+    ["2",   "", ""],
+    ["3",   "", ""],
+    ["4",   "", ""],
+    ["5",   "", ""],
+    ["6",   "", ""],
+    ["7",   "", ""],
+    "--",
+    ["8",   "", ""],
+    ["9",   "", ""],
+    ["10",  "", ""],
+    ["11",  "", ""],
+    ["12",  "", ""],
+    ["13",  "", ""],
+    ["14",  "", ""]
+  ]
+}
