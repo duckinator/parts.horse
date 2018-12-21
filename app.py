@@ -72,13 +72,10 @@ class Helpers:
             return 'base.txt'
 
     def render(template, page):
-        site = Helpers.site_dict()
-
-        cherrypy.response.headers['Link'] = '</application.css>;rel=stylesheet'
         cherrypy.response.headers['Content-Type'] = Helpers.response_type() + '; charset=utf-8'
 
         return template.render(
-                site=site,
+                site=Helpers.site_dict(),
                 page=page,
                 parent_template=Helpers.get_parent_template(),
         )
@@ -130,7 +127,7 @@ class DatasheetRedirects(object):
 class PartSearch(object):
     recent_queries = collections.deque(maxlen=30)
     def add_recent(query):
-        if not query.lower() in map(lambda x: x.lower(), PartSearch.recent_queries):
+        if not query.lower() in map(str.lower, PartSearch.recent_queries):
             PartSearch.recent_queries.append(query)
 
     def recent():
