@@ -209,12 +209,9 @@ if __name__ == '__main__':
                 }
             }
 
-    search_config = {
-            }
-
     cherrypy.tree.mount(PartHomePage(),  '/',       home_config)
     cherrypy.tree.mount(PartDirectory(), '/parts')
-    cherrypy.tree.mount(PartSearch(),    '/search', search_config)
+    cherrypy.tree.mount(PartSearch(),    '/search')
     cherrypy.tree.mount(DatasheetRedirects(),   '/datasheets')
     cherrypy.tree.mount(DatasheetRedirects(),   '/ds')
 
