@@ -180,10 +180,12 @@ class PartSearch(object):
     @cherrypy.expose
     def index(self, q=''):
         if q:
-            PartSearch.add_recent(q)
             results = self.search(q, min_relevance=1)
         else:
             results = []
+
+        if len(results) > 0:
+            PartSearch.add_recent(q)
 
         page = Helpers.page_dict({
             'query': q,
