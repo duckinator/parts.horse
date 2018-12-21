@@ -1,4 +1,4 @@
-{% extends 'base.txt' %}
+{% extends 'base.html' %}
 {%- block content %}
 QUERY: {{ page.query }}
 

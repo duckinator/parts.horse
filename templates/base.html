@@ -1,3 +1,4 @@
+{% if page.is_html -%}
 <!doctype html>
 <html>
 <head>
@@ -11,6 +12,13 @@
 <h1>{{ site.name }}</h1>
 <a href="/">Home</a> &middot; <a href="/search">Search</a>
 </header>
+{%- else -%}
+{{ site.name }}
+{% endif -%}
+
 {% block content %}{% endblock %}
+
+{%- if page.html %}
 </body>
 </html>
+{%- endif %}

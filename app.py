@@ -35,10 +35,11 @@ class Helpers:
 
         return site
 
-    def page_dict(part_name, extra={}):
+    def part_dict(part_name, extra={}):
+        site = Helpers.site_dict()
         part_name = part_name.replace('/', '-').lower()
         data_file = Path('content/parts').joinpath(part_name + '.json')
-        site = Helpers.site_dict()
+
         try:
             page = json.loads(data_file.read_text())
         except json.decoder.JSONDecodeError:
@@ -47,9 +48,19 @@ class Helpers:
 
         page['datasheet_redirect_target'] = page['datasheet']
         page['datasheet'] = site['url'] + '/ds/' + part_name
-        page['is_html'] = Helpers.is_html_response()
         page['url_path'] = '/parts/' + part_name
         page['canonical_url'] = site['url'] + page['url_path']
+
+        for k in extra.keys():
+            page[k] = extra[k]
+
+        return Helpers.page_dict(page)
+
+    def page_dict(extra={}):
+        site = Helpers.site_dict()
+        page = {}
+
+        page['is_html'] = Helpers.is_html_response()
 
         for k in extra.keys():
             page[k] = extra[k]
@@ -65,19 +76,12 @@ class Helpers:
         else:
             return 'text/plain'
 
-    def get_parent_template():
-        if Helpers.is_html_response():
-            return 'base.html'
-        else:
-            return 'base.txt'
-
     def render(template, page):
         cherrypy.response.headers['Content-Type'] = Helpers.response_type() + '; charset=utf-8'
 
         return template.render(
                 site=Helpers.site_dict(),
                 page=page,
-                parent_template=Helpers.get_parent_template(),
         )
 
 
@@ -88,7 +92,7 @@ class PartHomePage(object):
 
     @cherrypy.expose
     def index(self):
-        return Helpers.render(self.template, {"recent": PartSearch.recent()})
+        return Helpers.render(self.template, Helpers.page_dict({"recent": PartSearch.recent()}))
 
 
 class PartDirectory(object):
@@ -105,7 +109,7 @@ class PartDirectory(object):
     @cherrypy.expose
     def index(self, part_name):
         part = part_name.lower()
-        page = Helpers.page_dict(part)
+        page = Helpers.part_dict(part)
         return Helpers.render(self.template, page)
 
 
@@ -118,7 +122,7 @@ class DatasheetRedirects(object):
 
     @cherrypy.expose
     def index(self, part_name):
-        page = Helpers.page_dict(part_name)
+        page = Helpers.part_dict(part_name)
         cherrypy.response.headers['Location'] = page['datasheet_redirect_target']
         cherrypy.response.status = 302
         return page['datasheet_redirect_target']
@@ -158,7 +162,7 @@ class PartSearch(object):
         return sum(rs)
 
     def relevance(self, part, query):
-        data = Helpers.page_dict(part)
+        data = Helpers.part_dict(part)
         # Remove empty strings, None, etc.
         chunks = filter(lambda x: x, query.split(' '))
         # Determine the relevance of each chunk.
@@ -170,7 +174,7 @@ class PartSearch(object):
         chunks = filter(lambda x: x, query.split(' '))
         relevances = map(lambda p: [p, self.relevance(p, query)], self.parts_list)
         results = filter(lambda x: x[1] >= min_relevance, relevances)
-        results = map(lambda r: Helpers.page_dict(r[0], {'relevance': r}), results)
+        results = map(lambda r: Helpers.part_dict(r[0], {'relevance': r}), results)
         return sorted(results, key=lambda x: x['relevance'])
 
     @cherrypy.expose
@@ -181,10 +185,10 @@ class PartSearch(object):
         else:
             results = []
 
-        page = {
+        page = Helpers.page_dict({
             'query': q,
             'results': results,
-        }
+        })
 
         if Helpers.is_html_response():
             template = self.html_template
