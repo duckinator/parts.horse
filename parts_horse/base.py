@@ -34,6 +34,23 @@ class PartsHorseBase(object):
         env.filters['rjust'] = lambda value, *args: value.rjust(*args)
         self.env = env
 
+        classname = self.__class__.__name__.lower()
+
+        if Path('templates/{}.html'.format(classname)).exists():
+            # If we have an HTML template, assign it to html_template.
+            self.html_template = self.env.get_template('{}.html'.format(classname))
+        else:
+            # Otherwise, set html_template to None.
+            self.html_template = None
+
+        if Path('templates/{}.txt'.format(classname)).exists():
+            # If we have a text template, assign it to text_template.
+            self.text_template = self.env.get_template('{}.txt'.format(classname))
+        else:
+            # Otherwise, assume we have an html_template that can handle
+            # text-only output.
+            self.text_template = self.html_template
+
     def part_dict(self, part_name, extra={}):
         AppGlobals.update_site(self.env)
 
@@ -71,7 +88,15 @@ class PartsHorseBase(object):
         return page
 
     def is_html_response(self):
-        return ('text/html' in cherrypy.request.headers['Accept'].split(','))
+        user_agent = cherrypy.request.headers.get('User-Agent', '')
+        accepted_response_types = cherrypy.request.headers['Accept'].split(',')
+
+        # If the user is using ELinks, we should always return HTML.
+        if user_agent.startswith("ELinks/"):
+            return True
+
+        # If there were no relevant special cases, use the Accept header.
+        return ('text/html' in accepted_response_types)
 
     def response_type(self):
         if self.is_html_response():
@@ -79,8 +104,14 @@ class PartsHorseBase(object):
         else:
             return 'text/plain'
 
-    def render(self, template, page):
+    def get_template(self):
+        if self.is_html_response():
+            return self.html_template
+        else:
+            return self.text_template
+
+    def render(self, page):
         cherrypy.response.headers['Content-Type'] = self.response_type() + '; charset=utf-8'
 
-        return template.render(page=page)
+        return self.get_template().render(page=page)
 

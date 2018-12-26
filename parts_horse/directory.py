@@ -1,10 +1,6 @@
 from .base import *
 
 class Directory(PartsHorseBase):
-    def __init__(self):
-        super().__init__()
-        self.template = self.env.get_template('part.html')
-
     def _cp_dispatch(self, vpath):
         AppGlobals.update_site(self.env)
 
@@ -17,4 +13,4 @@ class Directory(PartsHorseBase):
     def index(self, part_name):
         part = part_name.lower()
         page = self.part_dict(part)
-        return self.render(self.template, page)
+        return self.render(page)

@@ -15,8 +15,6 @@ class Search(PartsHorseBase):
 
     def __init__(self):
         super().__init__()
-        self.html_template = self.env.get_template('search.html')
-        self.text_template = self.env.get_template('search.txt')
 
         parts_files = Path('content/parts').glob('**/*.json')
         self.parts_list = list(map(self.path_to_name, parts_files))
@@ -67,9 +65,4 @@ class Search(PartsHorseBase):
             'results': results,
         })
 
-        if self.is_html_response():
-            template = self.html_template
-        else:
-            template = self.text_template
-
-        return self.render(template, page)
+        return self.render(page)
