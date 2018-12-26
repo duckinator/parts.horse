@@ -32,16 +32,8 @@ class PartsHorseBase(object):
 
         classname = self.__class__.__name__.lower()
 
-        self.html_template = self._get_template(classname, 'html', alt=None)
-        self.text_template = self._get_template(classname, 'txt', alt=self.html_template)
-
-    def _get_template(self, name, fmt, alt=None):
-        template_name = '{}.{}'.format(name, fmt)
-
-        if Path('templates/{}'.format(template_name)).exists():
-            return self.env.get_template(template_name)
-        else:
-            return alt
+        self.html_template = self._get_template_by_name(classname, 'html', alt=None)
+        self.text_template = self._get_template_by_name(classname, 'txt', alt=self.html_template)
 
     def part_dict(self, part_name, extra={}):
         AppGlobals.update_site(self.env)
@@ -107,3 +99,10 @@ class PartsHorseBase(object):
 
         return self.get_template().render(page=page)
 
+    def _get_template_by_name(self, name, fmt, alt=None):
+        template_name = '{}.{}'.format(name, fmt)
+
+        if Path('templates/{}'.format(template_name)).exists():
+            return self.env.get_template(template_name)
+        else:
+            return alt
