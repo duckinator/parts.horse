@@ -71,22 +71,17 @@ class PartsHorseBase(object):
 
         return page
 
-    def response_type(self):
-        if Helpers.is_html_response():
-            return 'text/html'
-        else:
-            return 'text/plain'
-
-    def get_template(self):
-        if Helpers.is_html_response():
-            return self.html_template
-        else:
-            return self.text_template
-
     def render(self, page):
-        cherrypy.response.headers['Content-Type'] = self.response_type() + '; charset=utf-8'
+        if Helpers.is_html_response():
+            template = self.html_template
+            response_type = 'text/html'
+        else:
+            template = self.text_template
+            response_type = 'text/plain'
 
-        return self.get_template().render(page=page)
+        cherrypy.response.headers['Content-Type'] = response_type + '; charset=utf-8'
+
+        return template.render(page=page)
 
     def _get_template_by_name(self, name, fmt, alt=None):
         template_name = '{}.{}'.format(name, fmt)
