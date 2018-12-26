@@ -1,6 +1,6 @@
 from .base import *
 
-class DatasheetRedirects(PartsHorseBase):
+class Datasheets(PartsHorseBase):
     def _cp_dispatch(self, vpath):
         if len(vpath) == 1:
             cherrypy.request.params['part_name'] = vpath.pop()

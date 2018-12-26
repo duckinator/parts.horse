@@ -14,11 +14,11 @@ if __name__ == '__main__':
                 }
             }
 
-    cherrypy.tree.mount(PartHomePage(),  '/',       home_config)
-    cherrypy.tree.mount(PartDirectory(), '/parts')
-    cherrypy.tree.mount(PartSearch(),    '/search')
-    cherrypy.tree.mount(DatasheetRedirects(),   '/datasheets')
-    cherrypy.tree.mount(DatasheetRedirects(),   '/ds')
+    cherrypy.tree.mount(Home(),       '/',       home_config)
+    cherrypy.tree.mount(Directory(),  '/parts')
+    cherrypy.tree.mount(Search(),     '/search')
+    cherrypy.tree.mount(Datasheets(), '/datasheets')
+    cherrypy.tree.mount(Datasheets(), '/ds')
 
     cherrypy.config.update({
         'server.socket_host': '0.0.0.0',

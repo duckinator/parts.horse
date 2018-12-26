@@ -1,6 +1,6 @@
 from .base import *
 
-class PartDirectory(PartsHorseBase):
+class Directory(PartsHorseBase):
     def __init__(self):
         super().__init__()
         self.template = self.env.get_template('part.html')
