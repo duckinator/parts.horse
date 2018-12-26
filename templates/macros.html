@@ -1,5 +1,5 @@
 {% macro link(value) -%}
-{%- if page.is_html -%}
+{%- if response.is_html -%}
 <a href="{{ value }}">{{ value }}</a>
 {%- else -%}
 <{{ value }}>

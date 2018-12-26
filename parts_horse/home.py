@@ -4,5 +4,5 @@ from .search import *
 class Home(PartsHorseBase):
     @cherrypy.expose
     def index(self):
-        page = self.page_dict({"recent": Search.recent()})
-        return self.render(page)
+        self.fixme()
+        return self.render({"recent": Search.recent()})

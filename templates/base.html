@@ -1,5 +1,5 @@
 {% from 'macros.html' import link with context %}
-{% if page.is_html -%}
+{% if response.is_html -%}
 <!doctype html>
 <html>
 <head>
@@ -19,7 +19,7 @@ Parts Horse
 
 {% block content %}{% endblock %}
 
-{%- if page.html %}
+{%- if response.is_html %}
 </body>
 </html>
 {%- endif %}

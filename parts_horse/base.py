@@ -4,7 +4,16 @@ import json
 import os
 from pathlib import Path
 
+from .helpers import Helpers
+
 class AppGlobals:
+    def update(env):
+        AppGlobals.update_response(env)
+        AppGlobals.update_site(env)
+
+    def update_response(env):
+        env.globals['response']['is_html'] = Helpers.is_html_response()
+
     def update_site(env):
         port = cherrypy.config.get('server.socket_port')
         socket_host = cherrypy.config.get('server.socket_host')
@@ -26,6 +35,7 @@ class PartsHorseBase(object):
     def __init__(self):
         env = Environment(loader=FileSystemLoader('templates'))
         env.globals['site'] = {}
+        env.globals['response'] = {}
         env.filters['ljust'] = lambda value, *args: value.ljust(*args)
         env.filters['rjust'] = lambda value, *args: value.rjust(*args)
         self.env = env
@@ -35,8 +45,11 @@ class PartsHorseBase(object):
         self.html_template = self._get_template_by_name(classname, 'html', alt=None)
         self.text_template = self._get_template_by_name(classname, 'txt', alt=self.html_template)
 
+    def fixme(self):
+        AppGlobals.update(self.env)
+
     def part_dict(self, part_name, extra={}):
-        AppGlobals.update_site(self.env)
+        self.fixme()
 
         site = self.env.globals['site']
         part_name = part_name.replace('/', '-').lower()
@@ -56,40 +69,16 @@ class PartsHorseBase(object):
         for k in extra.keys():
             page[k] = extra[k]
 
-        return self.page_dict(page)
-
-    def page_dict(self, extra={}):
-        AppGlobals.update_site(self.env)
-
-        site = self.env.globals['site']
-        page = {}
-
-        page['is_html'] = self.is_html_response()
-
-        for k in extra.keys():
-            page[k] = extra[k]
-
         return page
 
-    def is_html_response(self):
-        user_agent = cherrypy.request.headers.get('User-Agent', '')
-        accepted_response_types = cherrypy.request.headers['Accept'].split(',')
-
-        # If the user is using ELinks, we should always return HTML.
-        if user_agent.startswith("ELinks/"):
-            return True
-
-        # If there were no relevant special cases, use the Accept header.
-        return ('text/html' in accepted_response_types)
-
     def response_type(self):
-        if self.is_html_response():
+        if Helpers.is_html_response():
             return 'text/html'
         else:
             return 'text/plain'
 
     def get_template(self):
-        if self.is_html_response():
+        if Helpers.is_html_response():
             return self.html_template
         else:
             return self.text_template

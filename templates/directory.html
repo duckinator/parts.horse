@@ -1,7 +1,7 @@
 {% extends 'base.html' -%}
 {%- block content -%}
 
-{% if page.is_html %}<pre>{% endif %}
+{% if response.is_html %}<pre>{% endif %}
 Part:       {{ page.name }}
 Summary:    {{ page.summary }}
 Style:      {{ page.style }}
@@ -32,7 +32,7 @@ Not sure how to render {{ page.style }} ICs.
 {%- else %}  {{ pin[0] | ljust(3) }} ┃ {{ pin[1] | ljust(5) }}   ┃  {{ pin[2] }}
 {%- endif %}
 {%- endfor %}
-{% if page.is_html %}</pre>{% endif %}
+{% if response.is_html %}</pre>{% endif %}
 
 {%- block details %}{% endblock %}
 

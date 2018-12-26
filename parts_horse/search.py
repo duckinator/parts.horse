@@ -52,6 +52,8 @@ class Search(PartsHorseBase):
 
     @cherrypy.expose
     def index(self, q=''):
+        self.fixme()
+
         if q:
             results = self.search(q, min_relevance=1)
         else:
@@ -60,9 +62,9 @@ class Search(PartsHorseBase):
         if len(results) > 0:
             Search.add_recent(q)
 
-        page = self.page_dict({
+        page = {
             'query': q,
             'results': results,
-        })
+        }
 
         return self.render(page)
