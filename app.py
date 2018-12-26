@@ -23,6 +23,7 @@ if __name__ == '__main__':
     cherrypy.config.update({
         'server.socket_host': '0.0.0.0',
         'server.socket_port': int(os.environ.get('PORT', 5000)),
+        'tools.trailing_slash.on': False,
     })
 
     cherrypy.engine.start()
