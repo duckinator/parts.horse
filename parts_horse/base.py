@@ -32,20 +32,16 @@ class PartsHorseBase(object):
 
         classname = self.__class__.__name__.lower()
 
-        if Path('templates/{}.html'.format(classname)).exists():
-            # If we have an HTML template, assign it to html_template.
-            self.html_template = self.env.get_template('{}.html'.format(classname))
-        else:
-            # Otherwise, set html_template to None.
-            self.html_template = None
+        self.html_template = self._get_template(classname, 'html', alt=None)
+        self.text_template = self._get_template(classname, 'txt', alt=self.html_template)
 
-        if Path('templates/{}.txt'.format(classname)).exists():
-            # If we have a text template, assign it to text_template.
-            self.text_template = self.env.get_template('{}.txt'.format(classname))
+    def _get_template(self, name, fmt, alt=None):
+        template_name = '{}.{}'.format(name, fmt)
+
+        if Path('templates/{}'.format(template_name)).exists():
+            return self.env.get_template(template_name)
         else:
-            # Otherwise, assume we have an html_template that can handle
-            # text-only output.
-            self.text_template = self.html_template
+            return alt
 
     def part_dict(self, part_name, extra={}):
         AppGlobals.update_site(self.env)
