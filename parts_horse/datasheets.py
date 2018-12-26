@@ -1,12 +1,7 @@
 from .base import *
 
+@cherrypy.popargs('part_name')
 class Datasheets(PartsHorseBase):
-    def _cp_dispatch(self, vpath):
-        if len(vpath) == 1:
-            cherrypy.request.params['part_name'] = vpath.pop()
-            return self
-        return vpath
-
     @cherrypy.expose
     def index(self, part_name):
         page = self.part_dict(part_name)

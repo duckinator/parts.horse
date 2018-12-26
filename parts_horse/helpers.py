@@ -4,7 +4,7 @@ import os
 class Helpers:
     def is_html_response():
         user_agent = cherrypy.request.headers.get('User-Agent', '')
-        accepted_response_types = cherrypy.request.headers['Accept'].split(',')
+        accepted_response_types = cherrypy.request.headers.get('Accept', '').split(',')
 
         # If the user is using ELinks, we should always return HTML.
         if user_agent.startswith("ELinks/"):
