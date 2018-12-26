@@ -5,7 +5,7 @@
 Part:       {{ page.name }}
 Summary:    {{ page.summary }}
 Style:      {{ page.style }}
-Datasheet:  {{ page.datasheet | link }}
+Datasheet:  {{ link(page.datasheet) }}
 Tags:       {{ page.tags | join(', ') }}
 {% if page.style == 'DIP' %}
            ┏━━━━━━━━┓

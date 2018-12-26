@@ -1,19 +1,20 @@
+{% from 'macros.html' import link with context %}
 {% if page.is_html -%}
 <!doctype html>
 <html>
 <head>
-<title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.name }}</title>
+<title>{% if page.title %}{{ page.title }} - {% endif %}Parts Horse</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/application.css">
 </head>
 <body>
 <header>
-<h1>{{ site.name }}</h1>
+<h1>Parts Horse</h1>
 <a href="/">Home</a> &middot; <a href="/search">Search</a>
 </header>
 {%- else -%}
-{{ site.name }}
+Parts Horse
 {% endif -%}
 
 {% block content %}{% endblock %}

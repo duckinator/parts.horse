@@ -9,34 +9,38 @@ import os
 from pathlib import Path
 import random
 
-class Helpers:
-    def link(value):
-        if Helpers.is_html_response():
-            return '<a href="{url}">{url}</a>'.format(url=value)
-        else:
-            return '<{url}>'.format(url=value)
-
-    def environment():
-        env = Environment(loader=FileSystemLoader('templates'))
-
-        env.filters['link'] = Helpers.link
-        env.filters['ljust'] = lambda value, *args: value.ljust(*args)
-        env.filters['rjust'] = lambda value, *args: value.rjust(*args)
-
-        return env
-
-    def site_dict():
-        site = {}
+class AppGlobals:
+    def update_site(env):
         port = cherrypy.config.get('server.socket_port')
-        url = os.environ.get('SITE_URL', 'http://{}'.format(cherrypy.request.headers['Host']))
+        socket_host = cherrypy.config.get('server.socket_host')
+        host = cherrypy.request.headers.get('Host', socket_host)
 
-        site['name'] = os.environ.get('SITE_NAME') or 'Parts Horse'
-        site['url']  = url
+        if port == 443:
+            scheme = 'https'
+        elif port == 80:
+            scheme = 'http'
+        else:
+            scheme = 'http'
+            host += ':{}'.format(port)
 
-        return site
+        default_url = '{}://{}'.format(scheme, host)
 
+        env.globals['site']['url'] = os.environ.get('SITE_URL', default_url)
+
+        return env.globals['site']
+
+
+env = Environment(loader=FileSystemLoader('templates'))
+env.globals['site'] = {}
+env.filters['ljust'] = lambda value, *args: value.ljust(*args)
+env.filters['rjust'] = lambda value, *args: value.rjust(*args)
+
+class Helpers:
     def part_dict(part_name, extra={}):
-        site = Helpers.site_dict()
+        global env
+        AppGlobals.update_site(env)
+
+        site = env.globals['site']
         part_name = part_name.replace('/', '-').lower()
         data_file = Path('content/parts').joinpath(part_name + '.json')
 
@@ -57,7 +61,10 @@ class Helpers:
         return Helpers.page_dict(page)
 
     def page_dict(extra={}):
-        site = Helpers.site_dict()
+        global env
+        AppGlobals.update_site(env)
+
+        site = env.globals['site']
         page = {}
 
         page['is_html'] = Helpers.is_html_response()
@@ -79,28 +86,28 @@ class Helpers:
     def render(template, page):
         cherrypy.response.headers['Content-Type'] = Helpers.response_type() + '; charset=utf-8'
 
-        return template.render(
-                site=Helpers.site_dict(),
-                page=page,
-        )
+        return template.render(page=page)
 
 
 class PartHomePage(object):
     def __init__(self):
-        self.env = Helpers.environment()
-        self.template = self.env.get_template('home.html')
+        global env
+        self.template = env.get_template('home.html')
 
     @cherrypy.expose
     def index(self):
+        AppGlobals.update_site(env)
         return Helpers.render(self.template, Helpers.page_dict({"recent": PartSearch.recent()}))
 
 
 class PartDirectory(object):
     def __init__(self):
-        self.env = Helpers.environment()
-        self.template = self.env.get_template('part.html')
+        global env
+        self.template = env.get_template('part.html')
 
     def _cp_dispatch(self, vpath):
+        AppGlobals.update_site(env)
+
         if len(vpath) == 1:
             cherrypy.request.params['part_name'] = vpath.pop()
             return self
@@ -115,6 +122,8 @@ class PartDirectory(object):
 
 class DatasheetRedirects(object):
     def _cp_dispatch(self, vpath):
+        AppGlobals.update_site(env)
+
         if len(vpath) == 1:
             cherrypy.request.params['part_name'] = vpath.pop()
             return self
@@ -139,9 +148,9 @@ class PartSearch(object):
         return random.sample(r, min(10, len(r)))
 
     def __init__(self):
-        self.env = Helpers.environment()
-        self.html_template = self.env.get_template('search.html')
-        self.text_template = self.env.get_template('search.txt')
+        global env
+        self.html_template = env.get_template('search.html')
+        self.text_template = env.get_template('search.txt')
 
         parts_files = Path('content/parts').glob('**/*.json')
         self.parts_list = list(map(self.path_to_name, parts_files))
