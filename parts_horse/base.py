@@ -10,14 +10,10 @@ class AppGlobals:
         socket_host = cherrypy.config.get('server.socket_host')
         host = cherrypy.request.headers.get('Host', socket_host)
 
-        if port == 443:
-            scheme = 'https'
-        elif port == 80:
-            scheme = 'http'
-        else:
-            scheme = 'http'
-            if not host.endswith(':{}'.format(port)):
-                host += ':{}'.format(port)
+        scheme = 'https' if (port == 443) else 'http'
+
+        if scheme == 'http' and not host.endswith(str(port)):
+            host += ':{}'.format(port)
 
         default_url = '{}://{}'.format(scheme, host)
 
