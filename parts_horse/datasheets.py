@@ -9,8 +9,6 @@ class Datasheets(PartsHorseBase):
 
     @cherrypy.expose
     def index(self, part_name):
-        AppGlobals.update_site(self.env)
-
         page = self.part_dict(part_name)
         cherrypy.response.headers['Location'] = page['datasheet_redirect_target']
         cherrypy.response.status = 302

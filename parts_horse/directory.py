@@ -2,8 +2,6 @@ from .base import *
 
 class Directory(PartsHorseBase):
     def _cp_dispatch(self, vpath):
-        AppGlobals.update_site(self.env)
-
         if len(vpath) == 1:
             cherrypy.request.params['part_name'] = vpath.pop()
             return self
