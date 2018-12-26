@@ -35,8 +35,8 @@ env.globals['site'] = {}
 env.filters['ljust'] = lambda value, *args: value.ljust(*args)
 env.filters['rjust'] = lambda value, *args: value.rjust(*args)
 
-class Helpers:
-    def part_dict(part_name, extra={}):
+class PartsHorseApp(object):
+    def part_dict(self, part_name, extra={}):
         global env
         AppGlobals.update_site(env)
 
@@ -58,38 +58,38 @@ class Helpers:
         for k in extra.keys():
             page[k] = extra[k]
 
-        return Helpers.page_dict(page)
+        return self.page_dict(page)
 
-    def page_dict(extra={}):
+    def page_dict(self, extra={}):
         global env
         AppGlobals.update_site(env)
 
         site = env.globals['site']
         page = {}
 
-        page['is_html'] = Helpers.is_html_response()
+        page['is_html'] = self.is_html_response()
 
         for k in extra.keys():
             page[k] = extra[k]
 
         return page
 
-    def is_html_response():
+    def is_html_response(self):
         return ('text/html' in cherrypy.request.headers['Accept'].split(','))
 
-    def response_type():
-        if Helpers.is_html_response():
+    def response_type(self):
+        if self.is_html_response():
             return 'text/html'
         else:
             return 'text/plain'
 
-    def render(template, page):
-        cherrypy.response.headers['Content-Type'] = Helpers.response_type() + '; charset=utf-8'
+    def render(self, template, page):
+        cherrypy.response.headers['Content-Type'] = self.response_type() + '; charset=utf-8'
 
         return template.render(page=page)
 
 
-class PartHomePage(object):
+class PartHomePage(PartsHorseApp):
     def __init__(self):
         global env
         self.template = env.get_template('home.html')
@@ -97,10 +97,12 @@ class PartHomePage(object):
     @cherrypy.expose
     def index(self):
         AppGlobals.update_site(env)
-        return Helpers.render(self.template, Helpers.page_dict({"recent": PartSearch.recent()}))
+
+        page = self.page_dict({"recent": PartSearch.recent()})
+        return self.render(self.template, page)
 
 
-class PartDirectory(object):
+class PartDirectory(PartsHorseApp):
     def __init__(self):
         global env
         self.template = env.get_template('part.html')
@@ -116,14 +118,12 @@ class PartDirectory(object):
     @cherrypy.expose
     def index(self, part_name):
         part = part_name.lower()
-        page = Helpers.part_dict(part)
-        return Helpers.render(self.template, page)
+        page = self.part_dict(part)
+        return self.render(self.template, page)
 
 
-class DatasheetRedirects(object):
+class DatasheetRedirects(PartsHorseApp):
     def _cp_dispatch(self, vpath):
-        AppGlobals.update_site(env)
-
         if len(vpath) == 1:
             cherrypy.request.params['part_name'] = vpath.pop()
             return self
@@ -131,13 +131,15 @@ class DatasheetRedirects(object):
 
     @cherrypy.expose
     def index(self, part_name):
-        page = Helpers.part_dict(part_name)
+        AppGlobals.update_site(env)
+
+        page = self.part_dict(part_name)
         cherrypy.response.headers['Location'] = page['datasheet_redirect_target']
         cherrypy.response.status = 302
         return page['datasheet_redirect_target']
 
 
-class PartSearch(object):
+class PartSearch(PartsHorseApp):
     recent_queries = collections.deque(maxlen=30)
     def add_recent(query):
         if not query.lower() in map(str.lower, PartSearch.recent_queries):
@@ -171,7 +173,7 @@ class PartSearch(object):
         return sum(rs)
 
     def relevance(self, part, query):
-        data = Helpers.part_dict(part)
+        data = self.part_dict(part)
         # Remove empty strings, None, etc.
         chunks = filter(lambda x: x, query.split(' '))
         # Determine the relevance of each chunk.
@@ -183,7 +185,7 @@ class PartSearch(object):
         chunks = filter(lambda x: x, query.split(' '))
         relevances = map(lambda p: [p, self.relevance(p, query)], self.parts_list)
         results = filter(lambda x: x[1] >= min_relevance, relevances)
-        results = map(lambda r: Helpers.part_dict(r[0], {'relevance': r}), results)
+        results = map(lambda r: self.part_dict(r[0], {'relevance': r}), results)
         return sorted(results, key=lambda x: x['relevance'])
 
     @cherrypy.expose
@@ -196,17 +198,17 @@ class PartSearch(object):
         if len(results) > 0:
             PartSearch.add_recent(q)
 
-        page = Helpers.page_dict({
+        page = self.page_dict({
             'query': q,
             'results': results,
         })
 
-        if Helpers.is_html_response():
+        if self.is_html_response():
             template = self.html_template
         else:
             template = self.text_template
 
-        return Helpers.render(template, page)
+        return self.render(template, page)
 
 
 if __name__ == '__main__':
