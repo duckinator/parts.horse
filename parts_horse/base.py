@@ -6,31 +6,6 @@ from pathlib import Path
 
 from .helpers import Helpers
 
-class AppGlobals:
-    def update(env):
-        AppGlobals.update_response(env)
-        AppGlobals.update_site(env)
-
-    def update_response(env):
-        env.globals['response']['is_html'] = Helpers.is_html_response()
-
-    def update_site(env):
-        port = cherrypy.config.get('server.socket_port')
-        socket_host = cherrypy.config.get('server.socket_host')
-        host = cherrypy.request.headers.get('Host', socket_host)
-
-        scheme = 'https' if (port == 443) else 'http'
-
-        if scheme == 'http' and not host.endswith(str(port)):
-            host += ':{}'.format(port)
-
-        default_url = '{}://{}'.format(scheme, host)
-
-        env.globals['site']['url'] = os.environ.get('SITE_URL', default_url)
-
-        return env.globals['site']
-
-
 class PartsHorseBase(object):
     def __init__(self):
         env = Environment(loader=FileSystemLoader('templates'))
@@ -46,7 +21,8 @@ class PartsHorseBase(object):
         self.text_template = self._get_template_by_name(classname, 'txt', alt=self.html_template)
 
     def fixme(self):
-        AppGlobals.update(self.env)
+        self.env.globals['response']['is_html'] = Helpers.is_html_response()
+        self.env.globals['site']['url'] = Helpers.get_site_url()
 
     def part_dict(self, part_name, extra={}):
         self.fixme()
