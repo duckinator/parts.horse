@@ -13,10 +13,12 @@ Features overview:
 
 ## HTML vs plain-text
 
-At the moment, if the `Accepts` header is absent or does not include
-`text/html`, it will return text-only.
+If the `Accept` header is present and includes `text/html`, you get an
+HTML response. Otherwise, you get a text-only response.
 
-In the future certain browsers will be special-cased to get HTML (e.g. ELinks).
+Exceptions:
+
+* ELinks always gets HTML.
 
 ## Dependencies
 
