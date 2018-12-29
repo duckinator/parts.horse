@@ -21,9 +21,6 @@ class Helpers:
 
         scheme = 'https' if (port == 443) else 'http'
 
-        if scheme == 'http' and not host.endswith(str(port)):
-            host += ':{}'.format(port)
-
         default_url = '{}://{}'.format(scheme, host)
 
         return os.environ.get('SITE_URL', default_url)
