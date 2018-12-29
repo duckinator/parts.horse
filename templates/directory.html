@@ -7,6 +7,12 @@ Summary:    {{ page.summary }}
 Style:      {{ page.style }}
 Datasheet:  {{ link(page.datasheet) }}
 Tags:       {{ page.tags | join(', ') }}
+{% if page.INCOMPLETE %}
+
+NOTE: This page is incomplete or known to be inaccurate. To avoid providing
+      invalid information, we are not showing any diagrams or explanations.
+
+{% else -%}
 {% if page.style == 'DIP' %}
            ┏━━━━━━━━┓
 {%- for pins in page.pins %}
@@ -36,4 +42,5 @@ Not sure how to render {{ page.style }} ICs.
 
 {%- block details %}{% endblock %}
 
+{% endif %}{# page.INCOMPLETE #}
 {%- endblock %}
