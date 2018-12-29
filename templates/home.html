@@ -1,8 +1,8 @@
-{% extends parent_template %}
+{% extends 'base.html' %}
 
 {%- block content %}
 
-{%- if parent_template == 'base.html' %}
+{%- if response.is_html %}
 <form class="search" action="/search" method="get">
   <input type="text" id="q" name="q" value="{{ page.query }}"><input type="submit" value="Search">
 </form>

@@ -1,0 +1,7 @@
+{% macro link(value) -%}
+{%- if response.is_html -%}
+<a href="{{ value }}">{{ value }}</a>
+{%- else -%}
+<{{ value }}>
+{%- endif -%}
+{%- endmacro %}
