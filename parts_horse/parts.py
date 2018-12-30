@@ -1,6 +1,14 @@
 import json
 from pathlib import Path
 
+class Parts(object):
+    def all():
+        parts_files = Path('parts').glob('**/*.json')
+        return list(map(lambda path: path.name.replace('.json', ''), parts_files))
+
+    def get(name):
+        return Part(name)
+
 class Part(object):
     def __init__(self, part_name):
         self.part_name = part_name.replace('/', '-').lower()

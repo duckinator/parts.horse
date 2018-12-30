@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 
 from .helpers import Helpers
-from .part import Part
+from .parts import Parts
 
 class PartsHorseBase(object):
     def __init__(self):
@@ -27,7 +27,7 @@ class PartsHorseBase(object):
 
     def part_dict(self, part_name, extra={}):
         self.fixme_please_i_am_a_gross_hack()
-        return Part(part_name).to_dict(Helpers.get_site_url(), extra)
+        return Parts.get(part_name).to_dict(Helpers.get_site_url(), extra)
 
     def render(self, page={}):
         self.fixme_please_i_am_a_gross_hack()
