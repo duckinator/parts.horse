@@ -17,6 +17,7 @@ if __name__ == '__main__':
                 'tools.staticdir.root': site_dir,
                 'tools.staticdir.on': True,
                 'tools.staticdir.dir': 'public',
+                'tools.gzip.on': True,
                 }
             }
 
