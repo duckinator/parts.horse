@@ -31,6 +31,7 @@ class Search(PartsHorseBase):
         return sorted(results, key=lambda x: x['relevance'])
 
     @cherrypy.expose
+    @cherrypy.tools.response_env()
     def index(self, q=''):
         if q:
             results = self.search(q, min_relevance=1)
