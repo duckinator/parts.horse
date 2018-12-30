@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{%- block content %}
+
+API Overview:
+
+    Search      /search?q=<query>
+    View Part   /parts/<part name>
+
+Source code is available at <https://github.com/duckinator/parts-horse>.
+
+{%- endblock %}

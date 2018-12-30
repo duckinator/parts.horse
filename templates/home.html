@@ -2,19 +2,10 @@
 
 {%- block content %}
 
-{%- if response.is_html %}
 <form class="search" action="/search" method="get">
   <input type="text" id="q" name="q" value="{{ page.query }}"><input type="submit" value="Search">
 </form>
 
 <p>Can't find a part? <a href="https://github.com/duckinator/parts.horse/issues/new?title=[PART+REQUEST]+&body=Could+you+please+add+information+for+_____?">Ask us to add it.</a></p>
-{% else %}
-API Overview:
-
-    Search      /search?q=<query>
-    View Part   /parts/<part name>
-
-Source code is available at <https://github.com/duckinator/parts-horse>.
-{% endif %}
 
 {%- endblock %}
