@@ -15,14 +15,15 @@ def response_env():
     is_html = Helpers.is_html_response()
 
     if is_html:
-        response_type = 'text/html'
+        config['content-type'] = 'text/html'
     else:
-        response_type = 'text/plain'
+        config['content-type'] = 'text/plain'
 
-    headers['Content-Type'] = response_type + '; charset=utf-8'
+    headers['Content-Type'] = config['content-type'] + '; charset=utf-8'
     config['globals'] = {
-            'response': {'is_html': is_html}
+        'response': {'is_html': is_html}
     }
+
 
 class PartsHorseBase(object):
     def __init__(self):
@@ -33,26 +34,15 @@ class PartsHorseBase(object):
 
         classname = self.__class__.__name__.lower()
 
-        html_template = self._get_template_by_name(classname, 'html', alt=None)
-        text_template = self._get_template_by_name(classname, 'txt', alt=html_template)
-
         self.templates = {
-                'text/html': html_template,
-                'text/plain': text_template,
-                }
+            'text/html':    env.get_template(classname + '.html'),
+            'text/plain':   env.get_template(classname + '.txt'),
+        }
 
     def part_dict(self, part_name, extra={}):
         return Parts.get(part_name).to_dict(Helpers.get_site_url(), extra)
 
     def render(self, page={}):
         config = cherrypy.request.config
-        content_type = cherrypy.response.headers['Content-Type'].split(';')[0].lower()
+        content_type = config['content-type']
         return self.templates[content_type].render(page=page, **config['globals'])
-
-    def _get_template_by_name(self, name, fmt, alt=None):
-        template_name = '{}.{}'.format(name, fmt)
-
-        if Path('templates/{}'.format(template_name)).exists():
-            return self.env.get_template(template_name)
-        else:
-            return alt

@@ -8,5 +8,4 @@ class Datasheets(PartsHorseBase):
         page = self.part_dict(part_name)
         cherrypy.response.headers['Location'] = page['datasheet_redirect_target']
         cherrypy.response.status = 302
-        return page['datasheet_redirect_target']
-
+        return self.render(page)
