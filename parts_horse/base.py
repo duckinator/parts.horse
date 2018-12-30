@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 
 from .helpers import Helpers
+from .part import Part
 
 class PartsHorseBase(object):
     def __init__(self):
@@ -26,26 +27,7 @@ class PartsHorseBase(object):
 
     def part_dict(self, part_name, extra={}):
         self.fixme_please_i_am_a_gross_hack()
-
-        site = self.env.globals['site']
-        part_name = part_name.replace('/', '-').lower()
-        data_file = Path('content/parts').joinpath(part_name + '.json')
-
-        try:
-            page = json.loads(data_file.read_text())
-        except json.decoder.JSONDecodeError:
-            print("[ERROR] Invalid JSON file: {}.".format(data_file))
-            raise
-
-        page['datasheet_redirect_target'] = page['datasheet']
-        page['datasheet'] = site['url'] + '/ds/' + part_name
-        page['url_path'] = '/parts/' + part_name
-        page['canonical_url'] = site['url'] + page['url_path']
-
-        for k in extra.keys():
-            page[k] = extra[k]
-
-        return page
+        return Part(part_name).to_dict(Helpers.get_site_url(), extra)
 
     def render(self, page={}):
         self.fixme_please_i_am_a_gross_hack()

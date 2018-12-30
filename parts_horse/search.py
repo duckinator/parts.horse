@@ -5,7 +5,7 @@ class Search(PartsHorseBase):
     def __init__(self):
         super().__init__()
 
-        parts_files = Path('content/parts').glob('**/*.json')
+        parts_files = Path('parts').glob('**/*.json')
         self.parts_list = list(map(self.path_to_name, parts_files))
 
     def path_to_name(self, path):
