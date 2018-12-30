@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 
 import cherrypy
-from parts_horse import *
+from web.home       import Home
+from web.datasheets import Datasheets
+from web.directory  import Directory
+from web.search     import Search
+
 from pathlib import Path
 import os
 
@@ -12,15 +16,15 @@ if __name__ == '__main__':
             '/': {
                 'tools.staticdir.root': site_dir,
                 'tools.staticdir.on': True,
-                'tools.staticdir.dir': 'assets',
+                'tools.staticdir.dir': 'public',
                 }
             }
 
     cherrypy.tree.mount(Home(),       '/',       home_config)
-    cherrypy.tree.mount(Directory(),  '/parts')
-    cherrypy.tree.mount(Search(),     '/search')
     cherrypy.tree.mount(Datasheets(), '/datasheets')
     cherrypy.tree.mount(Datasheets(), '/ds')
+    cherrypy.tree.mount(Directory(),  '/parts')
+    cherrypy.tree.mount(Search(),     '/search')
 
     cherrypy.config.update({
         'server.socket_host': '0.0.0.0',

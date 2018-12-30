@@ -1,15 +1,14 @@
 import cherrypy
 from jinja2 import Environment, FileSystemLoader
 
-from .helpers import Helpers
-from .parts import Parts
+from lib import helpers
 
 @cherrypy.tools.register('on_start_resource')
 def response_env():
     headers = cherrypy.response.headers
     config = cherrypy.request.config
 
-    is_html = Helpers.is_html_response()
+    is_html = helpers.is_html_response()
 
     if is_html:
         config['content-type'] = 'text/html'

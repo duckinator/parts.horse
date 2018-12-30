@@ -1,8 +1,8 @@
-from .helpers import Helpers
+from lib import helpers
 import json
 from pathlib import Path
 
-class Parts(object):
+class Part(object):
     def all():
         parts_files = Path('parts').glob('**/*.json')
         return list(map(lambda path: path.name.replace('.json', ''), parts_files))
@@ -13,7 +13,7 @@ class Parts(object):
     def get_dict(name, extra={}):
         return Part(name).to_dict(extra)
 
-class Part(object):
+
     def __init__(self, part_name):
         self.part_name = part_name.replace('/', '-').lower()
         self.file = Path('parts').joinpath(self.part_name + '.json')
@@ -25,7 +25,7 @@ class Part(object):
             raise
 
     def to_dict(self, extra={}):
-        site_url = Helpers.get_site_url()
+        site_url = helpers.get_site_url()
         page = {}
 
         for key in self.data.keys():

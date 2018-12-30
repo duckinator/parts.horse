@@ -1,5 +1,5 @@
 from .base import *
-from .parts import Parts
+from lib.model.part import Part
 
 class Search(PartsHorseBase):
     def chunk_relevance(self, data, chunk):
@@ -15,7 +15,7 @@ class Search(PartsHorseBase):
         return sum(rs)
 
     def relevance(self, part, query):
-        data = Parts.get_dict(part)
+        data = Part.get_dict(part)
         # Remove empty strings, None, etc.
         chunks = filter(lambda x: x, query.split(' '))
         # Determine the relevance of each chunk.
@@ -25,9 +25,9 @@ class Search(PartsHorseBase):
     def search(self, query, min_relevance=1):
         # Split by word, and remove empty strings, None, etc.
         chunks = filter(lambda x: x, query.split(' '))
-        relevances = map(lambda p: [p, self.relevance(p, query)], Parts.all())
+        relevances = map(lambda p: [p, self.relevance(p, query)], Part.all())
         results = filter(lambda x: x[1] >= min_relevance, relevances)
-        results = map(lambda r: Parts.get_dict(r[0], {'relevance': r}), results)
+        results = map(lambda r: Part.get_dict(r[0], {'relevance': r}), results)
         return sorted(results, key=lambda x: x['relevance'])
 
     @cherrypy.expose
