@@ -1,26 +1,8 @@
 import cherrypy
 from jinja2 import Environment, FileSystemLoader
 
-from .helpers import Helpers
+from .cherrypy_tools import response_env
 from .parts import Parts
-
-@cherrypy.tools.register('on_start_resource')
-def response_env():
-    headers = cherrypy.response.headers
-    config = cherrypy.request.config
-
-    is_html = Helpers.is_html_response()
-
-    if is_html:
-        config['content-type'] = 'text/html'
-    else:
-        config['content-type'] = 'text/plain'
-
-    headers['Content-Type'] = config['content-type'] + '; charset=utf-8'
-    config['globals'] = {
-        'response': {'is_html': is_html}
-    }
-
 
 class PartsHorseBase(object):
     def __init__(self):
