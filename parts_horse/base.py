@@ -23,7 +23,6 @@ class PartsHorseBase(object):
 
     def fixme_please_i_am_a_gross_hack(self):
         self.env.globals['response']['is_html'] = Helpers.is_html_response()
-        self.env.globals['site']['url'] = Helpers.get_site_url()
 
     def part_dict(self, part_name, extra={}):
         self.fixme_please_i_am_a_gross_hack()
