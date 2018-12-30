@@ -1,3 +1,4 @@
+from .helpers import Helpers
 import json
 from pathlib import Path
 
@@ -8,6 +9,9 @@ class Parts(object):
 
     def get(name):
         return Part(name)
+
+    def get_dict(name, extra={}):
+        return Part(name).to_dict(extra)
 
 class Part(object):
     def __init__(self, part_name):
@@ -20,7 +24,8 @@ class Part(object):
             print("[ERROR] Invalid JSON file: {}.".format(data_file))
             raise
 
-    def to_dict(self, site_url, extra={}):
+    def to_dict(self, extra={}):
+        site_url = Helpers.get_site_url()
         page = {}
 
         for key in self.data.keys():

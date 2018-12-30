@@ -1,10 +1,10 @@
 from .base import *
+from .parts import Parts
 
 @cherrypy.popargs('part_name')
 class Directory(PartsHorseBase):
     @cherrypy.expose
     @cherrypy.tools.response_env()
     def index(self, part_name):
-        part = part_name.lower()
-        page = self.part_dict(part)
+        page = Parts.get_dict(part_name)
         return self.render(page)

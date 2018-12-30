@@ -39,9 +39,6 @@ class PartsHorseBase(object):
             'text/plain':   env.get_template(classname + '.txt'),
         }
 
-    def part_dict(self, part_name, extra={}):
-        return Parts.get(part_name).to_dict(Helpers.get_site_url(), extra)
-
     def render(self, page={}):
         config = cherrypy.request.config
         content_type = config['content-type']
