@@ -20,12 +20,12 @@ class PartsHorseBase(object):
         self.html_template = self._get_template_by_name(classname, 'html', alt=None)
         self.text_template = self._get_template_by_name(classname, 'txt', alt=self.html_template)
 
-    def fixme(self):
+    def fixme_please_i_am_a_gross_hack(self):
         self.env.globals['response']['is_html'] = Helpers.is_html_response()
         self.env.globals['site']['url'] = Helpers.get_site_url()
 
     def part_dict(self, part_name, extra={}):
-        self.fixme()
+        self.fixme_please_i_am_a_gross_hack()
 
         site = self.env.globals['site']
         part_name = part_name.replace('/', '-').lower()
@@ -48,6 +48,8 @@ class PartsHorseBase(object):
         return page
 
     def render(self, page={}):
+        self.fixme_please_i_am_a_gross_hack()
+
         if Helpers.is_html_response():
             template = self.html_template
             response_type = 'text/html'

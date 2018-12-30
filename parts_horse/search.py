@@ -41,8 +41,6 @@ class Search(PartsHorseBase):
 
     @cherrypy.expose
     def index(self, q=''):
-        self.fixme()
-
         if q:
             results = self.search(q, min_relevance=1)
         else:
