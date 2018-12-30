@@ -5,4 +5,4 @@ class Home(PartsHorseBase):
     @cherrypy.expose
     def index(self):
         self.fixme()
-        return self.render({"recent": Search.recent()})
+        return self.render()

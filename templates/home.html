@@ -7,14 +7,6 @@
   <input type="text" id="q" name="q" value="{{ page.query }}"><input type="submit" value="Search">
 </form>
 
-<p>Not sure what to look for? Here are some recent searches:</p>
-
-<ul>
-  {% for query in page.recent %}
-  <li><a href="/search?q={{ query | urlencode }}">{{ query }}</a></li>
-  {% endfor %}
-</ul>
-
 <p>Can't find a part? <a href="https://github.com/duckinator/parts.horse/issues/new?title=[PART+REQUEST]+&body=Could+you+please+add+information+for+_____?">Ask us to add it.</a></p>
 {% else %}
 API Overview:

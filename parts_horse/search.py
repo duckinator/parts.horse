@@ -1,18 +1,7 @@
 from .base import *
-import collections
 from pathlib import Path
-import random
 
 class Search(PartsHorseBase):
-    recent_queries = collections.deque(maxlen=30)
-    def add_recent(query):
-        if not query.lower() in map(str.lower, Search.recent_queries):
-            Search.recent_queries.append(query)
-
-    def recent():
-        r = Search.recent_queries
-        return random.sample(r, min(10, len(r)))
-
     def __init__(self):
         super().__init__()
 
@@ -58,9 +47,6 @@ class Search(PartsHorseBase):
             results = self.search(q, min_relevance=1)
         else:
             results = []
-
-        if len(results) > 0:
-            Search.add_recent(q)
 
         page = {
             'query': q,

@@ -47,7 +47,7 @@ class PartsHorseBase(object):
 
         return page
 
-    def render(self, page):
+    def render(self, page={}):
         if Helpers.is_html_response():
             template = self.html_template
             response_type = 'text/html'
