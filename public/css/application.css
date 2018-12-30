@@ -1,9 +1,8 @@
 html {
   box-sizing: border-box;
-  text-rendering: optimizeLegibility;
   font-family: monospace;
 }
-*, :after, :before { box-sizing:inherit; }
+*, :after, :before { box-sizing: inherit; }
 
 body {
   font-size: 150%;
@@ -11,41 +10,22 @@ body {
   margin: auto;
   max-width: 80ch;
   background: #eeefff;
-  line-height: 3em;
+  line-height: 1.25em;
 }
-
-a, input { padding: 1em; }
+pre { line-height: 1em; }
 
 a { padding: 0.5em 0; }
+header a {
+  display: inline-block;
+  margin-bottom: 0.7em;
+}
+
 input {
   font-size: 1em;
   padding: 0.5em;
-  display: inline-block;
   border: 1px solid #bbb;
-  border-radius: 0.5em;
+  margin: 0;
 }
+#q { min-width: 25ch; }
 
-#q {
-  border-radius: 0.5em 0 0 0.5em;
-  margin-right: 0;
-  min-width: 25ch;
-}
-#q + input[type=submit] {
-  border-radius: 0 0.5em 0.5em 0;
-  margin-left: 0;
-}
-
-pre {
-  line-height: 1em;
-}
-body header { white-space: normal; }
-h1 { margin-bottom: 0; }
-
-.search-result {
-  line-height: 1em;
-  padding-bottom: 1.5em;
-}
-
-.search-result .tags {
-  font-size: 0.8em;
-}
+.search-result { padding-bottom: 1.5em; }
