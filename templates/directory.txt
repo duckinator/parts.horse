@@ -1,1 +1,12 @@
-TODO (parts directory listing)
+{% extends 'base.html' %}
+{%- block content %}
+All Known Parts
+
+{% for part in page.parts %}
+{%- set idx = loop.index | string %}
+{%- set idx = idx + '.' -%}
+{{ idx | ljust(3) }} {{ part.name }} <{{ part.canonical_url }}>
+     {{ part.summary }}
+
+{% endfor %}
+{%- endblock %}

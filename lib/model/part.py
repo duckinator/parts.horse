@@ -7,6 +7,9 @@ class Part(object):
         parts_files = Path('parts').glob('**/*.json')
         return list(map(lambda path: path.name.replace('.json', ''), parts_files))
 
+    def id(part_dict):
+        return part_dict['id']
+
     def get(name):
         return Part(name)
 

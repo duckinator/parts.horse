@@ -15,9 +15,10 @@ class JsonDirectoryEntry(PartsHorseBase):
 
 @cherrypy.popargs('part_name', handler=JsonDirectoryEntry)
 class JsonDirectory(PartsHorseBase):
+    parts = sorted(list(map(Part.get_dict, Part.all())), key=Part.id)
+
     @cherrypy.expose
     @cherrypy.tools.response_env()
     @cherrypy.tools.json_out()
     def index(self):
-        parts = list(map(lambda name: Part.get_dict(name), Part.all()))
-        return {'parts': parts}
+        return {'parts': JsonDirectory.parts}
