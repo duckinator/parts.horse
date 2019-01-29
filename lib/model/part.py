@@ -31,6 +31,7 @@ class Part(object):
         for key in self.data.keys():
             page[key] = self.data[key]
 
+        page['id'] = self.part_name
         page['datasheet_redirect_target'] = page['datasheet']
         page['datasheet'] = site_url + '/ds/' + self.part_name
         page['url_path'] = '/parts/' + self.part_name
