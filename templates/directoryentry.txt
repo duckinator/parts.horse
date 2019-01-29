@@ -1,1 +1,1 @@
-{% extends 'directory.html' -%}
+{% extends 'directoryentry.html' -%}
