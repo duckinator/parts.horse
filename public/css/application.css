@@ -35,7 +35,7 @@ code {
   padding: 0.3em;
   margin: 0 -0.3em;
 }
-li li { background-color: transparent; }
+li code { background-color: transparent; }
 
 table, tr, th, td, input { border: 1px solid #bbb; }
 
