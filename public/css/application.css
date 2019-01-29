@@ -33,7 +33,7 @@ input {
 code {
   background-color: #cccfff;
   padding: 0.3em;
-  margin: 0 -0.3em;
+  margin: 0.3 -0.3em;
 }
 li code { background-color: transparent; }
 
