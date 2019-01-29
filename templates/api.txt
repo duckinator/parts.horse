@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{%- block content -%}
+
+API Summary
+
+Content type negotiation:
+- Use the `Accept` header to specify the response format.
+- Supported formats: text/plain, text/html, application/json.
+
+Endpoints:
+- /search?q=:query
+- /parts
+- /parts/:part
+- /datahseets/:part (alias: /ds/:part)
+{% endblock %}

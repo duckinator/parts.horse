@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{%- block content %}
+
+<h2>API</h2>
+
+<h3>Supported Response Types</h3>
+
+<p>You can use the <pre>Accept</pre> header to dictate the response type.</p>
+<p>Parts Horse currently understands the following <pre>Accept</pre> headers:</p>
+
+<table>
+  <th>
+    <td><pre>Accept</pre> header</td>
+    <td>Type</td>
+    <td>Suitable for...</td>
+  </th>
+  <tr>
+    <td><pre>text/plain</pre></td>
+    <td>Plain-text</td>
+    <td>Dumping to a terminal with cURL.</td>
+  </tr>
+  <tr>
+    <td><pre>text/html</pre></td>
+    <td>HTML</td>
+    <td>Web browsers.</td>
+  </tr>
+  <tr>
+    <td><pre>application/json</pre></td>
+    <td>JSON</td>
+    <td>Programmatic access.</td>
+  </tr>
+</table>
+
+<h3>Endpoints</h3>
+
+<table>
+  <th>
+    <td>Endpoint</td>
+    <td>Purpose</td>
+  </th>
+  <tr>
+    <td><code>/search?q=:query</code></td>
+    <td>Search for <code>:query</code> and return all matches.</td>
+  </tr>
+  <tr>
+    <td><code>/parts</code></td>
+    <td>A list of all documented parts.</td>
+  </tr>
+  <tr>
+    <td><code>/parts/:part</code></td>
+    <td>Information for <code>:part</code>.</td>
+  </tr>
+  <tr>
+    <td><code>/datasheets/:part</code> (alias: <code>/ds/:part</code>)</td>
+    <td>Redirects to the datasheet for <code>:part</code>. This URL is included in <code>/parts/:part</code> responses.</td>
+  </tr>
+</table>
+
+{% endblock %}
