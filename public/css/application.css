@@ -29,3 +29,32 @@ input {
 #q { min-width: 25ch; }
 
 .search-result { padding-bottom: 1.5em; }
+
+code {
+  background-color: #cccfff;
+  padding: 0.3em;
+  margin: 0 -0.3em;
+}
+
+table, tr, th, td, input { border: 1px solid #bbb; }
+
+table {
+  border-collapse: collapse;
+}
+
+tr {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+th { font-weight: bold; }
+th, td {
+  border-top: none;
+  border-left: none;
+  border-bottom: none;
+  padding: 1em;
+}
+th:last-child, td:last-child {
+  border-right: none;
+}
