@@ -19,4 +19,5 @@ class JsonDirectory(PartsHorseBase):
     @cherrypy.tools.response_env()
     @cherrypy.tools.json_out()
     def index(self):
-        return {'parts': Part.all()}
+        parts = list(map(lambda name: Part.get_dict(name), Part.all()))
+        return {'parts': parts}
