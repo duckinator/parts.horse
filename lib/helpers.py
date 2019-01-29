@@ -13,6 +13,12 @@ def is_html_response():
     # If there were no relevant special cases, use the Accept header.
     return ('text/html' in accepted)
 
+def is_json_response():
+    headers     = cherrypy.request.headers
+    user_agent  = headers.get('User-Agent', '')
+    accepted    = headers.get('Accept', '').split(',')
+    return ('application/json' in accepted)
+
 def get_site_url():
     port = cherrypy.config.get('server.socket_port')
     socket_host = cherrypy.config.get('server.socket_host')
