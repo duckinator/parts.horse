@@ -1,10 +1,18 @@
 from .base import *
+from .json_directory import *
 from lib.model.part import Part
 
-@cherrypy.popargs('part_name')
-class Directory(PartsHorseBase):
+class DirectoryEntry(JsonDirectoryEntry):
     @cherrypy.expose
     @cherrypy.tools.response_env()
-    def index(self, part_name):
-        page = Part.get_dict(part_name)
-        return self.render(page)
+    def index(self):
+        # Take the superclass implementation and pass it to self.render().
+        return self.render(super().index())
+
+@cherrypy.popargs('part_name', handler=DirectoryEntry)
+class Directory(JsonDirectory):
+    @cherrypy.expose
+    @cherrypy.tools.response_env()
+    def index(self):
+        # Take the superclass implementation and pass it to self.render().
+        return self.render(super().index())
