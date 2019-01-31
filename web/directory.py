@@ -14,12 +14,7 @@ class DirectoryEntry(PartsHorseBase):
 
 @cherrypy.popargs('part_name', handler=DirectoryEntry)
 class Directory(PartsHorseBase):
-    parts = None
-
     @cherrypy.expose
     @cherrypy.tools.response_env()
     def index(self):
-        if Directory.parts is None:
-            Directory.parts = sorted(list(map(Part.get_dict, Part.all())), key=Part.id)
-
-        return self.render({'parts': Directory.parts})
+        return self.render({'parts': Part.all()})

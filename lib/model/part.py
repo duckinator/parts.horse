@@ -3,7 +3,13 @@ import json
 from pathlib import Path
 
 class Part(object):
+    _all = None
     def all():
+        if Part._all is None:
+            Part._all = sorted(list(map(Part.get_dict, Part.names())), key=Part.id)
+        return Part._all
+
+    def names():
         parts_files = Path('parts').glob('**/*.json')
         return list(map(lambda path: path.name.replace('.json', ''), parts_files))
 
