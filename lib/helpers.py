@@ -20,11 +20,16 @@ def is_json_response():
     return ('application/json' in accepted)
 
 def get_site_url():
-    port = cherrypy.config.get('server.socket_port')
-    socket_host = cherrypy.config.get('server.socket_host')
-    host = cherrypy.request.headers.get('Host', socket_host)
+    host_header = cherrypy.request.headers.get('Host', socket_host)
 
-    scheme = 'https' if (port == 443) else 'http'
+    host, port = host_header.split(':', 1)
+
+    if port == 443:
+        scheme = 'https'
+    else:
+        scheme = 'http'
+        if port != 80:
+            host = "{}:{}".format(host, port)
 
     default_url = '{}://{}'.format(scheme, host)
 
