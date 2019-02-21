@@ -1,6 +1,11 @@
+@import "/fonts/web-fonts/dejavusansmono_boldoblique/stylesheet.css";
+@import "/fonts/web-fonts/dejavusansmono_bold/stylesheet.css";
+@import "/fonts/web-fonts/dejavusansmono_book/stylesheet.css";
+@import "/fonts/web-fonts/dejavusansmono_oblique/stylesheet.css";
+
 html {
   box-sizing: border-box;
-  font-family: monospace;
+  font-family: dejavu_sans_monobook, monospace;
 }
 *, :after, :before { box-sizing: inherit; }
 

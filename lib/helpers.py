@@ -24,11 +24,11 @@ def get_site_url():
 
     host, port = host_header.split(':', 1)
 
-    if port == 443:
+    if port == '443':
         scheme = 'https'
     else:
         scheme = 'http'
-        if port != 80:
+        if port != '80':
             host = "{}:{}".format(host, port)
 
     default_url = '{}://{}'.format(scheme, host)
