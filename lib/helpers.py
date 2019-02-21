@@ -20,7 +20,11 @@ def is_json_response():
     return ('application/json' in accepted)
 
 def get_site_url():
-    host_header = cherrypy.request.headers.get('Host', socket_host)
+    socket_port = cherrypy.config.get('server.socket_port')
+    socket_host = cherrypy.config.get('server.socket_host')
+    fallback_host = "{}:{}".format(socket_host, socket_port)
+
+    host_header = cherrypy.request.headers.get('Host', fallback_host)
 
     host, port = host_header.split(':', 1)
 
