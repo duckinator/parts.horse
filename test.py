@@ -130,17 +130,19 @@ class CheckRunner:
             exception = None
             try:
                 result = get(url).read().decode()
-            except ConnectionRefusedError as e:
-                exception = e
+            except:
+                exc_type, exc_value, _ = sys.exc_info()
+                failed += 1
+                print('ERR  {}'.format(line))
+                print('  {}: {}'.format(exc_type.__name__, exc_value))
+                continue
 
-            if (not exception) and (content in result):
+            if content in result:
                 print('PASS {}'.format(line))
             else:
+                failed += 1
                 print('FAIL {}'.format(line))
-                if exception:
-                    print('  {}'.format(exception))
-                else:
-                    print('  {}'.format('Page did not include: {}'.format(content)))
+                print('  {}'.format('Page did not include: {}'.format(content)))
         print('')
         print('{} checks, {} failures'.format(total, failed))
 
