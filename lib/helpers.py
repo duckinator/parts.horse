@@ -7,7 +7,7 @@ def is_html_response():
     accepted    = headers.get('Accept', '').split(',')
 
     # If the user is using ELinks, we should always return HTML.
-    if user_agent.startswith("ELinks/"):
+    if user_agent.startswith('ELinks/'):
         return True
 
     # If there were no relevant special cases, use the Accept header.
@@ -22,7 +22,7 @@ def is_json_response():
 def get_site_url():
     socket_port = cherrypy.config.get('server.socket_port')
     socket_host = cherrypy.config.get('server.socket_host')
-    fallback_host = "{}:{}".format(socket_host, socket_port)
+    fallback_host = '{}:{}'.format(socket_host, socket_port)
 
     host_header = cherrypy.request.headers.get('Host', fallback_host)
 
@@ -33,7 +33,7 @@ def get_site_url():
     else:
         scheme = 'http'
         if port != '80':
-            host = "{}:{}".format(host, port)
+            host = '{}:{}'.format(host, port)
 
     default_url = '{}://{}'.format(scheme, host)
 
