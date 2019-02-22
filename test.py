@@ -11,12 +11,11 @@ from time import sleep
 from urllib.request import urlopen as get
 
 class ManagedProcess:
-    def __init__(self, process_type, command, verbose=False):
+    def __init__(self, process_type, command):
         self.command = command.strip()
         self.type = process_type
         self.env = {}
         self.proc = None
-        self.verbose = verbose
 
     def port(self):
         return self.env['PORT']
@@ -40,9 +39,6 @@ class ManagedProcess:
 
     def start(self):
         env = self.get_env()
-        if self.verbose:
-            print('[{}] Start: {} (port {})'.format(self.type, self.command, env['PORT']))
-            print('')
 
         command = self.command
         for key in env.keys():
@@ -54,9 +50,6 @@ class ManagedProcess:
                 stdout=self.log_file, stderr=subprocess.STDOUT)
 
     def stop(self):
-        if self.verbose:
-            print('[{}] Stop:  {}'.format(self.type, self.command))
-
         try:
             self.proc.communicate(timeout=1)
         except:
@@ -66,8 +59,7 @@ class ManagedProcess:
         self.log_file.close()
 
 class ProcessManager:
-    def __init__(self, procfile, verbose=False):
-        self.verbose = verbose
+    def __init__(self, procfile):
         self.processes = self.parse(procfile)
 
     def http_port(self):
@@ -80,25 +72,28 @@ class ProcessManager:
         processes = []
         for line in procfile_lines:
             process_type, command = line.split(':', 1)
-            processes += [ManagedProcess(process_type, command, verbose=self.verbose)]
+            processes += [ManagedProcess(process_type, command)]
         return processes
 
     def start(self, types):
+        print('Start: ', end='')
         for proc in self.processes:
             if proc.type in types:
+                print(proc.type, end=' ')
                 proc.start()
+        print('\n')
 
     def stop(self):
-        if self.verbose:
-            print('')
+        print('\nStop:  ', end='')
         for proc in self.processes:
             if proc:
+                print(proc.type, end=' ')
                 proc.stop()
+        print('')
 
 class CheckRunner:
-    def __init__(self, checks, verbose=False):
+    def __init__(self, checks):
         self.env, self.checks = self.parse(checks)
-        self.verbose = verbose
 
     def parse(self, checks):
         env_regex = re.compile(r'^[A-Z_]+=.*')
@@ -158,9 +153,9 @@ class TestThingy:
         self.procfile = Path(directory, 'Procfile').read_text()
         self.checks = Path(directory, 'CHECKS').read_text()
 
-    def run(self, verbose=False):
-        pm = ProcessManager(self.procfile, verbose=verbose)
-        checks = CheckRunner(self.checks, verbose=verbose)
+    def run(self):
+        pm = ProcessManager(self.procfile)
+        checks = CheckRunner(self.checks)
 
         try:
             pm.start(checks.env.get('TEST_PROCS', 'web'))
@@ -175,5 +170,4 @@ class TestThingy:
             exit(1)
 
 if __name__ == '__main__':
-    verbose = '--verbose' in sys.argv
-    TestThingy(Path.cwd()).run(verbose=verbose)
+    TestThingy(Path.cwd()).run()
