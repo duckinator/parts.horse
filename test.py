@@ -11,17 +11,17 @@ from time import sleep
 from urllib.request import urlopen as get
 
 class ManagedProcess:
-    def __init__(self, process_type, command, verbose=False, env={}):
+    def __init__(self, process_type, command, verbose=False):
         self.command = command.strip()
         self.type = process_type
-        self.env = env
+        self.env = {}
         self.proc = None
         self.verbose = verbose
 
     def port(self):
         return self.env['PORT']
 
-    # Get a freely-available port.
+    # Find an unused port.
     def find_port(self):
         # Create a socket.
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -33,13 +33,10 @@ class ManagedProcess:
         return port
 
     def get_env(self):
-        env = self.env
-        for key in self.env.keys():
-            env[key] = self.env[key]
-        env['PORT'] = str(self.find_port())
+        self.env['PORT'] = str(self.find_port())
         for key in os.environ.keys():
-            env[key] = os.environ[key]
-        return env
+            self.env[key] = os.environ[key]
+        return self.env
 
     def start(self):
         env = self.get_env()
@@ -49,15 +46,16 @@ class ManagedProcess:
         command = self.command
         for key in env.keys():
             command.replace("${}".format(key), env[key])
+
         cmd = shlex.split(command)
         self.log_file = open('test-{}.log'.format(self.type), 'w')
         self.proc = subprocess.Popen(cmd, env=env,
                 stdout=self.log_file, stderr=subprocess.STDOUT)
-        return True
 
     def stop(self):
         if self.verbose:
             print("[{}] Stop:  {}".format(self.type, self.command))
+
         try:
             self.proc.communicate(timeout=1)
         except:
@@ -72,12 +70,9 @@ class ProcessManager:
         self.verbose = verbose
 
     def http_port(self):
-        return self.find_process_by_type('web').port()
-
-    def find_process_by_type(self, process_type):
         for proc in self.processes:
-            if proc.type == process_type:
-                return proc
+            if proc.type == 'web':
+                return proc.port()
 
     def parse(self, procfile):
         procfile_lines = procfile.strip().split("\n")
