@@ -92,7 +92,8 @@ class ProcessManager:
         if self.verbose:
             print('')
         for proc in self.processes:
-            proc.stop()
+            if proc:
+                proc.stop()
 
 class CheckRunner:
     def __init__(self, checks, verbose=False):
