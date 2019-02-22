@@ -159,7 +159,7 @@ class TestThingy:
 
         try:
             pm.start(checks.env.get('TEST_PROCS', 'web'))
-            sleep(int(checks.env.get('WAIT', 1)))
+            sleep(1 + int(checks.env.get('WAIT', 1)))
             success = checks.run(pm.http_port())
         finally:
             pm.stop()
