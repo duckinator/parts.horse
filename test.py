@@ -116,7 +116,6 @@ class CheckRunner:
 
     def run(self, port):
         total = 0
-        passed = 0
         failed = 0
 
         for line in self.checks:
@@ -135,7 +134,6 @@ class CheckRunner:
                 exception = e
 
             if (not exception) and (content in result):
-                passed += 1
                 print('PASS {}'.format(line))
             else:
                 print('FAIL {}'.format(line))
