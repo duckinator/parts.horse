@@ -25,7 +25,7 @@ class ManagedProcess:
     def find_port(self):
         # Create a socket.
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind(("", 0))
+        s.bind(('', 0))
         s.listen(1)
         port = s.getsockname()[1]
         s.shutdown(socket.SHUT_RDWR)
@@ -41,12 +41,12 @@ class ManagedProcess:
     def start(self):
         env = self.get_env()
         if self.verbose:
-            print("[{}] Start: {} (port {})".format(self.type, self.command, env['PORT']))
-            print("")
+            print('[{}] Start: {} (port {})'.format(self.type, self.command, env['PORT']))
+            print('')
 
         command = self.command
         for key in env.keys():
-            command.replace("${}".format(key), env[key])
+            command.replace('${}'.format(key), env[key])
 
         cmd = shlex.split(command)
         self.log_file = open('test-{}.log'.format(self.type), 'w')
@@ -55,7 +55,7 @@ class ManagedProcess:
 
     def stop(self):
         if self.verbose:
-            print("[{}] Stop:  {}".format(self.type, self.command))
+            print('[{}] Stop:  {}'.format(self.type, self.command))
 
         try:
             self.proc.communicate(timeout=1)
@@ -76,7 +76,7 @@ class ProcessManager:
                 return proc.port()
 
     def parse(self, procfile):
-        procfile_lines = procfile.strip().split("\n")
+        procfile_lines = procfile.strip().split('\n')
         processes = []
         for line in procfile_lines:
             process_type, command = line.split(':', 1)
@@ -90,7 +90,7 @@ class ProcessManager:
 
     def stop(self):
         if self.verbose:
-            print("")
+            print('')
         for proc in self.processes:
             proc.stop()
 
@@ -100,8 +100,8 @@ class CheckRunner:
         self.verbose = verbose
 
     def parse(self, checks):
-        env_regex = re.compile(r"^[A-Z_]+=.*")
-        lines = checks.strip().split("\n")
+        env_regex = re.compile(r'^[A-Z_]+=.*')
+        lines = checks.strip().split('\n')
         env = {}
         checks = []
 
@@ -140,15 +140,15 @@ class CheckRunner:
 
             if (not exception) and (content in result):
                 passed += 1
-                print("PASS {}".format(line))
+                print('PASS {}'.format(line))
             else:
-                print("FAIL {}".format(line))
+                print('FAIL {}'.format(line))
                 if exception:
-                    print("  {}".format(exception))
+                    print('  {}'.format(exception))
                 else:
-                    print("  {}".format("Page did not include: {}".format(content)))
-        print("")
-        print("{} checks, {} failures".format(total, failed))
+                    print('  {}'.format('Page did not include: {}'.format(content)))
+        print('')
+        print('{} checks, {} failures'.format(total, failed))
 
         return (failed == 0)
 
@@ -173,6 +173,6 @@ class TestThingy:
         else:
             exit(1)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     verbose = '--verbose' in sys.argv
     TestThingy(Path.cwd()).run(verbose=verbose)
