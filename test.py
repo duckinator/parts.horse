@@ -42,6 +42,7 @@ class ManagedProcess:
         env = self.get_env()
         if self.verbose:
             print("[{}] Start: {} (port {})".format(self.type, self.command, env['PORT']))
+            print("")
 
         command = self.command
         for key in env.keys():
@@ -66,8 +67,8 @@ class ManagedProcess:
 
 class ProcessManager:
     def __init__(self, procfile, verbose=False):
-        self.processes = self.parse(procfile)
         self.verbose = verbose
+        self.processes = self.parse(procfile)
 
     def http_port(self):
         for proc in self.processes:
@@ -79,7 +80,7 @@ class ProcessManager:
         processes = []
         for line in procfile_lines:
             process_type, command = line.split(':', 1)
-            processes += [ManagedProcess(process_type, command)]
+            processes += [ManagedProcess(process_type, command, verbose=self.verbose)]
         return processes
 
     def start(self, types):
