@@ -52,7 +52,7 @@ class ManagedProcess:
     def stop(self):
         try:
             self.proc.communicate(timeout=1)
-        except:
+        except subprocess.TimeoutExpired:
             pass
         self.proc.terminate()
         self.log_file.flush()
@@ -107,7 +107,7 @@ class CheckRunner:
                 continue
 
             if env_regex.match(line):
-                key, val = line.split('=', 1)
+                key, _, val = line.partition('=')
                 env[key] = val
             else:
                 checks += [line]
