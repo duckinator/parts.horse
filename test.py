@@ -94,6 +94,9 @@ class ProcessManager:
 class CheckRunner:
     def __init__(self, checks):
         self.env, self.checks = self.parse(checks)
+        self.wait = int(self.env.get('WAIT', 1))
+        self.timeout = int(self.env.get('TIMEOUT', 30))
+        self.attempts = int(self.env.get('ATTEMPTS', 5))
 
     def parse(self, checks):
         env_regex = re.compile(r'^[A-Z_]+=.*')
@@ -114,6 +117,37 @@ class CheckRunner:
 
         return [env, checks]
 
+    def run_check(self, url, content, line):
+        result = None
+
+        exception = None
+        success = None
+
+        for attempt in range(1, self.attempts):
+            try:
+                result = get(url).read().decode()
+                success = True
+            except:
+                success = False
+                exc_type, exc_value, _ = sys.exc_info()
+                if attempt <= self.attempts:
+                    if os.environ.get('DEBUG', 'false').lower() != 'false':
+                        print('---  Attempt {} failed.'.format(attempt))
+                else:
+                    print('ERR  {}'.format(line))
+                    print('  {}: {}'.format(exc_type.__name__, exc_value))
+                    return False
+
+        if result is not None and content in result:
+            print('PASS {}'.format(line))
+            if attempt > 1:
+                print('  !!! Took {} attempts.'.format(attempt))
+            return True
+        else:
+            print('FAIL {}'.format(line))
+            print('  {}'.format('Page did not include: {}'.format(content)))
+            return False
+
     def run(self, port):
         total = 0
         failed = 0
@@ -127,22 +161,11 @@ class CheckRunner:
             if url.startswith('/'):
                 url = 'http://127.0.0.1:{}{}'.format(port, url)
 
-            exception = None
-            try:
-                result = get(url).read().decode()
-            except:
-                exc_type, exc_value, _ = sys.exc_info()
-                failed += 1
-                print('ERR  {}'.format(line))
-                print('  {}: {}'.format(exc_type.__name__, exc_value))
-                continue
+            success = self.run_check(url, content, line)
 
-            if content in result:
-                print('PASS {}'.format(line))
-            else:
+            if not success:
                 failed += 1
-                print('FAIL {}'.format(line))
-                print('  {}'.format('Page did not include: {}'.format(content)))
+
         print('')
         print('{} checks, {} failures'.format(total, failed))
 
