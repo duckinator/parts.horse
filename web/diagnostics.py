@@ -103,8 +103,7 @@ class DiagnosticsHandler():
         while True:
             print('Generating diagnostics.')
             callback(list(map(lambda cls: cls(), self.classes)))
-            #time.sleep(5 * 60) # 5 minutes.
-            time.sleep(30)
+            time.sleep(5 * 60) # 5 minutes.
 
     def store_diagnostics(self, diagnostics):
         self.diagnostics = diagnostics
