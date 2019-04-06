@@ -56,7 +56,7 @@ class Search(Diagnostic):
         try:
             result = urllib.request.urlopen(search_url)
         except (urllib.error.URLError, socket.timeout) as err:
-            return (self.BAD, 'Error: {}'.format(str(exception)))
+            return (self.BAD, 'Error: {}'.format(str(err)))
         end = time.time()
         duration = end - start
 
