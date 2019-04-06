@@ -99,7 +99,7 @@ class DiagnosticsHandler():
         callback([
             MetaDiagnostic(Diagnostic.INFO, 'Waiting for data.')
         ])
-        time.sleep(5)
+        time.sleep(1)
         while True:
             print('Generating diagnostics.')
             callback(list(map(lambda cls: cls(), self.classes)))
