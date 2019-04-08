@@ -17,7 +17,6 @@ def response_env():
         config['content-type'] = 'text/plain'
 
     headers['Content-Type'] = config['content-type'] + '; charset=utf-8'
-    headers['Connection'] = 'close'
     config['globals'] = {
         'response': {
             'is_html': is_html,
