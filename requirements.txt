@@ -1,2 +1,4 @@
-cherrypy==18.1.0
+cherrypy==18.1
 jinja2==2.10
+gunicorn==19.9
+eventlet==0.24
