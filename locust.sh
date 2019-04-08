@@ -6,4 +6,14 @@ else
   FILE="default.py"
 fi
 
-. venv/bin/activate && ulimit -n 20480 && locust --host=http://localhost:5000 -f "locust_files/$FILE"
+HOST=http://localhost:8000
+
+. venv/bin/activate && ulimit -n 102400
+
+for ((i=0;i<10;i++)); do
+  locust --host=$HOST -f "locust_files/$FILE" --slave &
+done
+
+locust --host=$HOST -f "locust_files/$FILE" --master
+
+killall -9 locust
