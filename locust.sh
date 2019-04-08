@@ -10,7 +10,7 @@ HOST=http://localhost:8000
 
 . venv/bin/activate && ulimit -n 102400
 
-for ((i=0;i<10;i++)); do
+for ((i=0;i<2;i++)); do
   locust --host=$HOST -f "locust_files/$FILE" --slave &
 done
 
