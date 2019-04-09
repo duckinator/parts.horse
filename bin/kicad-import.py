@@ -38,10 +38,7 @@ def is_package_style(candidate):
 
     candidate = candidate.strip()
 
-    # This only happens a single time, so *shrug*
-    candidate = candidate.replace('DIP-8, SO-8', 'DIP-8/SO-8')
-
-    if re.match('^(SM)?DIP\d+$', candidate):
+    if re.match('^(SM)?DIP\d+([A-Z]+)?$', candidate):
         candidate = candidate.replace('DIP', 'DIP-')
 
     # DO-<number> or DO-<number><letters>
@@ -53,7 +50,7 @@ def is_package_style(candidate):
         return True
 
     # DIP-<number>, SMDIP-<number>, or PDIP-<number>
-    if re.match('^(SM|P)?DIP-\d+$', candidate):
+    if re.match('^(SM|P)?DIP-\d+([A-Z]+)?$', candidate):
         return True
 
     if re.match('^SOD-\d+$', candidate):
@@ -87,8 +84,10 @@ def pin_count_from_package(package):
 
     candidate = package.split('-')[-1]
 
-    if not re.match('^\d+$', candidate):
+    if not re.match('^\d+[A-Z]*$', candidate):
         return -1
+
+    candidate = re.sub('[A-Z]', '', candidate)
 
     return int(candidate)
 
@@ -107,6 +106,15 @@ def normalize_summary(part, summary):
     return summary
 
 
+def normalize_package_style(package_style):
+    if '/' in package_style:
+        parts = map(normalize_package_style, package_style.split('/'))
+        print(list(parts))
+        return '/'.join(parts)
+
+    return '-'.join(package_style.split('-')[0:-1])
+
+
 def try_save(part):
     path = (Path('parts') / part['name'].lower()).with_suffix('.json')
 
@@ -120,6 +128,10 @@ def try_save(part):
         print('Creating {}'.format(path))
 
     summary = part['desc']
+
+    # This only happens a single time, so *shrug*
+    summary = summary.replace('DIP-8, SO-8', 'DIP-8/SO-8')
+
     package_style = 'UNKNOWN'
     if summary and ', ' in summary:
         candidate = summary.split(', ')[-1]
@@ -132,6 +144,7 @@ def try_save(part):
 
     number_of_pins = pin_count_from_package(package_style)
     summary = normalize_summary(part, summary)
+    package_style = normalize_package_style(package_style)
 
     data = {
         'name': part['name'],
