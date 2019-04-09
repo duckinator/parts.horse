@@ -36,31 +36,37 @@ def is_package_style(candidate):
     # Try to catch as many as possible, but prefer missing a few over
     # having false matches.
 
-    # DO-<number> or DO-<number>A<letters>
-    if re.match('^DO-\d+(A[A-Z]+)?$', candidate):
+    candidate = candidate.strip()
+
+    # This only happens a single time, so *shrug*
+    candidate = candidate.replace('DIP-8, SO-8', 'DIP-8/SO-8')
+
+    if re.match('^(SM)?DIP\d+$', candidate):
+        candidate = candidate.replace('DIP', 'DIP-')
+
+    # DO-<number> or DO-<number><letters>
+    if re.match('^DO-\d+([A-Z]+)?$', candidate):
         return True
 
     # DFN-<number>
     if re.match('^DFN-\d+$', candidate):
         return True
 
-    # DIP-<number> or PDIP-<number>
-    if re.match('^P?DIP-\d+$', candidate):
+    # DIP-<number>, SMDIP-<number>, or PDIP-<number>
+    if re.match('^(SM|P)?DIP-\d+$', candidate):
         return True
 
     if re.match('^SOD-\d+$', candidate):
         return True
 
-    if re.match('^SOIC-\d+$', candidate):
+    if re.match('^SOIC-\d+([A-Z]+)?$', candidate):
         return True
 
-    if re.match('^SSOP-\d+$', candidate):
+    # SSOP-<number>, MSOP-<number>, TSSOP-<number>
+    if re.match('^(S|M|TS)SOP-\d+$', candidate):
         return True
 
     if re.match('^TO-\d+$', candidate):
-        return True
-
-    if re.match('^TSSOP-\d+$', candidate):
         return True
 
     # If it's MELF(X), check that X is a valid packaging style.
