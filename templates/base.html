@@ -11,7 +11,8 @@
     <main>
       <header>
         <h1><a href="/">Parts Horse</a></h1>
-        <a href="/api">API</a>&nbsp;&middot;&nbsp;<a href="/parts">Browse</a>
+        <a href="/api">API</a>&nbsp;&middot;&nbsp;<a href="/parts">Browse</a><!--
+        -->&nbsp;&middot;&nbsp;<a href="/about">About</a>
         <form class="search" action="/search" method="get">
           <input type="text" id="q" name="q" value="{{ page.query }}"><!--
           --><input type="submit" value="Search">
@@ -19,11 +20,6 @@
       </header>
 
 {% block content %}{% endblock %}
-
-      <footer>
-        <p><a href="https://github.com/duckinator/parts.horse">Source (GitHub)</a> &middot; <!--
-        --><a href="https://github.com/KiCad/kicad-symbols">Uses data from KiCad</a></p>
-      </footer>
     </main>
   </body>
 </html>
