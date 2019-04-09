@@ -150,9 +150,24 @@ def try_save(part):
     summary = normalize_summary(part, summary)
     package_style = normalize_package_style(package_style)
 
+    link = part['link']
+
+    # There's a lot of these links without leading 'http://' or 'https://',
+    # and these are confirmed to support https links.
+    if link.startswith('www.allegromicro.com/') or \
+        link.startswith('www.fairchildsemi.com/') or \
+        link.startswith('www.st.com/') or \
+        link.startswith('www.ti.com/') or \
+        link.startswith('www.zilog.com/'):
+        link = 'https://' + link
+
+    if not link.startswith('http://') and not link.startswith('https://'):
+        print('  Invalid link: {}'.format(link))
+        return
+
     data = {
         'name': part['name'],
-        'datasheet': part['link'],
+        'datasheet': link,
         'details': '', # FIXME
         'summary': summary,
         'style': package_style,
