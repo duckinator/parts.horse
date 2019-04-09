@@ -35,6 +35,9 @@ def try_save(part):
     if path.exists():
         print('{} exists; skipping.'.format(path))
         return
+    elif part['desc'] and 'for simulation' in part['desc']:
+        print('{} is for simulation only; skipping.'.format(part['name']))
+        return
     else:
         print('Creating {}'.format(path))
 
