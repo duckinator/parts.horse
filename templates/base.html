@@ -13,7 +13,7 @@
         <h1><a href="/">Parts Horse</a></h1>
         <a href="/api">API</a>&nbsp;&middot;&nbsp;<a href="/parts">Browse</a>
         <form class="search py-4" action="/search" method="get">
-          <input class="leading-loose bg-white" type="text" id="q" name="q" value=""><!--
+          <input class="leading-loose bg-white" type="text" id="q" name="q" value="{{ page.query }}"><!--
           --><input class="leading-loose" type="submit" value="Search">
         </form>
       </header>
