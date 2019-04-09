@@ -1,27 +1,24 @@
 {% from 'macros.html' import link with context -%}
-{% if response.is_html -%}
 <!doctype html>
 <html>
-<head>
-<title>{% if page.title %}{{ page.title }} - {% endif %}Parts Horse</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/css/application.css">
-</head>
-<body>
-<header>
-<h1>Parts Horse</h1>
-<a href="/">Home</a> &middot; <!--
---><a href="/api">API</a> &middot; <!--
---><a href="/parts">Browse</a> &middot; <!--
---><a href="/search">Search</a>
-</header>
-{%- else -%}
-Parts Horse - {% endif -%}
+  <head>
+    <title>{% if page.title %}{{ page.title }} - {% endif %}Parts Horse</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/application.css">
+  </head>
+  <body>
+    <main class="mx-auto px-16 py-4 leading-loose shadow-lg">
+      <header>
+        <h1><a href="/">Parts Horse</a></h1>
+        <a href="/api">API</a>&nbsp;&middot;&nbsp;<a href="/parts">Browse</a>
+        <form class="search py-4" action="/search" method="get">
+          <input class="leading-loose bg-white" type="text" id="q" name="q" value="{{ page.query }}"><!--
+          --><input class="leading-loose" type="submit" value="Search">
+        </form>
+      </header>
 
 {% block content %}{% endblock %}
-
-{%- if response.is_html %}
-</body>
+    </main>
+  </body>
 </html>
-{%- endif %}

@@ -22,7 +22,7 @@
     [["13", "PD7"],     ["16", "PB2"]],
     [["14", "PB0"],     ["15", "PB1"]]
   ],
-  "pin_functions": [
+  "left_pin_functions": [
     ["1",  "PC6", "PCINT14, RESET"],
     ["2",  "PD0", "PCINT16, RXD"],
     ["3",  "PD1", "PCINT17, TXD"],
@@ -36,21 +36,22 @@
     ["11", "PD5", "PCINT21, OC0B,  T1"],
     ["12", "PD6", "PCINT22, OC0A,  AIN0"],
     ["13", "PD7", "PCINT23, AIN1"],
-    ["14", "PB0", "PCINT0,  CLKO,  ICP1"],
-    "--",
-    ["15", "PB1",  "OC1A, PCINT1"],
-    ["16", "PB2",  "SS,   PCINT2, OC1B"],
-    ["17", "PB3",  "MOSI, PCINT3, OC2A"],
-    ["18", "PB4",  "MISO, PCINT4"],
-    ["19", "PB5",  "SCK,  PCINT5"],
-    ["20", "AVCC", "AVCC"],
-    ["21", "AREF", "AREF"],
-    ["22", "GND",  ""],
-    ["23", "PC0",  "ADC0, PCINT8"],
-    ["24", "PC1",  "ADC1, PCINT9"],
-    ["25", "PC2",  "ADC2, PCINT10"],
-    ["26", "PC3",  "ADC3, PCINT11"],
+    ["14", "PB0", "PCINT0,  CLKO,  ICP1"]
+  ],
+  "right_pin_functions": [
+    ["28", "PC5",  "ADC5, PCINT13, SCL"],
     ["27", "PC4",  "ADC4, PCINT12, SDA"],
-    ["28", "PC5",  "ADC5, PCINT13, SCL"]
+    ["26", "PC3",  "ADC3, PCINT11"],
+    ["25", "PC2",  "ADC2, PCINT10"],
+    ["24", "PC1",  "ADC1, PCINT9"],
+    ["23", "PC0",  "ADC0, PCINT8"],
+    ["22", "GND",  ""],
+    ["21", "AREF", "AREF"],
+    ["20", "AVCC", "AVCC"],
+    ["19", "PB5",  "SCK,  PCINT5"],
+    ["18", "PB4",  "MISO, PCINT4"],
+    ["17", "PB3",  "MOSI, PCINT3, OC2A"],
+    ["16", "PB2",  "SS,   PCINT2, OC1B"],
+    ["15", "PB1",  "OC1A, PCINT1"]
   ]
 }

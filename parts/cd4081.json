@@ -15,21 +15,22 @@
     [["6",  "2B"],  [" 9", "3B"]],
     [["7",  "Vss"], [" 8", "3A"]]
   ],
-  "pin_functions": [
+  "left_pin_functions": [
     ["1",   "1A",   "Input for AND gate #1."],
     ["2",   "1B",   "Input for AND gate #1."],
     ["3",   "1Y",   "Output for AND gate #1."],
     ["4",   "2Y",   "Output for AND gate #2."],
     ["5",   "2A",   "Input for AND gate #2."],
     ["6",   "2B",   "Input for AND gate #2."],
-    ["7",   "Vss",  "Ground (0V)."],
-    "--",
-    ["8",   "3A",   "Input for AND gate #3."],
-    ["9",   "3B",   "Input for AND gate #3."],
-    ["10",  "3Y",   "Output for AND gate #3."],
-    ["11",  "4Y",   "Output for AND gate #4."],
-    ["12",  "4A",   "Input for AND gate #4."],
+    ["7",   "Vss",  "Ground (0V)."]
+  ],
+  "right_pin_functions": [
+    ["14",  "Vdd",  "Supply voltage."],
     ["13",  "4B",   "Input for AND gate #4."],
-    ["14",  "Vdd",  "Supply voltage."]
+    ["12",  "4A",   "Input for AND gate #4."],
+    ["11",  "4Y",   "Output for AND gate #4."],
+    ["10",  "3Y",   "Output for AND gate #3."],
+    ["9",   "3B",   "Input for AND gate #3."],
+    ["8",   "3A",   "Input for AND gate #3."]
   ]
 }

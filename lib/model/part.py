@@ -30,7 +30,7 @@ class Part(object):
         try:
             self.data = json.loads(self.file.read_text())
         except json.decoder.JSONDecodeError:
-            print('[ERROR] Invalid JSON file: {}.'.format(data_file))
+            print('[ERROR] Invalid JSON file: {}.'.format(self.file))
             raise
 
     def to_dict(self, extra={}):

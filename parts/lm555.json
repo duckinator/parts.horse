@@ -13,15 +13,16 @@
     [["3",  "OUT"],     [" 6", "THRES"]],
     [["4",  "RESET"],   [" 5", "CONT"]]
   ],
-  "pin_functions": [
+  "left_pin_functions": [
     ["1",   "GND",      ""],
     ["2",   "TRIG",     ""],
     ["3",   "OUT",      ""],
-    ["4",   "RESET",    ""],
-    "--",
-    ["5",   "CONT",     ""],
-    ["6",   "THRES",    ""],
+    ["4",   "RESET",    ""]
+  ],
+  "right_pin_functions": [
+    ["8",   "Vcc",      ""],
     ["7",   "DISCH",    ""],
-    ["8",   "Vcc",      ""]
+    ["6",   "THRES",    ""],
+    ["5",   "CONT",     ""]
   ]
 }
