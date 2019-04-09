@@ -13,10 +13,7 @@ class PartsHorseBase(object):
 
         classname = self.__class__.__name__.lower()
 
-        self.templates = {
-            'text/html':        env.get_template(classname + '.html'),
-            'text/plain':       env.get_template(classname + '.txt'),
-        }
+        self.template = env.get_template(classname + '.html')
 
     def render(self, page={}):
         config = cherrypy.request.config
@@ -25,4 +22,4 @@ class PartsHorseBase(object):
         if config['globals']['response']['is_json']:
             return json.dumps(page, indent=2, sort_keys=True).encode('utf-8')
         else:
-            return self.templates[content_type].render(page=page, **config['globals'])
+            return self.template.render(page=page, **config['globals'])

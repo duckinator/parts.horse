@@ -1,46 +1,87 @@
 {% extends 'base.html' -%}
-{%- block content -%}
+{% block content %}
 
-{% if response.is_html %}<pre>{% endif %}
-Part:       {{ page.name }}
-Summary:    {{ page.summary }}
-Style:      {{ page.style }}
-Datasheet:  {{ link(page.datasheet) }}
-Tags:       {{ page.tags | join(', ') }}
 {% if page.INCOMPLETE %}
-
 NOTE: This page is incomplete or known to be inaccurate. To avoid providing
       invalid information, we are not showing any diagrams or explanations.
 
-{% else -%}
-{% if page.style == 'DIP' %}
+<div style="display: none;">
+{% endif %}
+
+<section class="part-info clearfix w-4/5">
+  <section class="summary py-4 max-w-md float-left">
+    <h2>{{ page.name }} ({{ page.style }})</h2>
+    <p>{{ page.summary }}</p>
+    <p class="text-small">Tags: {{ page.tags | join(', ') }}</p>
+    <p>Datasheet: <a href="{{ page.datasheet }}">{{ page.datasheet }}</a></p>
+  </section>
+
+  <section class="pin-diagram py-4 max-w-sm float-right">
+    <div class="text-center">
+      <pre class="text-left inline-block">
+{%- if page.style == 'DIP' %}
            ┏━━━━━━━━┓
 {%- for pins in page.pins %}
   {{ pins[0][1] | rjust(8) }} ┫{{ pins[0][0] | ljust(3) }}  {{ pins[1][0] | rjust(3) }}┣ {{ pins[1][1] | ljust(3) }}
 {%- endfor %}
            ┗━━━━━━━━┛
-
-{%- elif page.style == 'TO-92' %}
-
-TODO: Figure out how to render TO-92 things.
-
 {% else %}
 
 Not sure how to render {{ page.style }} ICs.
 
-{% endif %}
+{% endif -%}
+      </pre>
+    </div>
+    <div class="diagram-links">
+      <a class="left" href="#left-pins">Left Pins</a>
+      <a class="right" href="#right-pins">Right Pins</a>
+    </div>
+  </section>
+</section>
 
-  Pin ┃  Name   ┃  Function(s)
-══════┃═════════┃═════════════════════════════════════════════════
-{%- for pin in page.pin_functions %}
-{% if pin == "--" -%}
-──────╂─────────╂─────────────────────────────────────────────────
-{%- else %}  {{ pin[0] | ljust(3) }} ┃ {{ pin[1] | ljust(5) }}   ┃  {{ pin[2] }}
-{%- endif %}
-{%- endfor %}
-{% if response.is_html %}</pre>{% endif %}
+<section class="pin-details clearfix">
+  <div class="float-left w-1/2 px-4 border-r-2 mb-4">
+    <h3 id="left-pins" class="px-4">Left Pins</h3>
+    <table class="w-full">
+      <tr>
+        <th>Pin</th>
+        <th>Name</th>
+        <th>Function(s)</th>
+      </tr>
+<!-- TODO: Make this two tables for left/right. -->
+{% for pin in page.pin_functions %}
+      <tr>
+        {% if pin == "--" -%}
+        <td colspan="3">--</td>
+        {% else %}
+        <td>{{ pin[0] }}</td>
+        <td>{{ pin[1] }}</td>
+        <td>{{ pin[2] }}</td>
+        {% endif %}
+{% endfor %}
+      </tr>
+    </table>
+
+
+  </div>
+
+  <div class="float-right w-1/2 px-4">
+    <h3 id="right-pins" class="px-4">Right Pins</h3>
+    <table class="w-full">
+      <tr>
+        <th>Pin</th>
+        <th>Name</th>
+        <th>Function(s)</th>
+      </tr>
+<!-- TODO -->
+    </table>
+  </div>
+</section>
 
 {%- block details %}{% endblock %}
 
-{% endif %}{# page.INCOMPLETE #}
+
+{% if page.INCOMPLETE %}
+</div>
+{% endif %}
 {%- endblock %}
