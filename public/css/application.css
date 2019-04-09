@@ -26,6 +26,10 @@ main {
   max-width: 1200px;
   box-shadow: var(--shadow-large);
 }
+footer {
+  width: 100%;
+  border-top: 1px solid var(--color-border);
+}
 
 p { margin: 0; }
 pre { line-height: 1em; }
@@ -40,6 +44,8 @@ a:hover, a:focus {
   color: white;
   background: var(--color-anchor);
 }
+
+.text-small { font-size: 0.9em; }
 
 .clearfix {
   content: "";
@@ -110,7 +116,10 @@ table { border-collapse: collapse; }
 tr, th, td { border: none; }
 
 th { font-weight: bold; }
-th, td { padding: 0; }
+th, td {
+  text-align: left;
+  padding: 0;
+}
 
 .pin-details { width: 100%; }
 .pin-details div {
@@ -125,7 +134,6 @@ th, td { padding: 0; }
 
 .pin-details h3 {
   margin: 0;
-  padding-left: 1rem;
 }
 
 @media(max-width: 45ch) {
@@ -140,14 +148,23 @@ th, td { padding: 0; }
     padding: 1rem 4rem;
   }
 
-  .part-info { width: 80%; }
+  .part-info { width: 100%; }
   .part-info .summary { float: left; }
   .part-info .pin-diagram { float: right; }
+
+  .pin-details .left { border-width: 1px var(--color-border); }
 
   th, td {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
     padding-left: 1rem;
     padding-right: 1rem;
+  }
+  th:first-child,
+  td:first-child {
+    padding-left: 0;
+  }
+  th:last-child, td:last-child {
+    padding-right: 0;
   }
 }

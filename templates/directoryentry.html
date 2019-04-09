@@ -8,17 +8,16 @@ NOTE: This page is incomplete or known to be inaccurate. To avoid providing
 <div style="display: none;">
 {% endif %}
 
-<section class="part-info clearfix w-4/5">
-  <section class="summary py-4 max-w-md float-left">
+<section class="part-info clearfix">
+  <section class="summary">
     <h2>{{ page.name }} ({{ page.style }})</h2>
     <p>{{ page.summary }}</p>
-    <p class="text-small">Tags: {{ page.tags | join(', ') }}</p>
     <p>Datasheet: <a href="{{ page.datasheet }}">{{ page.datasheet }}</a></p>
+    <p class="text-small">Tags: {{ page.tags | join(', ') }}</p>
   </section>
 
-  <section class="pin-diagram py-4 max-w-sm float-right">
-    <div class="text-center">
-      <pre class="text-left inline-block">
+  <section class="pin-diagram">
+    <pre>
 {%- if page.style == 'DIP' %}
            ┏━━━━━━━━┓
 {%- for pins in page.pins %}
@@ -30,8 +29,7 @@ NOTE: This page is incomplete or known to be inaccurate. To avoid providing
 Not sure how to render {{ page.style }} ICs.
 
 {% endif -%}
-      </pre>
-    </div>
+    </pre>
     <div class="diagram-links">
       <a class="left" href="#left-pins">Left Pins</a>
       <a class="right" href="#right-pins">Right Pins</a>
@@ -40,9 +38,9 @@ Not sure how to render {{ page.style }} ICs.
 </section>
 
 <section class="pin-details clearfix">
-  <div class="float-left w-1/2 px-4 border-r-2 mb-4">
-    <h3 id="left-pins" class="px-4">Left Pins</h3>
-    <table class="w-full">
+  <div class="left">
+    <h3 id="left-pins">Left Pins</h3>
+    <table>
       <tr>
         <th>Pin</th>
         <th>Name</th>
@@ -60,9 +58,9 @@ Not sure how to render {{ page.style }} ICs.
 
   </div>
 
-  <div class="float-right w-1/2 px-4">
-    <h3 id="right-pins" class="px-4">Right Pins</h3>
-    <table class="w-full">
+  <div class="right">
+    <h3 id="right-pins">Right Pins</h3>
+    <table>
       <tr>
         <th>Pin</th>
         <th>Name</th>
