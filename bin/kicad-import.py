@@ -142,6 +142,10 @@ def try_save(part):
         else:
             print('  Not package style: {}'.format(candidate))
 
+    if package_style == 'UNKNOWN':
+        print(' Unknown package style for {}'.format(part['name']))
+        return
+
     number_of_pins = pin_count_from_package(package_style)
     summary = normalize_summary(part, summary)
     package_style = normalize_package_style(package_style)
