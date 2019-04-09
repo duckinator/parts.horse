@@ -45,8 +45,6 @@ a:hover, a:focus {
   background: var(--color-anchor);
 }
 
-.text-small { font-size: 0.9em; }
-
 .clearfix {
   content: "";
   display: table;
