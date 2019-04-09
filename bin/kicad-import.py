@@ -54,6 +54,9 @@ def is_package_style(candidate):
     if re.match('^SOIC-\d+$', candidate):
         return True
 
+    if re.match('^SSOP-\d+$', candidate):
+        return True
+
     if re.match('^TO-\d+$', candidate):
         return True
 
@@ -84,6 +87,20 @@ def pin_count_from_package(package):
     return int(candidate)
 
 
+def normalize_summary(part, summary):
+    # Hack to work around the multiple descriptions of just 'Monostable',
+    # 'Retriggerable monostable', 'Dual retriggerable Monostable', etc.
+    summary = summary.replace('Monostable', 'monostable')
+
+    if summary.endswith('monostable'):
+        summary += ' multivibrator'
+
+    if summary.startswith('monostable'):
+        summary = 'M' + summary[1:]
+
+    return summary
+
+
 def try_save(part):
     path = (Path('parts') / part['name'].lower()).with_suffix('.json')
 
@@ -108,6 +125,7 @@ def try_save(part):
             print('  Not package style: {}'.format(candidate))
 
     number_of_pins = pin_count_from_package(package_style)
+    summary = normalize_summary(part, summary)
 
     data = {
         'name': part['name'],
