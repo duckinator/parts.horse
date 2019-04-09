@@ -27,6 +27,8 @@ def parse_part(part):
             tags = list(map(str.strip, rest.replace(' ', ',').split(',')))
         elif key == 'F':
             link = rest
+
+    tags = list(filter(lambda x: str(x).strip(), tags))
     return {'name': name, 'desc': desc, 'tags': tags, 'link': link}
 
 
@@ -35,27 +37,27 @@ def is_package_style(candidate):
     # having false matches.
 
     # DO-<number> or DO-<number>A<letters>
-    if re.match('^DO-?\d+(A[A-Z]+)?$', candidate):
+    if re.match('^DO-\d+(A[A-Z]+)?$', candidate):
         return True
 
     # DFN-<number>
-    if re.match('^DFN-?\d+$', candidate):
+    if re.match('^DFN-\d+$', candidate):
         return True
 
     # DIP-<number> or PDIP-<number>
-    if re.match('^P?DIP-?\d+$', candidate):
+    if re.match('^P?DIP-\d+$', candidate):
         return True
 
-    if re.match('^SOD-?\d+$', candidate):
+    if re.match('^SOD-\d+$', candidate):
         return True
 
-    if re.match('^SOIC-?\d+$', candidate):
+    if re.match('^SOIC-\d+$', candidate):
         return True
 
     if re.match('^TO-\d+$', candidate):
         return True
 
-    if re.match('^TSSOP-?\d+$', candidate):
+    if re.match('^TSSOP-\d+$', candidate):
         return True
 
     # If it's MELF(X), check that X is a valid packaging style.
@@ -68,6 +70,18 @@ def is_package_style(candidate):
         return True
 
     return False
+
+
+def pin_count_from_package(package):
+    if '-' not in package:
+        return -1
+
+    candidate = package.split('-')[-1]
+
+    if not re.match('^\d+$', candidate):
+        return -1
+
+    return int(candidate)
 
 
 def try_save(part):
@@ -93,6 +107,8 @@ def try_save(part):
         else:
             print('  Not package style: {}'.format(candidate))
 
+    number_of_pins = pin_count_from_package(package_style)
+
     data = {
         'name': part['name'],
         'datasheet': part['link'],
@@ -100,7 +116,7 @@ def try_save(part):
         'summary': summary,
         'style': package_style,
         'tags': part['tags'],
-        'number_of_pins': 0, # FIXME
+        'number_of_pins': number_of_pins,
         'pins': [], # FIXME
     }
     path.write_text(json.dumps(data, indent=2))
