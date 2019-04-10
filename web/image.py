@@ -60,10 +60,14 @@ class ImageGen(object):
                 width=5)
             # Left pin name.
             canvas.text((0, text_top),
-                str(pins[idx][0][1]), font=self.font, fill='black')
+                pins[idx][0][1],
+                fill='black',
+                font=self.font)
             # Left pin number.
             canvas.text((left_offset + 8, text_top),
-                str(pins[idx][0][0]), font=self.font, fill='black')
+                pins[idx][0][0],
+                fill='black',
+                font=self.font)
 
             # Right pin line.
             canvas.line([(left_offset + rect_width, top), (left_offset + rect_width + 10, top)],
@@ -71,7 +75,11 @@ class ImageGen(object):
                 width=5)
             # Right pin name.
             canvas.text((left_offset + rect_width + 15, text_top),
-                pins[idx][1][1], font=self.font, fill='black')
+                pins[idx][1][1],
+                fill='black',
+                font=self.font)
             # Right pin number.
             canvas.text((left_offset + rect_width - 25, text_top),
-                pins[idx][1][0], font=self.font, fill='black')
+                pins[idx][1][0],
+                fill='black',
+                font=self.font)
