@@ -21,11 +21,16 @@ class ImageGen(object):
         ImageDraw.floodfill(image, (0, 0), (0, 0, 0, 0))
         canvas = ImageDraw.Draw(image)
 
+        if int(page['number_of_pins']) <= 0:
+            canvas.text((0, 0),
+                'No pin information.',
+                font=self.font,
+                fill='black')
         if page['style'] == 'DIP' or page['style'] == 'PDIP':
             self.draw_dip(canvas, image, page)
         else:
             canvas.text((10, 10),
-                'No renderer for {}'.format(page['style']),
+                'No renderer for {}.'.format(page['style']),
                 font=self.font,
                 fill='black')
 
@@ -40,11 +45,22 @@ class ImageGen(object):
     def draw_dip(self, canvas, image, page):
         pin_count = page['number_of_pins']
         pins = page['pins']
-        pins_per_side = len(pins)
-        left_offset = max(map(lambda row: len(str(row[0][1])), pins)) * 15
+        pins_per_side = pin_count // 2
+
+        if pin_count > 0 or len(pins) == 0:
+            left_offset = 30
+        else:
+            left_offset = max(map(lambda row: len(str(row[0][1])), pins)) * 15
         pin_offset = 20 # pixels
         rect_height = (pins_per_side + 1) * pin_offset
         rect_width = 100
+
+        if len(pins) <= 0:
+            left_offset += 20
+            canvas.text((0, rect_height + 10),
+                'Pin data is incomplete.',
+                fill='black',
+                font=self.font)
 
         canvas.rectangle([(left_offset, 0), (left_offset + rect_width, rect_height)],
             fill=None,
@@ -58,6 +74,14 @@ class ImageGen(object):
             canvas.line([(left_offset - 10, top), (left_offset, top)],
                 fill='black',
                 width=5)
+            # Right pin line.
+            canvas.line([(left_offset + rect_width, top), (left_offset + rect_width + 10, top)],
+                fill='black',
+                width=5)
+
+            if len(pins) <= 0:
+                continue
+
             # Left pin name.
             canvas.text((0, text_top),
                 pins[idx][0][1],
@@ -69,10 +93,6 @@ class ImageGen(object):
                 fill='black',
                 font=self.font)
 
-            # Right pin line.
-            canvas.line([(left_offset + rect_width, top), (left_offset + rect_width + 10, top)],
-                fill='black',
-                width=5)
             # Right pin name.
             canvas.text((left_offset + rect_width + 15, text_top),
                 pins[idx][1][1],
