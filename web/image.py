@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw, ImageFont
 class ImageGen(object):
     font_path = Path(Path.cwd(), 'public', 'fonts', 'Hack-Regular.ttf').resolve()
     font = ImageFont.truetype(str(font_path), 15)
-    dimensions = (400, 400)
+    dimensions = (400, 450)
 
     @cherrypy.expose
     @cherrypy.tools.response_env()
