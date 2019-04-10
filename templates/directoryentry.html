@@ -18,19 +18,6 @@ NOTE: This page is incomplete or known to be inaccurate. To avoid providing
 
   <section class="pin-diagram">
     <img src="/image?part={{ page.name }}">
-    <pre>
-{%- if page.style == 'DIP' %}
-           ┏━━━━━━━━┓
-{%- for pins in page.pins %}
-  {{ pins[0][1] | rjust(8) }} ┫{{ pins[0][0] | ljust(3) }}  {{ pins[1][0] | rjust(3) }}┣ {{ pins[1][1] | ljust(3) }}
-{%- endfor %}
-           ┗━━━━━━━━┛
-{% else %}
-
-Not sure how to render {{ page.style }} ICs.
-
-{% endif -%}
-    </pre>
     <div class="diagram-links">
       <a class="left" href="#left-pins">Left Pins</a>
       <a class="right" href="#right-pins">Right Pins</a>
