@@ -47,7 +47,7 @@ class ImageGen(object):
         pins = page['pins']
         pins_per_side = pin_count // 2
 
-        if pin_count > 0 or len(pins) == 0:
+        if pin_count <= 0 or len(pins) == 0:
             left_offset = 30
         else:
             left_offset = max(map(lambda row: len(str(row[0][1])), pins)) * 15
