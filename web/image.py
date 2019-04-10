@@ -5,8 +5,8 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 class ImageGen(object):
-    font_path = Path(Path.cwd(), 'public', 'fonts', 'Awoof-Mono-Regular.ttf').resolve()
-    font = ImageFont.truetype(str(font_path), 20)
+    font_path = Path(Path.cwd(), 'public', 'fonts', 'Hack-Regular.ttf').resolve()
+    font = ImageFont.truetype(str(font_path), 15)
     dimensions = (400, 400)
 
     @cherrypy.expose
@@ -53,7 +53,7 @@ class ImageGen(object):
 
         for idx in range(0, pins_per_side):
             top = (idx + 1) * pin_offset
-            text_top = top - 5
+            text_top = top - 7
             # Left pin line.
             canvas.line([(left_offset - 10, top), (left_offset, top)],
                 fill='black',
