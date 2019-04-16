@@ -1,6 +1,6 @@
 status = [
-  "continuous-integration/travis-ci/push",
-  #"continuous-integration/appveyor/branch"
+  "lint",
+  "test"
 ]
 
 # The default timeout is one hour (3600 seconds).
