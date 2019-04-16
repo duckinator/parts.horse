@@ -3,7 +3,7 @@
 
 <ol class="directory-listing">
 {% for part in page.parts %}
-<li class="directory-entry"><a href="{{ part.canonical_url }}">{{ part.name }}</a>
+<li class="directory-entry"><a href="{{ part.url_path }}">{{ part.name }}</a>
   <p class="summary">{{ part.summary }}</p>
 </li>
 {% endfor %}

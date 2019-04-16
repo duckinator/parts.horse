@@ -3,7 +3,7 @@
 
 <ol class="search-results">
 {% for result in page.results %}
-<li class="search-result"><p><a href="{{ result.canonical_url }}">{{ result.name }}</a> ({{ result.style }})</p>
+<li class="search-result"><p><a href="{{ result.url_path }}">{{ result.name }}</a> ({{ result.style }})</p>
   <p class="summary">{{ result.summary }}</p>
   <p class="pins">Pins: {{ result.number_of_pins }}</p>
 </li>
