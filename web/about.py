@@ -1,6 +1,6 @@
 from .base import *
 
-class Api(PartsHorseBase):
+class About(PartsHorseBase):
     @cherrypy.expose
     @cherrypy.tools.response_env()
     def index(self):

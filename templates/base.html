@@ -8,13 +8,14 @@
     <link rel="stylesheet" href="/css/application.css">
   </head>
   <body>
-    <main class="mx-auto px-16 py-4 leading-loose shadow-lg">
+    <main>
       <header>
         <h1><a href="/">Parts Horse</a></h1>
-        <a href="/api">API</a>&nbsp;&middot;&nbsp;<a href="/parts">Browse</a>
-        <form class="search py-4" action="/search" method="get">
-          <input class="leading-loose bg-white" type="text" id="q" name="q" value="{{ page.query }}"><!--
-          --><input class="leading-loose" type="submit" value="Search">
+        <a href="/api">API</a>&nbsp;&middot;&nbsp;<a href="/parts">Browse</a><!--
+        -->&nbsp;&middot;&nbsp;<a href="/about">About</a>
+        <form class="search" action="/search" method="get">
+          <input type="text" id="q" name="q" value="{{ page.query }}"><!--
+          --><input type="submit" value="Search">
         </form>
       </header>
 
