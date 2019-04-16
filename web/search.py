@@ -1,6 +1,6 @@
 import cherrypy
-from .base import PartsHorseBase
 from lib.model.part import Part
+from .base import PartsHorseBase
 
 class Search(PartsHorseBase):
     def chunk_relevance(self, data, chunk):

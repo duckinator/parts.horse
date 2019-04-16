@@ -5,14 +5,12 @@ jobs=1
 # List of plugins (as comma separated values of python modules names) to load,
 # usually to register additional checkers.
 load-plugins=pylint.extensions.check_elif,
-             pylint.extensions.comparetozero,
              pylint.extensions.emptystring,
              pylint.extensions.overlapping_exceptions,
              pylint.extensions.redefined_variable_type,
 
-# TODO: Should we do this? I mostly added it because of the number of errors
-#       when integrating it into pytest, since it seems to use . not ./emanate.
-ignore=test
+# List of files to ignore.
+ignore=
 
 [MESSAGES CONTROL]
 
@@ -25,6 +23,8 @@ enable=all
 # Disable the message, report, category or checker with the given id(s).
 disable=missing-docstring,
         too-few-public-methods,
+        invalid-name,
+        len-as-condition,
 
 
 [REPORTS]

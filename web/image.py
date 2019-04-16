@@ -1,6 +1,6 @@
 import io
-import cherrypy
 from pathlib import Path
+import cherrypy
 from PIL import Image, ImageDraw, ImageFont
 from lib.model.part import Part
 
