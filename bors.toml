@@ -1,0 +1,8 @@
+status = [
+  "continuous-integration/travis-ci/push",
+  #"continuous-integration/appveyor/branch"
+]
+
+# The default timeout is one hour (3600 seconds).
+# Parts Horse should be significantly quicker, so we aim for 1 minute.
+timeout_sec = 60
