@@ -1,12 +1,12 @@
 import cherrypy
-from lib import helpers
 
 @cherrypy.tools.register('on_start_resource')
 def response_env():
     headers = cherrypy.response.headers
     config = cherrypy.request.config
 
-    is_json = helpers.is_json_response()
+    accepted = headers.get('Accept', '').split(',')
+    is_json = 'application/json' in accepted
 
     if is_json:
         config['content-type'] = 'application/json'
