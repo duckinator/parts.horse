@@ -1,5 +1,6 @@
-from .base import *
+import cherrypy
 from lib.model.part import Part
+from .base import PartsHorseBase
 
 @cherrypy.popargs('part_name')
 class Datasheets(PartsHorseBase):

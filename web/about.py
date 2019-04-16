@@ -1,4 +1,5 @@
-from .base import *
+import cherrypy
+from .base import PartsHorseBase
 
 class About(PartsHorseBase):
     @cherrypy.expose

@@ -1,5 +1,5 @@
-from .base import *
-from .search import *
+import cherrypy
+from .base import PartsHorseBase
 
 class Home(PartsHorseBase):
     @cherrypy.expose

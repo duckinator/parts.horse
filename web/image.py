@@ -1,10 +1,10 @@
 import io
-from pathlib import Path
 import cherrypy
-from lib.model.part import Part
+from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
+from lib.model.part import Part
 
-class ImageGen(object):
+class ImageGen:
     font_path = Path(Path.cwd(), 'public', 'fonts', 'Hack-Regular.ttf').resolve()
     font = ImageFont.truetype(str(font_path), 15)
     dimensions = (400, 450)
@@ -41,7 +41,7 @@ class ImageGen(object):
 
         return contents
 
-    def draw_dip(self, canvas, image, page):
+    def draw_dip(self, canvas, _image, page):
         pin_count = page['number_of_pins']
         pins = page['pins']
         pins_per_side = pin_count // 2
