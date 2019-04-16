@@ -16,6 +16,7 @@ class ManagedProcess:
         self.type = process_type
         self.env = {}
         self.proc = None
+        self.log_file = None
 
     def port(self):
         return self.env['PORT']
@@ -46,8 +47,11 @@ class ManagedProcess:
 
         cmd = shlex.split(command)
         self.log_file = open('test-{}.log'.format(self.type), 'w')
-        self.proc = subprocess.Popen(cmd, env=env,
-                stdout=self.log_file, stderr=subprocess.STDOUT)
+        self.proc = subprocess.Popen(
+            cmd,
+            env=env,
+            stdout=self.log_file,
+            stderr=subprocess.STDOUT)
 
     def stop(self):
         try:
@@ -66,6 +70,7 @@ class ProcessManager:
         for proc in self.processes:
             if proc.type == 'web':
                 return proc.port()
+        return None
 
     def parse(self, procfile):
         procfile_lines = procfile.strip().split('\n')
@@ -120,15 +125,10 @@ class CheckRunner:
     def run_check(self, url, content, line):
         result = None
 
-        exception = None
-        success = None
-
         for attempt in range(1, self.attempts):
             try:
                 result = get(url).read().decode()
-                success = True
             except:
-                success = False
                 exc_type, exc_value, _ = sys.exc_info()
                 if attempt <= self.attempts:
                     if os.environ.get('DEBUG', 'false').lower() != 'false':
@@ -143,10 +143,10 @@ class CheckRunner:
             if attempt > 1:
                 print('  !!! Took {} attempts.'.format(attempt))
             return True
-        else:
-            print('FAIL {}'.format(line))
-            print('  {}'.format('Page did not include: {}'.format(content)))
-            return False
+
+        print('FAIL {}'.format(line))
+        print('  {}'.format('Page did not include: {}'.format(content)))
+        return False
 
     def run(self, port):
         total = 0
@@ -169,7 +169,7 @@ class CheckRunner:
         print('')
         print('{} checks, {} failures'.format(total, failed))
 
-        return (failed == 0)
+        return failed == 0
 
 class TestThingy:
     def __init__(self, directory):

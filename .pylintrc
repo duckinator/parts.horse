@@ -25,6 +25,7 @@ disable=missing-docstring,
         too-few-public-methods,
         invalid-name,
         len-as-condition,
+        consider-iterating-dictionary,
 
 
 [REPORTS]
