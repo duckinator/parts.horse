@@ -7,7 +7,7 @@ lint_task:
     - pip install pylint
   script:
     - pylint --version
-    - pylint emanate
+    #- pylint bin lib web
 
 test_task:
   install_script:
