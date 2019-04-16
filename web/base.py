@@ -2,7 +2,6 @@ import cherrypy
 from jinja2 import Environment, FileSystemLoader
 import json
 
-import lib.tool.response_env
 
 class PartsHorseBase(object):
     def __init__(self):
@@ -16,10 +15,16 @@ class PartsHorseBase(object):
         self.template = env.get_template(classname + '.html')
 
     def render(self, page={}):
-        config = cherrypy.request.config
-        content_type = config['content-type']
+        headers = cherrypy.response.headers
 
-        if config['globals']['response']['is_json']:
+        if self._is_json_response():
+            headers['Content-Type'] = 'application/json; charset=utf-8'
             return json.dumps(page, indent=2, sort_keys=True).encode('utf-8')
         else:
-            return self.template.render(page=page, **config['globals'])
+            return self.template.render(page=page)
+
+    @staticmethod
+    def _is_json_response():
+        headers = cherrypy.response.headers
+        accepted = headers.get('Accept', '').split(',')
+        return ('application/json' in accepted)

@@ -7,7 +7,6 @@ class DirectoryEntry(PartsHorseBase):
         super().__init__()
 
     @cherrypy.expose
-    @cherrypy.tools.response_env()
     def index(self):
         page = Part.get_dict(self.part_name)
         return self.render(page)
@@ -15,6 +14,5 @@ class DirectoryEntry(PartsHorseBase):
 @cherrypy.popargs('part_name', handler=DirectoryEntry)
 class Directory(PartsHorseBase):
     @cherrypy.expose
-    @cherrypy.tools.response_env()
     def index(self):
         return self.render({'parts': Part.all()})

@@ -10,7 +10,6 @@ class ImageGen(object):
     dimensions = (400, 450)
 
     @cherrypy.expose
-    @cherrypy.tools.response_env()
     def index(self, part):
         cherrypy.response.headers['Content-Type'] = 'image/png'
 
