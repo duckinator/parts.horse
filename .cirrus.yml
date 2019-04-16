@@ -1,5 +1,3 @@
-use_compute_credits: $CIRRUS_USER_COLLABORATOR == 'true'
-
 container:
   image: python:3.7-slim
 
@@ -10,6 +8,7 @@ lint_task:
   script:
     - pylint --version
     - ./bin/lint.py
+  use_compute_credits: $CIRRUS_USER_COLLABORATOR == 'true'
 
 test_task:
   install_script:
@@ -18,3 +17,4 @@ test_task:
     - python3 --version
     #- python3 -m pytest --verbose
     - python3 ./test.py
+  use_compute_credits: $CIRRUS_USER_COLLABORATOR == 'true'
