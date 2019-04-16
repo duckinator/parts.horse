@@ -4,15 +4,15 @@ from lib.model.part import Part
 class Search(PartsHorseBase):
     def chunk_relevance(self, data, chunk):
         chunk = chunk.lower()
-        rs = [
-                chunk in data['datasheet_redirect_target'].lower(),
-                chunk in data['style'].lower(),
-                chunk in data['summary'].lower(),
-                chunk in map(lambda x: x.lower(), data['tags']),
-                chunk in data['name'].lower(),
-            ]
+        relevances = [
+            chunk in data['datasheet_redirect_target'].lower(),
+            chunk in data['style'].lower(),
+            chunk in data['summary'].lower(),
+            chunk in map(lambda x: x.lower(), data['tags']),
+            chunk in data['name'].lower(),
+        ]
 
-        return sum(rs)
+        return sum(relevances)
 
     def relevance(self, part, query):
         data = Part.get_dict(part)
