@@ -175,7 +175,41 @@ def try_save(part):
         'number_of_pins': number_of_pins,
         'pins': [], # FIXME
     }
+
+    if ignored(data):
+        print('  Ignored part: {}'.format(data['name']))
+        return
+
     path.write_text(json.dumps(data, indent=2))
+
+
+# Common reasons for us ignoring a component include:
+# - It can have a far more generic page (e.g. resistors, diodes, etc)
+# - There's a ton of variants, and we're unsure how to handle it.
+#
+# A part being ignored does not mean it will never be added, it just means
+# it's not _currently_ being added.
+def ignored(part):
+    ignored_beginnings = [
+    ]
+
+    ignored_endings = [
+        'general purpose rectifier diode',
+        'switching diode',
+        'schottky diode',
+        'schottky barrier rectifier diode',
+        # TODO: Revisit TRANSZORB Transient Voltage Suppressors.
+        'transzorb® transient voltage suppressor',
+    ]
+
+    summary = part['summary'].lower()
+    if any(map(lambda x: summary.endswith(x), ignored_endings)):
+        return True
+
+    if any(map(lambda x: summary.startswith(x), ignored_beginnings)):
+        return True
+
+    return False
 
 
 def handle(part_file):
