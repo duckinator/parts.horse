@@ -1,10 +1,10 @@
-import cherrypy
 import io
-from lib.model.part import Part
 from pathlib import Path
+import cherrypy
 from PIL import Image, ImageDraw, ImageFont
+from lib.model.part import Part
 
-class ImageGen(object):
+class ImageGen:
     font_path = Path(Path.cwd(), 'public', 'fonts', 'Hack-Regular.ttf').resolve()
     font = ImageFont.truetype(str(font_path), 15)
     dimensions = (400, 450)
@@ -22,16 +22,16 @@ class ImageGen(object):
 
         if int(page['number_of_pins']) <= 0:
             canvas.text((0, 0),
-                'No pin information.',
-                font=self.font,
-                fill='black')
+                        'No pin information.',
+                        font=self.font,
+                        fill='black')
         if page['style'] == 'DIP' or page['style'] == 'PDIP':
             self.draw_dip(canvas, image, page)
         else:
             canvas.text((10, 10),
-                'No renderer for {}.'.format(page['style']),
-                font=self.font,
-                fill='black')
+                        'No renderer for {}.'.format(page['style']),
+                        font=self.font,
+                        fill='black')
 
         contents = None
         image = image.crop(image.getbbox())
@@ -41,7 +41,7 @@ class ImageGen(object):
 
         return contents
 
-    def draw_dip(self, canvas, image, page):
+    def draw_dip(self, canvas, _image, page):
         pin_count = page['number_of_pins']
         pins = page['pins']
         pins_per_side = pin_count // 2
@@ -57,11 +57,12 @@ class ImageGen(object):
         if len(pins) <= 0:
             left_offset += 20
             canvas.text((0, rect_height + 10),
-                'Pin data is incomplete.',
-                fill='black',
-                font=self.font)
+                        'Pin data is incomplete.',
+                        fill='black',
+                        font=self.font)
 
-        canvas.rectangle([(left_offset, 0), (left_offset + rect_width, rect_height)],
+        canvas.rectangle(
+            [(left_offset, 0), (left_offset + rect_width, rect_height)],
             fill=None,
             outline='black',
             width=4)
@@ -71,34 +72,34 @@ class ImageGen(object):
             text_top = top - 7
             # Left pin line.
             canvas.line([(left_offset - 10, top), (left_offset, top)],
-                fill='black',
-                width=5)
+                        fill='black',
+                        width=5)
             # Right pin line.
             canvas.line([(left_offset + rect_width, top), (left_offset + rect_width + 10, top)],
-                fill='black',
-                width=5)
+                        fill='black',
+                        width=5)
 
             if len(pins) <= 0:
                 continue
 
             # Left pin name.
             canvas.text((0, text_top),
-                pins[idx][0][1],
-                fill='black',
-                font=self.font)
+                        pins[idx][0][1],
+                        fill='black',
+                        font=self.font)
             # Left pin number.
             canvas.text((left_offset + 8, text_top),
-                pins[idx][0][0],
-                fill='black',
-                font=self.font)
+                        pins[idx][0][0],
+                        fill='black',
+                        font=self.font)
 
             # Right pin name.
             canvas.text((left_offset + rect_width + 15, text_top),
-                pins[idx][1][1],
-                fill='black',
-                font=self.font)
+                        pins[idx][1][1],
+                        fill='black',
+                        font=self.font)
             # Right pin number.
             canvas.text((left_offset + rect_width - 25, text_top),
-                pins[idx][1][0],
-                fill='black',
-                font=self.font)
+                        pins[idx][1][0],
+                        fill='black',
+                        font=self.font)

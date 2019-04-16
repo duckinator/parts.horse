@@ -1,11 +1,18 @@
 #!/usr/bin/env python3
 
+"""A script to import part information from KiCad."""
+
 from pathlib import Path
 import json
 import re
 
+# We don't want a bunch of `fixme` warnings for this script.
+# pylint: disable=fixme
+
 
 def parse_part(part):
+    """Converts KiCad's string representation of a part to a dict."""
+
     if not '\nF ' in part:
         return None
 
@@ -33,38 +40,28 @@ def parse_part(part):
 
 
 def is_package_style(candidate):
+    """Checks if a package style guess is a known package style."""
+
     # Try to catch as many as possible, but prefer missing a few over
     # having false matches.
 
     candidate = candidate.strip()
 
-    if re.match('^(SM)?DIP\d+([A-Z]+)?$', candidate):
+    if re.match(r'^(SM)?DIP\d+([A-Z]+)?$', candidate):
         candidate = candidate.replace('DIP', 'DIP-')
 
     # DO-<number> or DO-<number><letters>
-    if re.match('^DO-\d+([A-Z]+)?$', candidate):
-        return True
-
+    do_pkg = re.match(r'^DO-\d+([A-Z]+)?$', candidate)
     # DFN-<number>
-    if re.match('^DFN-\d+$', candidate):
-        return True
-
+    dfn = re.match(r'^DFN-\d+$', candidate)
     # DIP-<number>, SMDIP-<number>, or PDIP-<number>
-    if re.match('^(SM|P)?DIP-\d+([A-Z]+)?$', candidate):
-        return True
-
-    if re.match('^SOD-\d+$', candidate):
-        return True
-
-    if re.match('^SOIC-\d+([A-Z]+)?$', candidate):
-        return True
-
+    dip = re.match(r'^(SM|P)?DIP-\d+([A-Z]+)?$', candidate)
+    sod = re.match(r'^SOD-\d+$', candidate)
+    soic = re.match(r'^SOIC-\d+([A-Z]+)?$', candidate)
     # SSOP-<number>, MSOP-<number>, TSSOP-<number>
-    if re.match('^(S|M|TS)SOP-\d+$', candidate):
-        return True
-
-    if re.match('^TO-\d+$', candidate):
-        return True
+    sop = re.match(r'^(S|M|TS)SOP-\d+$', candidate)
+    # TO-<number>
+    to_pkg = re.match(r'^TO-\d+$', candidate)
 
     # If it's MELF(X), check that X is a valid packaging style.
     # For e.g. "MELF(DO-213AA)"
@@ -75,24 +72,29 @@ def is_package_style(candidate):
     if '/' in candidate and all(map(is_package_style, candidate.split('/'))):
         return True
 
-    return False
+    return do_pkg or dfn or dip or sod or soic or sop or to_pkg
 
 
 def pin_count_from_package(package):
+    """If the package style contain a number, that's usually the pin count."""
+
     if '-' not in package:
         return -1
 
     candidate = package.split('-')[-1]
 
-    if not re.match('^\d+[A-Z]*$', candidate):
+    if not re.match(r'^\d+[A-Z]*$', candidate):
         return -1
 
-    candidate = re.sub('[A-Z]', '', candidate)
+    candidate = re.sub(r'[A-Z]', '', candidate)
 
     return int(candidate)
 
 
-def normalize_summary(part, summary):
+def normalize_summary(_part, summary):
+    """Normalizes a part summary to avoid weird capitalization,
+    single-word summaries, etc."""
+
     # Hack to work around the multiple descriptions of just 'Monostable',
     # 'Retriggerable monostable', 'Dual retriggerable Monostable', etc.
     summary = summary.replace('Monostable', 'monostable')
@@ -107,6 +109,7 @@ def normalize_summary(part, summary):
 
 
 def normalize_package_style(package_style):
+    """Normalizes the package style."""
     if '/' in package_style:
         parts = map(normalize_package_style, package_style.split('/'))
         print(list(parts))
@@ -116,16 +119,20 @@ def normalize_package_style(package_style):
 
 
 def try_save(part):
+    """Generates a dict representing the part. If it is something we want
+    and have enough information for, try to save it."""
+
     path = (Path('parts') / part['name'].lower()).with_suffix('.json')
 
     if path.exists():
         print('{} exists; skipping.'.format(path))
         return
-    elif part['desc'] and 'for simulation' in part['desc']:
+
+    if part['desc'] and 'for simulation' in part['desc']:
         print('{} is for simulation only; skipping.'.format(part['name']))
         return
-    else:
-        print('Creating {}'.format(path))
+
+    print('Creating {}'.format(path))
 
     summary = part['desc']
 
@@ -183,9 +190,11 @@ def try_save(part):
     path.write_text(json.dumps(data, indent=2))
 
 
-# A part being ignored does not mean it will never be added, it just means
-# it's not _currently_ being added.
 def ignored(part):
+    """Determine if a part is ignored.
+
+    A part being ignored does not mean it will never be added, it just means
+    it's not _currently_ being added."""
     style = part['style']
 
     # Ignore any styles we don't support right now.
@@ -216,6 +225,7 @@ def ignored(part):
 
 
 def handle(part_file):
+    """Given a part file, extract individual part data, and try to save it."""
     data = part_file.read_text()
     parts = data.split('\n$ENDCMP\n')
     parts = filter(lambda x: x is not None, map(parse_part, parts))
@@ -224,6 +234,9 @@ def handle(part_file):
 
 
 def main():
+    """Find every .dcm file in the local kicad library, and add part info."""
+    # TODO: Clone the library repo and use that instead.
+
     library = Path('/usr/share/kicad/library')
     files = library.glob('*.dcm')
     for part_file in files:

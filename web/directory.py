@@ -1,5 +1,6 @@
-from .base import *
+import cherrypy
 from lib.model.part import Part
+from .base import PartsHorseBase
 
 class DirectoryEntry(PartsHorseBase):
     def __init__(self, part_name):

@@ -8,14 +8,30 @@ from .directory     import Directory
 from .search        import Search
 
 def prepare():
-    cherrypy.tree.mount(Home(),         '/',            'config/home.conf')
-    cherrypy.tree.mount(About(),        '/about',       'config/app.conf')
-    cherrypy.tree.mount(Api(),          '/api',         'config/app.conf')
-    cherrypy.tree.mount(ImageGen(),     '/image',       'config/app.conf')
-    cherrypy.tree.mount(Datasheets(),   '/datasheets',  'config/app.conf')
-    cherrypy.tree.mount(Datasheets(),   '/ds',          'config/app.conf')
-    cherrypy.tree.mount(Directory(),    '/parts',       'config/app.conf')
-    cherrypy.tree.mount(Search(),       '/search',      'config/app.conf')
+    cherrypy.tree.mount(Home(),
+                        '/',
+                        'config/home.conf')
+    cherrypy.tree.mount(About(),
+                        '/about',
+                        'config/app.conf')
+    cherrypy.tree.mount(Api(),
+                        '/api',
+                        'config/app.conf')
+    cherrypy.tree.mount(ImageGen(),
+                        '/image',
+                        'config/app.conf')
+    cherrypy.tree.mount(Datasheets(),
+                        '/datasheets',
+                        'config/app.conf')
+    cherrypy.tree.mount(Datasheets(),
+                        '/ds',
+                        'config/app.conf')
+    cherrypy.tree.mount(Directory(),
+                        '/parts',
+                        'config/app.conf')
+    cherrypy.tree.mount(Search(),
+                        '/search',
+                        'config/app.conf')
 
     cherrypy.config.update('config/server.conf')
 

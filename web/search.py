@@ -1,33 +1,36 @@
-from .base import *
+import cherrypy
 from lib.model.part import Part
+from .base import PartsHorseBase
 
 class Search(PartsHorseBase):
-    def chunk_relevance(self, data, chunk):
+    @staticmethod
+    def chunk_relevance(data, chunk):
         chunk = chunk.lower()
-        rs = [
-                chunk in data['datasheet_redirect_target'].lower(),
-                chunk in data['style'].lower(),
-                chunk in data['summary'].lower(),
-                chunk in map(lambda x: x.lower(), data['tags']),
-                chunk in data['name'].lower(),
-            ]
+        results = [
+            chunk in data['datasheet_redirect_target'].lower(),
+            chunk in data['style'].lower(),
+            chunk in data['summary'].lower(),
+            chunk in map(lambda x: x.lower(), data['tags']),
+            chunk in data['name'].lower(),
+        ]
 
-        return sum(rs)
+        return sum(results)
 
     def relevance(self, part, query):
         data = Part.get_dict(part)
         # Remove empty strings, None, etc.
         chunks = filter(lambda x: x, query.split(' '))
         # Determine the relevance of each chunk.
-        rs = map(lambda c: self.chunk_relevance(data, c), chunks)
-        return sum(rs)
+        results = map(lambda c: self.chunk_relevance(data, c), chunks)
+        return sum(results)
 
     def search(self, query, min_relevance=1):
         # Split by word, and remove empty strings, None, etc.
-        chunks = filter(lambda x: x, query.split(' '))
+        # FIXME: Why the hell was this variable unused?! #pylint: disable=fixme
+        #chunks = filter(lambda x: x, query.split(' '))
         relevances = map(lambda p: [p, self.relevance(p, query)], Part.names())
-        results = filter(lambda x: x[1] >= min_relevance, relevances)
-        results = map(lambda r: Part.get_dict(r[0], {'relevance': r}), results)
+        results_f = filter(lambda x: x[1] >= min_relevance, relevances)
+        results = map(lambda r: Part.get_dict(r[0], {'relevance': r}), results_f)
         return sorted(results, key=lambda x: x['relevance'])
 
     @cherrypy.expose
