@@ -6,6 +6,9 @@ from pathlib import Path
 import json
 import re
 
+# We don't want a bunch of `fixme` warnings for this script.
+# pylint: disable=fixme
+
 
 def parse_part(part):
     """Converts KiCad's string representation of a part to a dict."""

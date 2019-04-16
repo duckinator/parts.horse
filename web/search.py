@@ -26,7 +26,7 @@ class Search(PartsHorseBase):
 
     def search(self, query, min_relevance=1):
         # Split by word, and remove empty strings, None, etc.
-        # FIXME: Why the hell was this variable unused?!
+        # FIXME: Why the hell was this variable unused?! #pylint: disable=fixme
         #chunks = filter(lambda x: x, query.split(' '))
         relevances = map(lambda p: [p, self.relevance(p, query)], Part.names())
         results_f = filter(lambda x: x[1] >= min_relevance, relevances)
