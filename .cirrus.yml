@@ -7,7 +7,7 @@ lint_task:
     - pip install pylint
   script:
     - pylint --version
-    - ./bin/lint.sh
+    - ./bin/lint.py
 
 test_task:
   install_script:
