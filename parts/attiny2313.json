@@ -1,6 +1,4 @@
 {
-  "INCOMPLETE":     true,
-  "NEEDS_VERIFIED": true,
   "name":           "ATtiny2313",
   "datasheet":      "http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-2543-AVR-ATtiny2313_Datasheet.pdf",
   "details":        "https://www.microchip.com/wwwproducts/en/ATtiny2313",
@@ -21,27 +19,27 @@
     [["10", "GND"], ["11", "PD6"]]
   ],
   "left_pin_functions": [
-    ["1",   "PA2",  ""],
-    ["2",   "PD0",  ""],
-    ["3",   "PD1",  ""],
-    ["4",   "PA1",  ""],
-    ["5",   "PA0",  ""],
-    ["6",   "PD2",  ""],
-    ["7",   "PD3",  ""],
-    ["8",   "PD4",  ""],
-    ["9",   "PD5",  ""],
+    ["1",   "PA2",  "~RESET/dW"],
+    ["2",   "PD0",  "RXD"],
+    ["3",   "PD1",  "TXD"],
+    ["4",   "PA1",  "XTAL2"],
+    ["5",   "PA0",  "XTAL1"],
+    ["6",   "PD2",  "CKOUT/XCK/INT0"],
+    ["7",   "PD3",  "INT1"],
+    ["8",   "PD4",  "T0"],
+    ["9",   "PD5",  "OC0B/T1"],
     ["10",  "GND",  "Ground."]
   ],
   "right_pin_functions": [
     ["20",  "Vcc",  "Supply voltage."],
-    ["19",  "PB7",  ""],
-    ["18",  "PB6",  ""],
-    ["17",  "PB5",  ""],
-    ["16",  "PB4",  ""],
-    ["15",  "PB3",  ""],
-    ["14",  "PB2",  ""],
-    ["13",  "PB1",  ""],
-    ["12",  "PB0",  ""],
-    ["11",  "PD6",  ""]
+    ["19",  "PB7",  "UCSK/SCL/PCINT7"],
+    ["18",  "PB6",  "MISO/DO/PCINT6"],
+    ["17",  "PB5",  "MOSI/DI/SDA/PCINT5"],
+    ["16",  "PB4",  "OC1B/PCINT4"],
+    ["15",  "PB3",  "OC1A/PCINT3"],
+    ["14",  "PB2",  "OC0A/PCINT2"],
+    ["13",  "PB1",  "AIN1/PCINT1"],
+    ["12",  "PB0",  "AIN0/PCINT0"],
+    ["11",  "PD6",  "ICP"]
   ]
 }
