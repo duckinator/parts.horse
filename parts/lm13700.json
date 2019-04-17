@@ -1,5 +1,4 @@
 {
-  "INCOMPLETE":     true,
   "name":           "LM13700 - Dual Operational Transconductance Amplifier",
   "datasheet":      "http://pdf.datasheetcatalog.com/datasheet/nationalsemiconductor/DS007981.PDF",
   "details":        "",
@@ -8,14 +7,14 @@
   "number_of_pins": 16,
   "tags": ["op-amp", "amplifier"],
   "pins": [
-    [["1",  ""],  ["16", ""]],
-    [["2",  ""],  ["15", ""]],
-    [["3",  ""],  ["14", ""]],
-    [["4",  ""],  ["13", ""]],
-    [["5",  ""],  ["12", ""]],
-    [["6",  ""],  ["11", ""]],
-    [["7",  ""],  ["10", ""]],
-    [["8",  ""],  [" 9", ""]]
+    [["1",  "AMP BIAS INPUT"],  ["16", "AMP BIAS INPUT"]],
+    [["2",  "DIODE BIAS"],      ["15", "DIODE BIAS"]],
+    [["3",  "INPUT (+)"],       ["14", "INPUT (+)"]],
+    [["4",  "INPUT (-)"],       ["13", "INPUT (-)"]],
+    [["5",  "OUTPUT"],          ["12", "OUTPUT"]],
+    [["6",  "V-"],              ["11", "V+"]],
+    [["7",  "BUFFER INPUT"],    ["10", "BUFFER INPUT"]],
+    [["8",  "BUFFER OUTPUT"],   [" 9", "BUFFER OUTPUT"]]
   ],
   "left_pin_functions": [
     ["1",   "", ""],

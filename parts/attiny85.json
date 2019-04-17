@@ -16,10 +16,10 @@
     ["1", "PB5", "PCINT5, ~RESET, ADC0, dW"],
     ["2", "PB3", "PCINT3,  XTAL1, CLKI, OC1B, ADC3"],
     ["3", "PB4", "PCINT4,  XTAL2, CLKO, OC1B, ADC2"],
-    ["4", "GND", "GND"]
+    ["4", "GND", "Ground"]
   ],
   "right_pin_functions": [
-    ["8", "VCC", "VCC"],
+    ["8", "VCC", "Positive supply voltage"],
     ["7", "PB2", "PCINT2, ADC1, INT0, SCK, SCL, T0, USCK"],
     ["6", "PB1", "PCINT1, AIN1,       DO, MISO, OC0B,  OC1A"],
     ["5", "PB0", "PCINT0, AINO, AREF, DI, MOSI, OC0A, ~OC1A, SDA"]
