@@ -8,7 +8,7 @@
   "number_of_pins": 16,
   "tags": ["cmos", "decade", "counter", "divider"],
   "pins": [
-    [["1",  "D5"],  ["16", "Vdd"]],
+    [["1",  "D5"],  ["16", "Positive supply voltage"]],
     [["2",  "D1"],  ["15", "RESET"]],
     [["3",  "D0"],  ["14", "CLOCK"]],
     [["4",  "D2"],  ["13", "CLOCK ENABLE"]],

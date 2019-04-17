@@ -25,7 +25,7 @@
     ["7",   "Vss",  "Ground (0V)."]
   ],
   "right_pin_functions": [
-    ["14",  "Vdd",  "Supply voltage."],
+    ["14",  "Vdd",  "Positive supply voltage."],
     ["13",  "4B",   "Input for NAND gate #4."],
     ["12",  "4A",   "Input for NAND gate #4."],
     ["11",  "4Y",   "Output for NAND gate #4."],

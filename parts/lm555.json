@@ -1,5 +1,4 @@
 {
-  "NEEDS_VERIFIED": true,
   "name":           "LM555, NA555, NE555, SA555, SE555",
   "datasheet":      "http://www.ti.com/lit/ds/symlink/lm555.pdf",
   "details":        "http://www.ti.com/product/lm555",
@@ -9,20 +8,20 @@
   "tags": ["timer", "555"],
   "pins": [
     [["1",  "GND"],     [" 8", "Vcc"]],
-    [["2",  "TRIG"],    [" 7", "DISCH"]],
-    [["3",  "OUT"],     [" 6", "THRES"]],
-    [["4",  "RESET"],   [" 5", "CONT"]]
+    [["2",  "TRIGGER"], [" 7", "DISCHARGE"]],
+    [["3",  "OUTPUT"],  [" 6", "THRESHOLD"]],
+    [["4",  "RESET"],   [" 5", "CONTROL VOLTAGE"]]
   ],
   "left_pin_functions": [
-    ["1",   "GND",      ""],
-    ["2",   "TRIG",     ""],
-    ["3",   "OUT",      ""],
+    ["1",   "GND",      "Ground"],
+    ["2",   "TRIGGER",  ""],
+    ["3",   "OUTPUT",   ""],
     ["4",   "RESET",    ""]
   ],
   "right_pin_functions": [
-    ["8",   "Vcc",      ""],
-    ["7",   "DISCH",    ""],
-    ["6",   "THRES",    ""],
-    ["5",   "CONT",     ""]
+    ["8",   "Vcc",       "Positive supply voltage"],
+    ["7",   "DISCHARGE", ""],
+    ["6",   "THRESHOLD", ""],
+    ["5",   "CONTROL VOLTAGE", ""]
   ]
 }

@@ -31,7 +31,7 @@
     ["10",  "GND",  "Ground."]
   ],
   "right_pin_functions": [
-    ["20",  "Vcc",  "Supply voltage."],
+    ["20",  "Vcc",  "Positive supply voltage."],
     ["19",  "PB7",  "UCSK/SCL/PCINT7"],
     ["18",  "PB6",  "MISO/DO/PCINT6"],
     ["17",  "PB5",  "MOSI/DI/SDA/PCINT5"],
