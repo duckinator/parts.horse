@@ -141,11 +141,11 @@ class CheckRunner:
                     print('  {}: {}'.format(exc_type.__name__, exc_value))
                     return False
 
-        if result is not None and content in result:
-            print('PASS {}'.format(line))
-            if attempt > 1:
-                print('  !!! Took {} attempts.'.format(attempt))
-            return True
+            if result is not None and content in result:
+                print('PASS {}'.format(line))
+                if attempt > 1:
+                    print('  !!! Took {} attempts.'.format(attempt))
+                return True
 
         print('FAIL {}'.format(line))
         print('  {}'.format('Page did not include: {}'.format(content)))
