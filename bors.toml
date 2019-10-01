@@ -5,3 +5,5 @@ status = [
 
 # The default timeout is one hour (3600 seconds).
 #timeout_sec = 60
+
+delete_merged_branches = true
