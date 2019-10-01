@@ -191,9 +191,9 @@ class TestThingy:
             pm.stop()
 
         if success:
-            exit(0)
+            sys.exit(0)
         else:
-            exit(1)
+            sys.exit(1)
 
 if __name__ == '__main__':
     TestThingy(Path.cwd()).run()
