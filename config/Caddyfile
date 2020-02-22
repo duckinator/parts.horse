@@ -1,4 +1,4 @@
-beta.parts.horse {
+parts.horse {
   # For Caddy 1.x:
   gzip
   proxy / 127.0.0.1:8000
