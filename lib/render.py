@@ -1,7 +1,7 @@
 from model.part import Part
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
-
+from image import ImageGen
 
 class PHRender:
     def __init__(self):
@@ -51,6 +51,7 @@ def copy_css():
 
 if __name__ == "__main__":
     phr = PHRender()
+    img = ImageGen()
 
     copy_css()
 
@@ -63,7 +64,11 @@ if __name__ == "__main__":
     for (template, path, page) in pages:
         phr.render(template, path, page)
 
+    imgdir = Path('_site/images/')
+    imgdir.mkdir(exist_ok=True)
     for part_name in Part.names():
         page = Part.get_dict(part_name)
         path = page['url_path'] + '/index.html'
         phr.render('directoryentry.html', path, page)
+
+        img.save(part_name, imgdir / (part_name + '.png'))
