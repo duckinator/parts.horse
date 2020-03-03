@@ -1,4 +1,4 @@
-from lib.model.part import Part
+from model.part import Part
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 
