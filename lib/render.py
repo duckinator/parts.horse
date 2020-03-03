@@ -1,3 +1,4 @@
+from lib.model.part import Part
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 
@@ -9,31 +10,55 @@ class PHRender:
         env.filters['rjust'] = lambda value, *args: value.rjust(*args)
         self.env = env
 
-    def get_class_template(self, class_or_classname):
-        if class_or_classname is str:
-            classname = class_or_classname
-        else:
-            classname = class_or_classname.__name__.lower()
-
+    def get_class_template(self, klass):
+        classname = klass.__name__.lower()
         return self.env.get_template(classname + '.html')
 
-    def render(self, classname, page=None):
-        web = Path(__file__, '..', 'web')
+    def render(self, template_name, path, page):
+        site = Path(__file__, '..', '..', '_site')
+        site.resolve().mkdir(exist_ok=True)
 
-        if classname == 'home':
-            destination = web / 'index.html'
-        else:
-            destination = web / classname / 'index.html'
+        if path[0] == '/':
+            path = path[1:]
 
+        destination = site / path
         destination = destination.resolve()
 
         destination.parent.mkdir(exist_ok=True)
-        contents = self.get_class_template(classname).render(page)
+        template = self.env.get_template(template_name)
+        contents = template.render(page=page)
         destination.write_text(contents)
         print(f"Wrote {len(contents)} bytes to {destination}.")
 
 
+def copy_css():
+    css_src = Path(__file__, '..', '..', 'public', 'css', 'application.css')
+    css_src = css_src.resolve()
+
+    css_contents = css_src.read_text()
+
+    site = Path(__file__, '..', '..', '_site').resolve()
+    site.mkdir(exist_ok=True)
+
+    css = site / 'css'
+
+    css.mkdir(exist_ok=True)
+    css_dest = css / 'application.css'
+    css_dest.write_text(css_contents)
+
+    print(f"Wrote {len(css_contents)} bytes to {css_dest}.")
+
+
 if __name__ == "__main__":
     phr = PHRender()
-    for name in ['home', 'api']:
-        phr.render(name)
+
+    copy_css()
+
+    pages = [
+        ('home.html', '/index.html', None),
+        ('api.html', '/api/index.html', None),
+        ('directory.html', '/parts/index.html', {'parts': Part.all()}),
+    ]
+
+    for (template, path, page) in pages:
+        phr.render(template, path, page)

@@ -1,5 +1,4 @@
 import cherrypy
-from .api           import Api
 from .home          import Home
 from .image         import ImageGen
 from .datasheets    import Datasheets
@@ -11,9 +10,6 @@ def prepare():
     cherrypy.tree.mount(Home(),
                         '/',
                         'config/home.conf')
-    cherrypy.tree.mount(Api(),
-                        '/api',
-                        'config/app.conf')
     cherrypy.tree.mount(ImageGen(),
                         '/image',
                         'config/app.conf')
