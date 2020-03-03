@@ -9,14 +9,31 @@ class PHRender:
         env.filters['rjust'] = lambda value, *args: value.rjust(*args)
         self.env = env
 
-    def get_class_template(self, klass):
-        return self.env.get_template(klass.__name__.lower() + '.html')
+    def get_class_template(self, class_or_classname):
+        if class_or_classname is str:
+            classname = class_or_classname
+        else:
+            classname = class_or_classname.__name__.lower()
 
-    def render(self, klass, page=None):
+        return self.env.get_template(classname + '.html')
+
+    def render(self, classname, page=None):
         web = Path(__file__, '..', 'web')
-        destination = (web / klass.__name__.lower() / 'index.html').resolve()
+
+        if classname == 'home':
+            destination = web / 'index.html'
+        else:
+            destination = web / classname / 'index.html'
+
+        destination = destination.resolve()
 
         destination.parent.mkdir(exist_ok=True)
-        contents = self.get_class_template(klass).render(page)
+        contents = self.get_class_template(classname).render(page)
         destination.write_text(contents)
         print(f"Wrote {len(contents)} bytes to {destination}.")
+
+
+if __name__ == "__main__":
+    phr = PHRender()
+    for name in ['home', 'api']:
+        phr.render(name)
