@@ -62,3 +62,8 @@ if __name__ == "__main__":
 
     for (template, path, page) in pages:
         phr.render(template, path, page)
+
+    for part_name in Part.names():
+        page = Part.get_dict(part_name)
+        path = page['url_path'] + '/index.html'
+        phr.render('directoryentry.html', path, page)
