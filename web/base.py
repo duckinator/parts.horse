@@ -1,20 +1,17 @@
 import json
 import cherrypy
 from jinja2 import Environment, FileSystemLoader
+from lib.render import PHRender
 
 
 class PartsHorseBase:
     """Base class other Parts Horse apps should build on top of."""
 
     def __init__(self):
-        env = Environment(loader=FileSystemLoader('templates'))
-        env.filters['ljust'] = lambda value, *args: value.ljust(*args)
-        env.filters['rjust'] = lambda value, *args: value.rjust(*args)
-        self.env = env
+        self.phrender = PHRender()
 
-        classname = self.__class__.__name__.lower()
-
-        self.template = env.get_template(classname + '.html')
+        self.env = self.phrender.env
+        self.template = self.phrender.get_class_template(self.__class__)
 
     def render(self, page=None):
         """Render the template associated with the page.
