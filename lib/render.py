@@ -91,7 +91,8 @@ def write_image_files():
 
 
 def write_caddy_file():
-    caddyfile_in = Path(__file__, '..', '..', 'config', 'Caddyfile.in').read_text()
+    caddyfile_in = Path(__file__, '..', '..', 'config', 'Caddyfile.in').resolve()
+    caddyfile_in_contents = caddyfile_in.read_text()
     caddyfile = caddyfile_in.with_suffix('')
 
     redirects = []
@@ -101,8 +102,9 @@ def write_caddy_file():
         for ds in ['datasheets', 'ds']:
             redirects.append(f'redir /{ds}/{part_name} {destination} 302')
 
-    caddyfile_contents = caddyfile_in + "\n\n" + "\n".join(redirects)
+    caddyfile_contents = caddyfile_in_contents.format(redirects="\n".join(redirects))
     caddyfile.write_text(caddyfile_contents)
+    print(f"Wrote {len(caddyfile_contents)} bytes to {caddyfile}.")
 
 
 if __name__ == "__main__":
