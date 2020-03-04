@@ -24,7 +24,7 @@ class Search(PartsHorseBase):
         results = map(lambda c: self.chunk_relevance(data, c), chunks)
         return sum(results)
 
-    def search(self, query, min_relevance=1):
+    def _search(self, query, min_relevance=1):
         # Split by word, and remove empty strings, None, etc.
         # FIXME: Why the hell was this variable unused?! #pylint: disable=fixme
         #chunks = filter(lambda x: x, query.split(' '))
@@ -34,9 +34,9 @@ class Search(PartsHorseBase):
         return sorted(results, key=lambda x: x['relevance'])
 
     @cherrypy.expose
-    def index(self, q=''):
+    def search(self, q=''):
         if q:
-            results = self.search(q, min_relevance=1)
+            results = self._search(q, min_relevance=1)
         else:
             results = []
 

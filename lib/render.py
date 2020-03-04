@@ -1,7 +1,11 @@
-from model.part import Part
 from pathlib import Path
+import sys
+sys.path.append(str(Path(__file__, '..', '..').resolve()))
+
 from jinja2 import Environment, FileSystemLoader
-from image import ImageGen
+from lib.model.part import Part
+from lib.image import ImageGen
+
 
 class PHRender:
     def __init__(self):
@@ -49,11 +53,8 @@ def copy_css():
     print(f"Wrote {len(css_contents)} bytes to {css_dest}.")
 
 
-if __name__ == "__main__":
+def write_html_files():
     phr = PHRender()
-    img = ImageGen()
-
-    copy_css()
 
     pages = [
         ('home.html', '/index.html', None),
@@ -64,11 +65,53 @@ if __name__ == "__main__":
     for (template, path, page) in pages:
         phr.render(template, path, page)
 
-    imgdir = Path('_site/images/')
-    imgdir.mkdir(exist_ok=True)
     for part_name in Part.names():
         page = Part.get_dict(part_name)
         path = page['url_path'] + '/index.html'
         phr.render('directoryentry.html', path, page)
 
+
+def write_json_files():
+    for part_name in Part.names():
+        Path(f'_site/parts/{part_name}.json').write_text(
+            Path(f'parts/{part_name}.json').read_text()
+        )
+
+
+def write_image_files():
+    img = ImageGen()
+
+    imgdir = Path('_site/images/')
+    imgdir.mkdir(exist_ok=True)
+    for part_name in Part.names():
         img.save(part_name, imgdir / (part_name + '.png'))
+        Path(f'_site/parts/{part_name}.json').write_text(
+            Path(f'parts/{part_name}.json').read_text()
+        )
+
+
+def write_caddy_file():
+    caddyfile_in = Path(__file__, '..', '..', 'config', 'Caddyfile.in').read_text()
+    caddyfile = caddyfile_in.with_suffix('')
+
+    redirects = []
+    for part_name in Part.names():
+        page = Part.get_dict(part_name)
+        destination = page['datasheet_redirect_target']
+        for ds in ['datasheets', 'ds']:
+            redirects.append(f'redir /{ds}/{part_name} {destination} 302')
+
+    caddyfile_contents = caddyfile_in + "\n\n" + "\n".join(redirects)
+    caddyfile.write_text(caddyfile_contents)
+
+
+if __name__ == "__main__":
+    copy_css()
+    # /index.html, /api/index.html, /parts/index.html, /parts/<part>/index.html
+    write_html_files()
+    # /parts/*.json
+    write_json_files()
+    # /images/<part>png
+    write_image_files()
+    # config/Caddyfile, /datasheets/*, /ds/*
+    write_caddy_file()

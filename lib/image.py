@@ -1,7 +1,7 @@
 import io
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
-from model.part import Part
+from lib.model.part import Part
 
 class ImageGen:
     font_path = Path(Path.cwd(), 'public', 'fonts', 'Hack-Regular.ttf').resolve()
