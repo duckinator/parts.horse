@@ -1,5 +1,4 @@
 import cherrypy
-from .datasheets import Datasheets
 from .search import Search
 
 
@@ -9,9 +8,6 @@ class Home:
 
 def prepare():
     cherrypy.tree.mount(Home(), '/', 'config/app.conf')
-    cherrypy.tree.mount(Datasheets(),
-                        '/',
-                        'config/app.conf')
     cherrypy.tree.mount(Search(),
                         '/',
                         'config/app.conf')

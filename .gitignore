@@ -1,3 +1,4 @@
 venv/
 *.log
 _site/
+config/Caddyfile
