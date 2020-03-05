@@ -1,4 +1,3 @@
-import io
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 from lib.model.part import Part

@@ -1,3 +1,4 @@
+# pylint: disable=wrong-import-position
 from pathlib import Path
 import sys
 sys.path.append(str(Path(__file__, '..', '..').resolve()))
@@ -5,6 +6,7 @@ sys.path.append(str(Path(__file__, '..', '..').resolve()))
 from jinja2 import Environment, FileSystemLoader
 from lib.model.part import Part
 from lib.image import ImageGen
+# pylint: enable=wrong-import-position
 
 
 class PHRender:
