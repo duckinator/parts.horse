@@ -80,9 +80,7 @@ class Search:
 
 
 def prepare():
-    cherrypy.tree.mount(Search(),
-                        '/',
-                        'config/app.conf')
+    cherrypy.tree.mount(Search(), '/', 'config/server.conf')
     cherrypy.config.update('config/server.conf')
 
 
