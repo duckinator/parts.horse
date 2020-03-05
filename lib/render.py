@@ -102,7 +102,7 @@ def write_caddy_file():
         for ds in ['datasheets', 'ds']:
             redirects.append(f'redir /{ds}/{part_name} {destination} 302')
 
-    caddyfile_contents = caddyfile_in_contents.format(redirects="\n".join(redirects))
+    caddyfile_contents = caddyfile_in_contents.format(redirects="\n  ".join(redirects))
     caddyfile.write_text(caddyfile_contents)
     print(f"Wrote {len(caddyfile_contents)} bytes to {caddyfile}.")
 
