@@ -19,13 +19,13 @@ test_task:
   container:
     image: python:3.7-slim
     cpu: 1
-    #memory: 1024M
+    memory: 1G
     additional_containers:
       - name: elasticsearch
         image: elasticsearch:7.6.2
         port: 9200
-        cpu: 0.5
-        memory: 1500M
+        cpu: 1
+        memory: 3G
   install_script:
     - pip install -r requirements.txt
     - "apt-get update && apt-get install -y curl"
