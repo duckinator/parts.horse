@@ -19,7 +19,7 @@ fi
 
 printf "Waiting for Elasticsearch to become available..."
 
-for ((i=0; i=$MAX_DELAY; i++)); do
+for ((i=0; i<=$MAX_DELAY; i++)); do
   if [ "$VERBOSE" == "true" ]; then
     curl "${ELASTICSEARCH}" && finish "\n"
   else
