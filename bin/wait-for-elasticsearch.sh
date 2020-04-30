@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MAX_DELAY=10
+MAX_DELAY=30
 
 function finish() {
   printf "$1 Done!\n"
