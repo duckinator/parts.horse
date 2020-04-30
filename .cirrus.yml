@@ -1,5 +1,14 @@
 container:
   image: python:3.7-slim
+  additional_containers:
+    - name: elasticsearch
+      image: elasticsearch:7.6.2
+      port: 9200
+      cpu: 1.0
+      memory: 1Gi
+
+env:
+  ELASTICSEARCH: "http://elasticsearch:9200"
 
 lint_task:
   install_script:
