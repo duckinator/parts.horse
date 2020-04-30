@@ -2,9 +2,6 @@
 # master, staging, and trying branches. (So bors can use them.)
 use_compute_credits: $CIRRUS_USER_COLLABORATOR == 'true' || $CIRRUS_BRANCH == 'master' || $CIRRUS_BRANCH == 'staging' || $CIRRUS_BRANCH == 'trying'
 
-env:
-  ELASTICSEARCH: "http://elasticsearch:9200"
-
 lint_task:
   container:
     image: python:3.7-slim
