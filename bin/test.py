@@ -10,6 +10,7 @@ import sys
 from time import sleep
 from urllib.request import urlopen as get
 
+
 class ManagedProcess:
     def __init__(self, process_type, command):
         self.command = command.strip()
@@ -62,6 +63,7 @@ class ManagedProcess:
         self.proc.terminate()
         self.log_file.flush()
         self.log_file.close()
+
 
 class ProcessManager:
     def __init__(self, procfile):
@@ -174,6 +176,7 @@ class CheckRunner:
 
         return failed == 0
 
+
 class TestThingy:
     def __init__(self, directory):
         self.procfile = Path(directory, 'Procfile').read_text()
@@ -194,6 +197,7 @@ class TestThingy:
             sys.exit(0)
         else:
             sys.exit(1)
+
 
 if __name__ == '__main__':
     TestThingy(Path.cwd()).run()

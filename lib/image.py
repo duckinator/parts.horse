@@ -1,6 +1,4 @@
-import io
 from pathlib import Path
-import cherrypy
 from PIL import Image, ImageDraw, ImageFont
 from lib.model.part import Part
 
@@ -9,11 +7,8 @@ class ImageGen:
     font = ImageFont.truetype(str(font_path), 15)
     dimensions = (400, 450)
 
-    @cherrypy.expose
-    def index(self, part):
-        cherrypy.response.headers['Content-Type'] = 'image/png'
-
-        page = Part.get_dict(part)
+    def save(self, part_name, filename):
+        page = Part.get_dict(part_name)
 
         image = Image.new('RGBA', self.dimensions, 'black')
 
@@ -33,13 +28,13 @@ class ImageGen:
                         font=self.font,
                         fill='black')
 
-        contents = None
         image = image.crop(image.getbbox())
-        with io.BytesIO() as output:
-            image.save(output, format='PNG')
-            contents = output.getvalue()
 
-        return contents
+        with open(filename, 'wb') as f:
+            image.save(f, format='PNG')
+
+        length = len(Path(filename).read_bytes())
+        print(f"Wrote {length} bytes to {filename}.")
 
     def draw_dip(self, canvas, _image, page):
         pin_count = page['number_of_pins']

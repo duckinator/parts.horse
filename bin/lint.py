@@ -5,4 +5,4 @@ import pylint
 import pylint.lint
 
 py_files = map(str, Path('.').glob('*.py'))
-pylint.lint.Run(['bin', 'lib', 'web', *py_files])
+pylint.lint.Run(['bin', 'lib', *py_files])

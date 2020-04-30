@@ -1,0 +1,12 @@
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "default": {
+          "tokenizer": "keyword",
+          "filter": [ "lowercase", "word_delimiter_graph" ]
+        }
+      }
+    }
+  }
+}

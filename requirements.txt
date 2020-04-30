@@ -1,5 +1,6 @@
-cherrypy==18.5.0
-jinja2==2.11.1
+cherrypy==18.6.0
+jinja2==2.11.2
 gunicorn==20.0.4
 eventlet==0.25.2
-pillow==7.1.1
+pillow==7.1.2
+elasticsearch==7.6.0

@@ -1,20 +1,41 @@
-container:
-  image: python:3.7-slim
+# Allow compute credits usage for collaborators and anything pushed to the
+# master, staging, and trying branches. (So bors can use them.)
+use_compute_credits: $CIRRUS_USER_COLLABORATOR == 'true' || $CIRRUS_BRANCH == 'master' || $CIRRUS_BRANCH == 'staging' || $CIRRUS_BRANCH == 'trying'
 
 lint_task:
+  container:
+    image: python:3.7-slim
   install_script:
     - pip install -r requirements.txt
     - pip install pylint
   script:
     - pylint --version
     - ./bin/lint.py
-  use_compute_credits: $CIRRUS_USER_COLLABORATOR == 'true'
 
 test_task:
+  container:
+    image: python:3.7-slim
+    cpu: 1
+    memory: 1G
+    additional_containers:
+      - name: elasticsearch
+        image: elasticsearch:7.6.2
+        port: 9200
+        cpu: 1
+        memory: 3G
+        env:
+          discovery.type: single-node
   install_script:
     - pip install -r requirements.txt
+    - "apt-get update && apt-get install -y curl"
+  wait_for_elasticsearch_script:
+    - env VERBOSE=true ./bin/wait-for-elasticsearch.sh
+  index_script:
+    - ./bin/index.sh
+  render_script:
+    - python3 --version
+    - python3 ./lib/render.py
   script:
     - python3 --version
     #- python3 -m pytest --verbose
     - python3 ./bin/test.py
-  use_compute_credits: $CIRRUS_USER_COLLABORATOR == 'true'
