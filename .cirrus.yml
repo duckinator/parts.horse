@@ -4,12 +4,14 @@ use_compute_credits: $CIRRUS_USER_COLLABORATOR == 'true' || $CIRRUS_BRANCH == 'm
 
 container:
   image: python:3.7-slim
+  cpu: 1
+  memory: 512Mi
   additional_containers:
     - name: elasticsearch
       image: elasticsearch:7.6.2
       port: 9200
       cpu: 0.5
-      memory: 1500Mi
+      memory: 1536Mi
 
 env:
   ELASTICSEARCH: "http://elasticsearch:9200"
