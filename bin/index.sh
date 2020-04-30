@@ -8,7 +8,6 @@ if [ -z "${ELASTICSEARCH}" ]; then
   ELASTICSEARCH="http://localhost:9200"
 fi
 
-./bin/wait-for-elasticsearch.sh
 
 cd config
 
