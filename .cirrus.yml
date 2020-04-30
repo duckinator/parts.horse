@@ -32,5 +32,6 @@ test_task:
     - python3 --version
     #- python3 -m pytest --verbose
     - python3 ./lib/render.py
+    - sleep 5
     - ./bin/index.sh
     - python3 ./bin/test.py
