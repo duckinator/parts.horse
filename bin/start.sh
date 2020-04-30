@@ -5,6 +5,8 @@ export PATH="$PATH:$HOME/.local/bin"
 
 cd $(realpath $(dirname $0))/..
 
+./bin/wait-for-elasticsearch.sh || exit $?
+
 ./bin/index.sh || exit $?
 
 python3 ./lib/render.py || exit $?
