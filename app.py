@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from elasticsearch import Elasticsearch
 import json
 import cherrypy
 from lib.model.part import Part
@@ -12,6 +13,8 @@ class Search:
 
         self.env = self.phrender.env
         self.template = self.phrender.get_class_template(self.__class__)
+
+        self.es = Elasticsearch()
 
     def render(self, page=None):
         """Render the template associated with the page.
@@ -37,44 +40,48 @@ class Search:
         return 'application/json' in accepted
 
     @staticmethod
-    def chunk_relevance(data, chunk):
-        chunk = chunk.lower()
-        results = [
-            chunk in data['datasheet_redirect_target'].lower(),
-            chunk in data['style'].lower(),
-            chunk in data['summary'].lower(),
-            chunk in map(lambda x: x.lower(), data['tags']),
-            chunk in data['name'].lower(),
-        ]
+    def _es_score(result):
+        return result['_score']
 
-        return sum(results)
+    def _search(self, query, start=None):
+        start = start or 0
+        es_results = self.es.search(index="parts", body={
+            "query": {
+                "simple_query_string": {
+                    "all_fields": True,
+                    "query": query,
+                }
+            },
+            "timeout": "500ms",
+            "from": start,
+        })
+        hits = es_results['hits']
+        if es_results['timed_out']:
+            print(f"!!! Query timed out: {query}")
 
-    def relevance(self, part, query):
-        data = Part.get_dict(part)
-        # Remove empty strings, None, etc.
-        chunks = filter(lambda x: x, query.split(' '))
-        # Determine the relevance of each chunk.
-        results = map(lambda c: self.chunk_relevance(data, c), chunks)
-        return sum(results)
+        if hits['total']['relation'] == 'gte':
+            prefix = 'about '
+        else:
+            prefix = ''
+        summary = f"Found {prefix}{hits['total']['value']} results."
+        timing = f"Search took approximately {es_results['took']}ms."
 
-    def _search(self, query, min_relevance=1):
-        # Split by word, and remove empty strings, None, etc.
-        # FIXME: Why the hell was this variable unused?! #pylint: disable=fixme
-        # chunks = filter(lambda x: x, query.split(' '))
-        relevances = map(lambda p: [p, self.relevance(p, query)], Part.names())
-        results_f = filter(lambda x: x[1] >= min_relevance, relevances)
-        results = map(lambda r: Part.get_dict(r[0], {'relevance': r}), results_f)
-        return sorted(results, key=lambda x: x['relevance'])
+        results = [Part.get_dict(r['_id']) for r in sorted(hits['hits'], key=self._es_score)]
+        return (summary, timing, results)
 
     @cherrypy.expose
-    def search(self, q=''):
+    def search(self, q='', start=None):
         if q:
-            results = self._search(q, min_relevance=1)
+            summary, timing, results = self._search(q, start)
         else:
+            summary = ''
+            timing = ''
             results = []
 
         page = {
             'query': q,
+            'summary': summary,
+            'timing': timing,
             'results': results,
         }
 
