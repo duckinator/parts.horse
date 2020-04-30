@@ -23,6 +23,8 @@ test_task:
         port: 9200
         cpu: 1
         memory: 3G
+        env:
+          discovery.type: single-node
   install_script:
     - pip install -r requirements.txt
     - "apt-get update && apt-get install -y curl"
