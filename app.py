@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-from elasticsearch import Elasticsearch
 import json
 import cherrypy
+from elasticsearch import Elasticsearch
 from lib.model.part import Part
 from lib.render import PHRender
 
