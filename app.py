@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import json
+import os
 import cherrypy
 from elasticsearch import Elasticsearch
 from lib.model.part import Part
@@ -14,7 +15,10 @@ class Search:
         self.env = self.phrender.env
         self.template = self.phrender.get_class_template(self.__class__)
 
-        self.es = Elasticsearch()
+        if 'ELASTICSEARCH' in os.environ:
+            self.es = Elasticsearch([os.environ['ELASTICSEARCH']])
+        else:
+            self.es = Elasticsearch()
 
     def render(self, page=None):
         """Render the template associated with the page.
