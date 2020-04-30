@@ -1,9 +1,10 @@
 from pathlib import Path
 import sys
+from jinja2 import Environment, FileSystemLoader
+
 sys.path.append(str(Path(__file__, '..', '..').resolve()))
 
 # pylint: disable=wrong-import-position
-from jinja2 import Environment, FileSystemLoader
 from lib.model.part import Part
 from lib.image import ImageGen
 # pylint: enable=wrong-import-position
