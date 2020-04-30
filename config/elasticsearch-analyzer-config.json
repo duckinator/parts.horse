@@ -2,9 +2,9 @@
   "settings": {
     "analysis": {
       "analyzer": {
-        "my_analyzer": {
+        "default": {
           "tokenizer": "keyword",
-          "filter": [ "word_delimiter_graph" ]
+          "filter": [ "lowercase", "word_delimiter_graph" ]
         }
       }
     }
