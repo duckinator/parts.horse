@@ -1,10 +1,13 @@
+# Allow compute credits usage for collaborators and anything pushed to the
+# master, staging, and trying branches. (So bors can use them.)
+use_compute_credits: $CIRRUS_USER_COLLABORATOR == 'true' || $CIRRUS_BRANCH == 'master' || $CIRRUS_BRANCH == 'staging' || $CIRRUS_BRANCH == 'trying'
+
 container:
   image: python:3.7-slim
   additional_containers:
     - name: elasticsearch
       image: elasticsearch:7.6.2
       port: 9200
-      cpu: 1.0
       memory: 1Gi
 
 env:
@@ -17,7 +20,6 @@ lint_task:
   script:
     - pylint --version
     - ./bin/lint.py
-  use_compute_credits: $CIRRUS_USER_COLLABORATOR == 'true'
 
 test_task:
   install_script:
@@ -26,5 +28,5 @@ test_task:
     - python3 --version
     #- python3 -m pytest --verbose
     - python3 ./lib/render.py
+    - ./bin/index.sh
     - python3 ./bin/test.py
-  use_compute_credits: $CIRRUS_USER_COLLABORATOR == 'true'
