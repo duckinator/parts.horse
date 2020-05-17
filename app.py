@@ -29,17 +29,24 @@ class Search:
         if page is None:
             page = {}
 
-        if self._is_json_response():
+        if self._accepts_json() or (not self._explicitly_accepts_html()):
             cherrypy.response.headers['Content-Type'] = 'application/json; charset=utf-8'
             return json.dumps(page, indent=2, sort_keys=True).encode('utf-8')
 
         return self.template.render(page=page)
 
     @staticmethod
-    def _is_json_response():
+    def _accepts(mimetype):
         headers = cherrypy.request.headers
-        accepted = headers.get('Accept', '').split(',')
-        return 'application/json' in accepted
+        # The .replace() isn't technically correct.
+        accepted = headers.get('Accept', '').replace(';', ',').split(',')
+        return mimetype in accepted
+
+    def _explicitly_accepts_html(self):
+        return self._accepts('text/html') or self._accepts('application/xhtml+xml')
+
+    def _accepts_json(self):
+        return self._accepts('application/json')
 
     @staticmethod
     def _es_score(result):
