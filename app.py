@@ -43,7 +43,7 @@ class Search:
         return mimetype in accepted
 
     def _explicitly_accepts_html(self):
-        return self._accepts('text/html') or self._accepts('application/xhtml+xml')
+        return self._accepts('text/html')
 
     def _accepts_json(self):
         return self._accepts('application/json')
