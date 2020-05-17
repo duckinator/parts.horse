@@ -74,6 +74,7 @@ h1, h2, h3, h4, h5, h6 {
 h1 { font-size: 2em; }
 h2 { font-size: 1.5em; }
 h3, h4, h5, h6 { font-size: 1.25em; }
+h3 ~ h3 { margin-top: 2em; }
 
 header > h1 { display: inline-block; }
 

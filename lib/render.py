@@ -1,5 +1,6 @@
 from pathlib import Path
 import sys
+import json
 from jinja2 import Environment, FileSystemLoader
 
 sys.path.append(str(Path(__file__, '..', '..').resolve()))
@@ -75,6 +76,9 @@ def write_html_files():
 
 
 def write_json_files():
+    Path('_site/parts.json').write_text(
+        json.dumps({'parts': Part.all()}, indent=2, sort_keys=True)
+    )
     for part_name in Part.names():
         Path(f'_site/parts/{part_name}.json').write_text(
             Path(f'parts/{part_name}.json').read_text()

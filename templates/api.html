@@ -6,14 +6,10 @@
 
 <h3>Supported Response Types</h3>
 
-<p>You can use the <code>Accept</code> header to dictate the response type.</p>
-<p>Parts Horse currently understands the following values:</p>
+<p>Parts Horse supports either JSON or HTML responses.</p>
 
-<ul>
-  <li><code>text/plain</code></li>
-  <li><code>text/html</code></li>
-  <li><code>application/json</code></li>
-</ul>
+<p>For <code>/search</code>, ensure a JSON response by having no
+<code>Accept</code> header or setting it to <code>application/json</code>.</p>
 
 <h3>Endpoints</h3>
 
@@ -27,11 +23,11 @@
     <td>Search for <code>:query</code> and return all matches.</td>
   </tr>
   <tr>
-    <td><code>/parts</code></td>
+    <td><code>/parts.json</code></td>
     <td>A list of all documented parts.</td>
   </tr>
   <tr>
-    <td><code>/parts/:part</code></td>
+    <td><code>/parts/:part.json</code></td>
     <td>Information for <code>:part</code>.</td>
   </tr>
   <tr>
