@@ -1,7 +1,7 @@
 from pathlib import Path
 import sys
-from jinja2 import Environment, FileSystemLoader
 import json
+from jinja2 import Environment, FileSystemLoader
 
 sys.path.append(str(Path(__file__, '..', '..').resolve()))
 
