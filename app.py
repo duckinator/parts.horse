@@ -29,17 +29,15 @@ class Search:
         if page is None:
             page = {}
 
-        headers = cherrypy.response.headers
-
         if self._is_json_response():
-            headers['Content-Type'] = 'application/json; charset=utf-8'
+            cherrypy.response.headers['Content-Type'] = 'application/json; charset=utf-8'
             return json.dumps(page, indent=2, sort_keys=True).encode('utf-8')
 
         return self.template.render(page=page)
 
     @staticmethod
     def _is_json_response():
-        headers = cherrypy.response.headers
+        headers = cherrypy.request.headers
         accepted = headers.get('Accept', '').split(',')
         return 'application/json' in accepted
 
