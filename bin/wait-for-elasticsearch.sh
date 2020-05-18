@@ -1,13 +1,14 @@
-#!/bin/bash
+#!/bin/sh
 
-MAX_DELAY=30
+MAX_DELAY=300 # 5 minutes
 
-function finish() {
-  printf "$1 Done!\n"
+finish() {
+  echo
+  printf "Done!\n"
   exit
 }
 
-function fail() {
+fail() {
   echo
   echo "Elasticsearch was not available within ${MAX_DELAY} seconds. Aborting."
   exit 1
@@ -17,16 +18,17 @@ if [ -z "${ELASTICSEARCH}" ]; then
   ELASTICSEARCH="http://localhost:9200"
 fi
 
-printf "Waiting for Elasticsearch to become available..."
+echo "Waiting for Elasticsearch to become available..."
 
-for ((i=0; i<=$MAX_DELAY; i++)); do
-  if [ "$VERBOSE" == "true" ]; then
-    curl "${ELASTICSEARCH}" && finish "\n"
+i=0
+while [ $i -le $MAX_DELAY ]; do
+  if [ "$VERBOSE" = "true" ]; then
+    curl "${ELASTICSEARCH}" && finish
   else
-    curl "${ELASTICSEARCH}" &>/dev/null && finish
-    printf .
+    curl "${ELASTICSEARCH}" && finish
   fi
   sleep 1
+  i=$((i + 1))
 done
 
 fail
