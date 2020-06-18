@@ -16,7 +16,7 @@ test_task:
   container:
     image: python:3.7-slim
     cpu: 1
-    memory: 1G
+    memory: 2G
     additional_containers:
       - name: elasticsearch
         image: elasticsearch:7.6.2
