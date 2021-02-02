@@ -1,5 +1,5 @@
 cherrypy==18.6.0
-jinja2==2.11.2
+jinja2==2.11.3
 gunicorn==20.0.4
 eventlet==0.30.0
 pillow==8.1.0
