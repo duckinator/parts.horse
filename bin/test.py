@@ -48,12 +48,14 @@ class ManagedProcess:
             command.replace('${}'.format(key), env[key])
 
         cmd = shlex.split(command)
+        # pylint: disable=consider-using-with
         self.log_file = open('test-{}.log'.format(self.type), 'w')
         self.proc = subprocess.Popen(
             cmd,
             env=env,
             stdout=self.log_file,
             stderr=subprocess.STDOUT)
+        # pylint: enable=consider-using-with
 
     def stop(self):
         try:
