@@ -1,11 +1,11 @@
 parts.horse {{
   # For Caddy 1.x:
-  gzip
-  proxy / 127.0.0.1:8000
-
-  {redirects}
+  #gzip
+  #proxy / 127.0.0.1:8000
 
   # For Caddy 2.0, when that lands in FreeBSD:
   #encode zstd gzip
   #reverse_proxy 127.0.0.1:8000
+
+  {redirects}
 }}
