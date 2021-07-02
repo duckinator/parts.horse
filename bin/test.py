@@ -36,16 +36,16 @@ class ManagedProcess:
 
     def get_env(self):
         self.env['PORT'] = str(self.find_port())
-        for key in os.environ.keys():
-            self.env[key] = os.environ[key]
+        for (key, val) in os.environ.items():
+            self.env[key] = val
         return self.env
 
     def start(self):
         env = self.get_env()
 
         command = self.command
-        for key in env.keys():
-            command.replace('${}'.format(key), env[key])
+        for (key, val) in env.items():
+            command.replace('${}'.format(key), val)
 
         cmd = shlex.split(command)
         # pylint: disable=consider-using-with
@@ -134,8 +134,8 @@ class CheckRunner:
 
         for attempt in range(1, self.attempts):
             try:
-                result = get(url).read().decode()
-            except: #pylint: disable=bare-except
+                result = get(url).read().decode()  # pylint: disable=consider-using-with
+            except: # pylint: disable=bare-except
                 exc_type, exc_value, _ = sys.exc_info()
                 if attempt <= self.attempts:
                     if os.environ.get('DEBUG', 'false').lower() != 'false':
