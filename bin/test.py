@@ -36,16 +36,16 @@ class ManagedProcess:
 
     def get_env(self):
         self.env['PORT'] = str(self.find_port())
-        for key in os.environ.keys():
-            self.env[key] = os.environ[key]
+        for (key, val) in os.environ.items():
+            self.env[key] = val
         return self.env
 
     def start(self):
         env = self.get_env()
 
         command = self.command
-        for key in env.keys():
-            command.replace('${}'.format(key), env[key])
+        for (key, val) in env.items():
+            command.replace('${}'.format(key), val)
 
         cmd = shlex.split(command)
         # pylint: disable=consider-using-with
