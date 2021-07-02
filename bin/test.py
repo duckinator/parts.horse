@@ -134,7 +134,7 @@ class CheckRunner:
 
         for attempt in range(1, self.attempts):
             try:
-                result = get(url).read().decode()
+                result = get(url).read().decode()  # pylint: disable=consider-using-with
             except: #pylint: disable=bare-except
                 exc_type, exc_value, _ = sys.exc_info()
                 if attempt <= self.attempts:
