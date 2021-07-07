@@ -2,3 +2,4 @@ venv/
 *.log
 _site/
 config/Caddyfile
+__pycache__/
