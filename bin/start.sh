@@ -11,5 +11,4 @@ cd $(realpath $(dirname $0))/..
 
 python3.7 ./lib/render.py || exit $?
 
-# Basically, take everything after 'web: ' and run it.
-$(cat Procfile | cut -d ' ' -f 2-)
+exec hypercorn app:app
