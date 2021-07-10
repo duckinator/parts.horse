@@ -41,7 +41,7 @@ def for_hoomans():
 async def search():
     q = request.args.get("q", '')
     start = request.args.get("start", 0)
- 
+
     if not q:
         summary, timing, results = ('', '', [])
     else:
