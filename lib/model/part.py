@@ -5,15 +5,12 @@ class Part(object):
     _all = None
     def all():
         if Part._all is None:
-            Part._all = sorted(list(map(Part.get_dict, Part.names())), key=Part.id)
+            Part._all = sorted(list(map(Part.get_dict, Part.names())), key=lambda x: x['id'])
         return Part._all
 
     def names():
         parts_files = Path('parts').glob('**/*.json')
         return list(map(lambda path: path.name.replace('.json', ''), parts_files))
-
-    def id(part_dict):
-        return part_dict['id']
 
     def get(name, default=None):
         try:
