@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 MAX_DELAY=300 # 5 minutes
 
