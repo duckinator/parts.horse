@@ -41,9 +41,9 @@ class Part(object):
                 **{
                     'id': self.part_name,
                     'datasheet_redirect_target': self.data['datasheet'],
-                    'datasheet': '/ds/' + self.part_name,
-                    'url_path': '/parts/' + self.part_name,
-                    'json_path': '/json/' + self.part_name,
+                    'datasheet': f"/ds/{self.part_name}",
+                    'url_path': f"/parts/{self.part_name}",
+                    'json_path': f"/json/{self.part_name}",
                 },
                 **extra,
         }
