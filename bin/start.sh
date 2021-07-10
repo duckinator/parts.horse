@@ -9,6 +9,6 @@ cd $(realpath $(dirname $0))/..
 
 ./bin/index.sh
 
-python3.7 ./lib/render.py
+"${PYTHON:-python3}" ./lib/render.py
 
 exec hypercorn app:app
