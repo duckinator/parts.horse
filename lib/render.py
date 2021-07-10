@@ -97,23 +97,6 @@ def write_image_files():
         )
 
 
-def write_caddy_file():
-    caddyfile_in = Path(__file__, '..', '..', 'config', 'Caddyfile.in').resolve()
-    caddyfile_in_contents = caddyfile_in.read_text()
-    caddyfile = caddyfile_in.with_suffix('')
-
-    redirects = []
-    for part_name in Part.names():
-        page = Part.get_dict(part_name)
-        destination = page['datasheet_redirect_target']
-        for ds in ['datasheets', 'ds']:
-            redirects.append(f'redir /{ds}/{part_name} {destination} 302')
-
-    caddyfile_contents = caddyfile_in_contents.format(redirects="\n  ".join(redirects))
-    caddyfile.write_text(caddyfile_contents)
-    print(f"Wrote {len(caddyfile_contents)} bytes to {caddyfile}.")
-
-
 if __name__ == "__main__":
     copy_css()
     # /index.html, /api/index.html, /parts/index.html, /parts/<part>/index.html
@@ -122,5 +105,3 @@ if __name__ == "__main__":
     write_json_files()
     # /images/<part>png
     write_image_files()
-    # config/Caddyfile, /datasheets/*, /ds/*
-    write_caddy_file()

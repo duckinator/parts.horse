@@ -3,7 +3,7 @@
 import os
 
 from elasticsearch import Elasticsearch
-from quart import Quart, request, render_template
+from quart import Quart, redirect, request, render_template
 
 from lib.model.part import Part
 
@@ -61,6 +61,16 @@ async def search():
         return await render_template("search.html", page=page)
     else:
         return page
+
+
+@app.route("/ds/<part_id>")
+@app.route("/datasheet/<part_id>")
+async def datasheet(part_id):
+    part = Part.get(part_id)
+    if part is None:
+        return "Part not found", 404
+
+    return redirect(part.data['datasheet'])
 
 
 if __name__ == "__main__":
