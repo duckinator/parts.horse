@@ -36,18 +36,14 @@ class Part(object):
             raise
 
     def to_dict(self, extra={}):
-        page = {}
-
-        for key in self.data.keys():
-            page[key] = self.data[key]
-
-        page['id'] = self.part_name
-        page['datasheet_redirect_target'] = page['datasheet']
-        page['datasheet'] = '/ds/' + self.part_name
-        page['url_path'] = '/parts/' + self.part_name
-        page['json_path'] = '/json/' + self.part_name
-
-        for k in extra.keys():
-            page[k] = extra[k]
-
-        return page
+        # Dict union syntax could be simpler, assuming Py3.9 or later
+        return {**self.data,
+                **{
+                    'id': self.part_name,
+                    'datasheet_redirect_target': self.data['datasheet'],
+                    'datasheet': '/ds/' + self.part_name,
+                    'url_path': '/parts/' + self.part_name,
+                    'json_path': '/json/' + self.part_name,
+                },
+                **extra,
+        }
