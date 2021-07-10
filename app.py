@@ -3,7 +3,7 @@
 import os
 from pathlib import Path
 
-from elasticsearch import Elasticsearch
+from elasticsearch import AsyncElasticsearch
 from quart import Quart, redirect, request, render_template, safe_join, send_file
 
 from lib.model.part import Part
@@ -29,9 +29,9 @@ async def serve(path: str):
 
 
 if 'ELASTICSEARCH' in os.environ:
-    es = Elasticsearch([os.environ['ELASTICSEARCH']])
+    es = AsyncElasticsearch([os.environ['ELASTICSEARCH']])
 else:
-    es = Elasticsearch()
+    es = AsyncElasticsearch()
 
 def for_hoomans():
     m = request.accept_mimetypes
@@ -45,7 +45,7 @@ async def search():
     if not q:
         summary, timing, results = ('', '', [])
     else:
-        es_results = es.search(index="parts", body={
+        es_results = await es.search(index="parts", body={
             "query": {
                 "simple_query_string": {
                     "all_fields": True,
