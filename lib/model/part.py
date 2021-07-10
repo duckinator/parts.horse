@@ -3,6 +3,7 @@ from pathlib import Path
 
 class Part(object):
     _all = None
+    @staticmethod
     def all():
         if Part._all is None:
             Part._all = sorted(list(map(Part.get_dict, Part.names())), key=lambda x: x['id'])
@@ -12,12 +13,14 @@ class Part(object):
         parts_files = Path('parts').glob('**/*.json')
         return list(map(lambda path: path.name.replace('.json', ''), parts_files))
 
+    @staticmethod
     def get(name, default=None):
         try:
             return Part(name)
         except:
             return default
 
+    @staticmethod
     def get_dict(name, extra={}):
         return Part(name).to_dict(extra)
 
