@@ -15,8 +15,11 @@ class Part(object):
     def id(part_dict):
         return part_dict['id']
 
-    def get(name):
-        return Part(name)
+    def get(name, default=None):
+        try:
+            return Part(name)
+        except:
+            return default
 
     def get_dict(name, extra={}):
         return Part(name).to_dict(extra)
@@ -48,4 +51,3 @@ class Part(object):
             page[k] = extra[k]
 
         return page
-
