@@ -1,10 +1,10 @@
 import json
-from functools import cache
+from functools import lru_cache
 from pathlib import Path
 
 class Part(object):
     @staticmethod
-    @cache
+    @lru_cache(1)  # HACK: functools.cache isn't available before Py3.9
     def all():
         return sorted((Part.get_dict(id) for id in Part.names()),
                       key=lambda x: x['id'])
