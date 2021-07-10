@@ -1,4 +1,4 @@
 venv/
 *.log
-_site/
+/_site/
 __pycache__/
