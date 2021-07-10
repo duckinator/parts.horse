@@ -25,7 +25,7 @@ while [ $i -le $MAX_DELAY ]; do
   if [ "$VERBOSE" = "true" ]; then
     curl "${ELASTICSEARCH}" && finish
   else
-    curl "${ELASTICSEARCH}" && finish
+    curl -s "${ELASTICSEARCH}" >/dev/null && finish
   fi
   sleep 1
   i=$((i + 1))
