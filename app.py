@@ -1,13 +1,32 @@
 #!/usr/bin/env python3
 
 import os
+from pathlib import Path
 
 from elasticsearch import Elasticsearch
-from quart import Quart, redirect, request, render_template
+from quart import Quart, redirect, request, render_template, safe_join, send_file
 
 from lib.model.part import Part
 
-app = Quart(__name__, static_folder="./_site", static_url_path="/")
+
+app = Quart(__name__)
+
+STATIC_DIR = Path(__file__).parent / '_site'
+
+@app.route("/", defaults={'path': ""})
+@app.route("/<path:path>")
+async def serve(path: str):
+    p = safe_join(STATIC_DIR, path)
+
+    if p.is_dir():
+        p /= 'index.html'
+
+    if p.is_file():
+        return await send_file(p)
+
+    return "File not found", 404
+
+
 
 if 'ELASTICSEARCH' in os.environ:
     es = Elasticsearch([os.environ['ELASTICSEARCH']])
