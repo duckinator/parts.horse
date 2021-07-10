@@ -1,13 +1,13 @@
 import json
+from functools import cache
 from pathlib import Path
 
 class Part(object):
-    _all = None
     @staticmethod
+    @cache
     def all():
-        if Part._all is None:
-            Part._all = sorted(list(map(Part.get_dict, Part.names())), key=lambda x: x['id'])
-        return Part._all
+        return sorted((Part.get_dict(id) for id in Part.names()),
+                      key=lambda x: x['id'])
 
     def names():
         parts_files = Path('parts').glob('**/*.json')
