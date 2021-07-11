@@ -31,7 +31,8 @@ class Part(object):
         self.file = safe_join(Path('parts'), self.part_name + '.json')
 
         try:
-            self.data = json.loads(self.file.read_text())
+            with self.file.open() as f:
+                self.data = json.load(f)
         except json.decoder.JSONDecodeError:
             print('[ERROR] Invalid JSON file: {}.'.format(self.file))
             raise
