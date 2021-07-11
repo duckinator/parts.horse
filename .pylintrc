@@ -26,6 +26,7 @@ disable=missing-docstring,
         invalid-name,
         len-as-condition,
         consider-iterating-dictionary,
+        no-else-return,
 
 
 [REPORTS]
