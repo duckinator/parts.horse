@@ -17,7 +17,7 @@ class Part(object):
     def get(name, default=None):
         try:
             return Part(name)
-        except:
+        except FileNotFoundError:
             return default
 
     @staticmethod
