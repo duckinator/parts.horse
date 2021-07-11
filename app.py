@@ -67,7 +67,7 @@ def search(es):
         }
 
         if for_hoomans():
-            return await render_template("search.html", page=page)
+            return await render_template("search.html", **page)
         else:
             return page
 

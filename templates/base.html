@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>{% if page.title %}{{ page.title }} - {% endif %}Parts Horse</title>
+    <title>{% if title %}{{ title }} - {% endif %}Parts Horse</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAEBACAAEAAQCwAAAAFgAAACgAAAAQAAAAIAAAAAEAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADm59AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
@@ -14,7 +14,7 @@
         <a href="/parts">Parts List</a><!--
         -->&nbsp;&middot;&nbsp;<a href="/api">API</a>
         <form class="search" action="/search" method="get">
-          <input aria-label="Query" type="text" id="q" name="q" value="{{ page.query }}"><!--
+          <input aria-label="Query" type="text" id="q" name="q" value="{{ query }}"><!--
           --><input type="submit" value="Search">
         </form>
       </header>

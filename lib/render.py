@@ -34,7 +34,7 @@ class PHRender:
 
         destination.parent.mkdir(exist_ok=True)
         template = self.env.get_template(template_name)
-        contents = template.render(page=page)
+        contents = template.render(**page)
         destination.write_text(contents)
         print(f"Wrote {len(contents)} bytes to {destination}.")
 
@@ -61,8 +61,8 @@ def write_html_files():
     phr = PHRender()
 
     pages = [
-        ('home.html', '/index.html', None),
-        ('api.html', '/api/index.html', None),
+        ('home.html', '/index.html', {}),
+        ('api.html', '/api/index.html', {}),
         ('directory.html', '/parts/index.html', {'parts': Part.all()}),
     ]
 

@@ -1,7 +1,7 @@
 {% extends 'base.html' -%}
 {% block content %}
 
-{% if page.INCOMPLETE %}
+{% if INCOMPLETE %}
 NOTE: This page is incomplete or known to be inaccurate. To avoid providing
       invalid information, we are not showing any diagrams or explanations.
 
@@ -10,14 +10,14 @@ NOTE: This page is incomplete or known to be inaccurate. To avoid providing
 
 <section class="part-info clearfix">
   <section class="summary">
-    <h2>{{ page.name }} ({{ page.style }})</h2>
-    <p>{{ page.summary }}</p>
-    <p><a href="{{ page.datasheet }}">Datasheet</a></p>
-    <!--<p class="text-small">Tags: {{ page.tags | join(', ') }}</p>-->
+    <h2>{{ name }} ({{ style }})</h2>
+    <p>{{ summary }}</p>
+    <p><a href="{{ datasheet }}">Datasheet</a></p>
+    <!--<p class="text-small">Tags: {{ tags | join(', ') }}</p>-->
   </section>
 
   <section class="pin-diagram">
-    <img src="/images/{{ page.id }}.png">
+    <img src="/images/{{ id }}.png">
     <div class="diagram-links">
       <a class="left" href="#left-pins">Left Pins</a>
       <a class="right" href="#right-pins">Right Pins</a>
@@ -34,7 +34,7 @@ NOTE: This page is incomplete or known to be inaccurate. To avoid providing
         <th>Name</th>
         <th>Function(s)</th>
       </tr>
-{% for pin in page.left_pin_functions %}
+{% for pin in left_pin_functions %}
       <tr>
         <td>{{ pin[0] }}</td>
         <td>{{ pin[1] }}</td>
@@ -54,7 +54,7 @@ NOTE: This page is incomplete or known to be inaccurate. To avoid providing
         <th>Name</th>
         <th>Function(s)</th>
       </tr>
-{% for pin in page.right_pin_functions %}
+{% for pin in right_pin_functions %}
       <tr>
         <td>{{ pin[0] }}</td>
         <td>{{ pin[1] }}</td>
@@ -68,7 +68,7 @@ NOTE: This page is incomplete or known to be inaccurate. To avoid providing
 {%- block details %}{% endblock %}
 
 
-{% if page.INCOMPLETE %}
+{% if INCOMPLETE %}
 </div>
 {% endif %}
 {%- endblock %}
