@@ -1,91 +1,63 @@
 #!/usr/bin/env python3
 
-import json
 import os
-import cherrypy
-from elasticsearch import Elasticsearch
+from pathlib import Path
+
+from elasticsearch import AsyncElasticsearch
+from quart import Quart, redirect, request, render_template, safe_join, send_file
+
 from lib.model.part import Part
-from lib.render import PHRender
 
 
-class Search:
-    def __init__(self):
-        self.phrender = PHRender()
+STATIC_DIR = Path(__file__).parent / '_site'
+async def serve(path: str):
+    p = safe_join(STATIC_DIR, path)
 
-        self.env = self.phrender.env
-        self.template = self.phrender.get_class_template(self.__class__)
+    if p.is_dir():
+        p /= 'index.html'
 
-        if 'ELASTICSEARCH' in os.environ:
-            self.es = Elasticsearch([os.environ['ELASTICSEARCH']])
-        else:
-            self.es = Elasticsearch()
+    if p.is_file():
+        return await send_file(p)
 
-    def render(self, page=None):
-        """Render the template associated with the page.
+    return "File not found", 404
 
-        If the client requests JSON, then this returns a JSON dump of the
-        """
 
-        if page is None:
-            page = {}
+def for_hoomans():
+    m = request.accept_mimetypes
+    return m.accept_html or not m.accept_json
 
-        if self._accepts_json() or (not self._explicitly_accepts_html()):
-            cherrypy.response.headers['Content-Type'] = 'application/json; charset=utf-8'
-            return json.dumps(page, indent=2, sort_keys=True).encode('utf-8')
 
-        return self.template.render(page=page)
-
-    @staticmethod
-    def _accepts(mimetype):
-        headers = cherrypy.request.headers
-        # The .replace() isn't technically correct.
-        accepted = headers.get('Accept', '').replace(';', ',').split(',')
-        return mimetype in accepted
-
-    def _explicitly_accepts_html(self):
-        return self._accepts('text/html')
-
-    def _accepts_json(self):
-        return self._accepts('application/json')
-
-    @staticmethod
-    def _es_score(result):
-        return result['_score']
-
-    def _search(self, query, start=None):
-        start = start or 0
-        es_results = self.es.search(index="parts", body={
+def search(es):
+    async def do_search(q, start):
+        es_results = await es.search(index="parts", body={
             "query": {
                 "simple_query_string": {
                     "all_fields": True,
-                    "query": query,
+                    "query": q,
                 }
             },
             "timeout": "500ms",
             "from": start,
         })
-        hits = es_results['hits']
         if es_results['timed_out']:
-            print(f"!!! Query timed out: {query}")
+            raise RuntimeError(f"Query timed out: '{q}'")
 
-        if hits['total']['relation'] == 'gte':
-            prefix = 'about '
-        else:
-            prefix = ''
+        hits = es_results['hits']
+        prefix = 'about ' if hits['total']['relation'] == 'gte' else ''
+
         summary = f"Found {prefix}{hits['total']['value']} results."
         timing = f"Search took approximately {es_results['took']}ms."
-
-        results = [Part.get_dict(r['_id']) for r in sorted(hits['hits'], key=self._es_score)]
+        results = [
+            Part.get_dict(r['_id'])
+            for r in sorted(hits['hits'], key=lambda x: x['_score'])
+        ]
         return (summary, timing, results)
 
-    @cherrypy.expose
-    def search(self, q='', start=None):
-        if q:
-            summary, timing, results = self._search(q, start)
-        else:
-            summary = ''
-            timing = ''
-            results = []
+    async def handler():
+        q = request.args.get("q", '')
+        start = request.args.get("start", 0)
+
+        summary, timing, results = await do_search(q, start) if q else ('', '', [])
 
         page = {
             'query': q,
@@ -94,10 +66,38 @@ class Search:
             'results': results,
         }
 
-        return self.render(page)
+        if for_hoomans():
+            return await render_template("search.html", **page)
+        else:
+            return page
+
+    return handler
 
 
-if __name__ == '__main__':
-    cherrypy.quickstart(Search(), '/', config='config/server.conf')
-else:
-    wsgi = cherrypy.Application(Search(), '/', config='config/server.conf')
+async def datasheet(part_id):
+    part = Part.get(part_id)
+    if part is None:
+        return "Part not found", 404
+
+    return redirect(part.data['datasheet'])
+
+
+def gen_app():
+    app = Quart(__name__)
+    app.add_url_rule("/", view_func=serve, defaults={'path': ""})
+    app.add_url_rule("/<path:path>", view_func=serve)
+
+    if 'ELASTICSEARCH' in os.environ:
+        es = AsyncElasticsearch([os.environ['ELASTICSEARCH']])
+    else:
+        es = AsyncElasticsearch()
+
+    app.add_url_rule("/search", view_func=search(es), strict_slashes=False)
+    app.add_url_rule("/ds/<part_id>", view_func=datasheet)
+    app.add_url_rule("/datasheet/<part_id>", view_func=datasheet)
+
+    return app
+
+
+if __name__ == "__main__":
+    gen_app().run(debug=True)

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 MAX_DELAY=300 # 5 minutes
 
@@ -25,7 +25,7 @@ while [ $i -le $MAX_DELAY ]; do
   if [ "$VERBOSE" = "true" ]; then
     curl "${ELASTICSEARCH}" && finish
   else
-    curl "${ELASTICSEARCH}" && finish
+    curl -s "${ELASTICSEARCH}" >/dev/null && finish
   fi
   sleep 1
   i=$((i + 1))

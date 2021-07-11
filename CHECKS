@@ -1,9 +1,0 @@
-WAIT=1
-TIMEOUT=30
-ATTEMPTS=5
-
-/                   Parts Horse
-/api                application/json
-/parts              ATmega328
-/parts              8-bit AVR microcontroller with 32KB of program memory.
-/search?q=lm555     LM555, NA555, NE555, SA555, SE555

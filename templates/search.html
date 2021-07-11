@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<p class="page-summary">{{ page.summary }}</p>
+<p class="page-summary">{{ summary }}</p>
 
 <ol class="search-results">
-{% for result in page.results %}
+{% for result in results %}
 <li class="search-result"><p><a href="{{ result.url_path }}">{{ result.name }}</a> ({{ result.style }})</p>
   <p class="summary">{{ result.summary }}</p>
   <p class="pins">Pins: {{ result.number_of_pins }}</p>
@@ -12,6 +12,6 @@
 {% endfor %}
 </ol>
 
-<p class="page-timing small">{{ page.timing }}</p>
+<p class="page-timing small">{{ timing }}</p>
 
 {% endblock %}
