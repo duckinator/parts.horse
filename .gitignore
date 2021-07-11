@@ -1,5 +1,5 @@
 venv/
 *.log
-.mypy_cache
+.*_cache
 /_site/
 __pycache__/
