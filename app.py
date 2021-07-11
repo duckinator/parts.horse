@@ -28,35 +28,36 @@ def for_hoomans():
 
 
 def search(es):
+    async def do_search(q, start):
+        es_results = await es.search(index="parts", body={
+            "query": {
+                "simple_query_string": {
+                    "all_fields": True,
+                    "query": q,
+                }
+            },
+            "timeout": "500ms",
+            "from": start,
+        })
+        if es_results['timed_out']:
+            raise RuntimeError(f"Query timed out: '{q}'")
+
+        hits = es_results['hits']
+        prefix = 'about ' if hits['total']['relation'] == 'gte' else ''
+
+        summary = f"Found {prefix}{hits['total']['value']} results."
+        timing = f"Search took approximately {es_results['took']}ms."
+        results = [
+            Part.get_dict(r['_id'])
+            for r in sorted(hits['hits'], key=lambda x: x['_score'])
+        ]
+        return (summary, timing, results)
+
     async def handler():
         q = request.args.get("q", '')
         start = request.args.get("start", 0)
 
-        if not q:
-            summary, timing, results = ('', '', [])
-        else:
-            es_results = await es.search(index="parts", body={
-                "query": {
-                    "simple_query_string": {
-                        "all_fields": True,
-                        "query": q,
-                    }
-                },
-                "timeout": "500ms",
-                "from": start,
-            })
-            if es_results['timed_out']:
-                raise RuntimeError(f"Query timed out: '{q}'")
-
-            hits = es_results['hits']
-
-            if hits['total']['relation'] == 'gte':
-                prefix = 'about '
-            else:
-                prefix = ''
-            summary = f"Found {prefix}{hits['total']['value']} results."
-            timing = f"Search took approximately {es_results['took']}ms."
-            results = [Part.get_dict(r['_id']) for r in sorted(hits['hits'], key=lambda x: x['_score'])]
+        summary, timing, results = await do_search(q, start) if q else ('', '', [])
 
         page = {
             'query': q,
