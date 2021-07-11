@@ -11,4 +11,4 @@ cd $(realpath $(dirname $0))/..
 
 "${PYTHON:-python3}" ./lib/render.py
 
-exec hypercorn app:app
+exec hypercorn 'app:gen_app()'

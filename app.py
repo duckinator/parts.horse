@@ -9,12 +9,7 @@ from quart import Quart, redirect, request, render_template, safe_join, send_fil
 from lib.model.part import Part
 
 
-app = Quart(__name__)
-
 STATIC_DIR = Path(__file__).parent / '_site'
-
-@app.route("/", defaults={'path': ""})
-@app.route("/<path:path>")
 async def serve(path: str):
     p = safe_join(STATIC_DIR, path)
 
@@ -27,63 +22,57 @@ async def serve(path: str):
     return "File not found", 404
 
 
-
-if 'ELASTICSEARCH' in os.environ:
-    es = AsyncElasticsearch([os.environ['ELASTICSEARCH']])
-else:
-    es = AsyncElasticsearch()
-
 def for_hoomans():
     m = request.accept_mimetypes
     return m.accept_html or not m.accept_json
 
-@app.route("/search", strict_slashes=False)
-async def search():
-    q = request.args.get("q", '')
-    start = request.args.get("start", 0)
 
-    if not q:
-        summary, timing, results = ('', '', [])
-    else:
-        es_results = await es.search(index="parts", body={
-            "query": {
-                "simple_query_string": {
-                    "all_fields": True,
-                    "query": q,
-                }
-            },
-            "timeout": "500ms",
-            "from": start,
-        })
-        if es_results['timed_out']:
-            raise RuntimeError(f"Query timed out: '{q}'")
+def search(es):
+    async def handler():
+        q = request.args.get("q", '')
+        start = request.args.get("start", 0)
 
-        hits = es_results['hits']
-
-        if hits['total']['relation'] == 'gte':
-            prefix = 'about '
+        if not q:
+            summary, timing, results = ('', '', [])
         else:
-            prefix = ''
-        summary = f"Found {prefix}{hits['total']['value']} results."
-        timing = f"Search took approximately {es_results['took']}ms."
+            es_results = await es.search(index="parts", body={
+                "query": {
+                    "simple_query_string": {
+                        "all_fields": True,
+                        "query": q,
+                    }
+                },
+                "timeout": "500ms",
+                "from": start,
+            })
+            if es_results['timed_out']:
+                raise RuntimeError(f"Query timed out: '{q}'")
 
-        results = [Part.get_dict(r['_id']) for r in sorted(hits['hits'], key=lambda x: x['_score'])]
+            hits = es_results['hits']
 
-    page = {
-        'query': q,
-        'summary': summary,
-        'timing': timing,
-        'results': results,
-    }
+            if hits['total']['relation'] == 'gte':
+                prefix = 'about '
+            else:
+                prefix = ''
+            summary = f"Found {prefix}{hits['total']['value']} results."
+            timing = f"Search took approximately {es_results['took']}ms."
+            results = [Part.get_dict(r['_id']) for r in sorted(hits['hits'], key=lambda x: x['_score'])]
 
-    if for_hoomans():
-        return await render_template("search.html", page=page)
-    else:
-        return page
+        page = {
+            'query': q,
+            'summary': summary,
+            'timing': timing,
+            'results': results,
+        }
+
+        if for_hoomans():
+            return await render_template("search.html", page=page)
+        else:
+            return page
+
+    return handler
 
 
-@app.route("/ds/<part_id>")
-@app.route("/datasheet/<part_id>")
 async def datasheet(part_id):
     part = Part.get(part_id)
     if part is None:
@@ -92,5 +81,22 @@ async def datasheet(part_id):
     return redirect(part.data['datasheet'])
 
 
+def gen_app():
+    app = Quart(__name__)
+    app.add_url_rule("/", view_func=serve, defaults={'path': ""})
+    app.add_url_rule("/<path:path>", view_func=serve)
+
+    if 'ELASTICSEARCH' in os.environ:
+        es = AsyncElasticsearch([os.environ['ELASTICSEARCH']])
+    else:
+        es = AsyncElasticsearch()
+
+    app.add_url_rule("/search", view_func=search(es), strict_slashes=False)
+    app.add_url_rule("/ds/<part_id>", view_func=datasheet)
+    app.add_url_rule("/datasheet/<part_id>", view_func=datasheet)
+
+    return app
+
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    gen_app().run(debug=True)
