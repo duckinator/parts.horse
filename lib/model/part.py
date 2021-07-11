@@ -1,6 +1,7 @@
 import json
 from functools import lru_cache
 from pathlib import Path
+from quart import safe_join
 
 class Part(object):
     @staticmethod
@@ -27,7 +28,7 @@ class Part(object):
 
     def __init__(self, part_name):
         self.part_name = part_name.replace('/', '-').lower()
-        self.file = Path('parts').joinpath(self.part_name + '.json')
+        self.file = safe_join(Path('parts'), self.part_name + '.json')
 
         try:
             self.data = json.loads(self.file.read_text())
