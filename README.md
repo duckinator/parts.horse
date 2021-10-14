@@ -2,29 +2,12 @@
 
 A website providing information about various electrical components.
 
-Features overview:
-
-* No images, only text.
-* HTML _and_ plain-text variants of all pages.
-* CLI-friendly: actively tested with via `curl`, `w3m`.
-* Search functionality: it's not great, but it exists.
-
-**NOTE:** Unicode support is required for the pages to render correctly.
-
-## HTML vs plain-text
-
-If the `Accept` header is present and includes `text/html`, you get an
-HTML response. Otherwise, you get a text-only response.
-
-Exceptions:
-
-* ELinks always gets HTML.
-
 ## Dependencies
 
 * Python3
 * CherryPy
 * Jinja2
+* Elasticsearch (for search functionality)
 
 ## Development
 
