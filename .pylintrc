@@ -27,6 +27,8 @@ disable=missing-docstring,
         len-as-condition,
         consider-iterating-dictionary,
         no-else-return,
+        consider-using-f-string,
+        unspecified-encoding,  # This warning *might* make sense to actually fix, at some point?
 
 
 [REPORTS]
