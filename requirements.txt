@@ -1,5 +1,5 @@
 elasticsearch[async] ~= 7.8.0
 hypercorn~=0.11
 jinja2==3.0.3
-pillow==8.4.0
+pillow==9.0.0
 quart~=0.15
