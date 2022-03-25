@@ -3,6 +3,7 @@
 [build]
   publish = "_site/"
   command = "python ./lib/render.py"
+  environment = { PYTHON_VERSION = "3.10" }
 
 [[plugins]]
   # Installs the Lighthouse Build Plugin for all deploy contexts
