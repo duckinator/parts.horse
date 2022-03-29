@@ -1,3 +1,0 @@
-path:
-    data: ${ES_HOME}/data
-    logs: ${ES_HOME}/logs
