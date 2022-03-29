@@ -6,37 +6,10 @@ lint_task:
     - pip install pylint
   script:
     - pylint --version
-    - ./bin/lint.py
-
-#test_task:
-#  container:
-#    image: python:3.7-slim
-#    cpu: 1
-#    memory: 2G
-#    additional_containers:
-#      - name: elasticsearch
-#        image: elasticsearch:7.6.2
-#        port: 9200
-#        cpu: 1
-#        memory: 3G
-#        env:
-#          discovery.type: single-node
-#  install_script:
-#    - pip install -r requirements.txt -r requirements-test.txt
-#    - "apt-get update && apt-get install -y curl"
-#  wait_for_elasticsearch_script:
-#    - env VERBOSE=true ./bin/wait-for-elasticsearch.sh
-#  index_script:
-#    - ./bin/index.sh
-#  render_script:
-#    - python3 --version
-#    - python3 ./lib/render.py
-#  script:
-#    - python3 -m pytest --verbose
+    - pylint ./lib
 
 success_task:
   name: CI success
   container: {image: "busybox"}
   depends_on:
     - lint
-    #- test
