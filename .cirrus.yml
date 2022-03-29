@@ -33,3 +33,10 @@ lint_task:
 #    - python3 ./lib/render.py
 #  script:
 #    - python3 -m pytest --verbose
+
+success_task:
+  name: CI success
+  container: {image: "busybox"}
+  depends_on:
+    - lint
+    #- test
