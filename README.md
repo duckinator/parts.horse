@@ -5,19 +5,14 @@ A website providing information about various electrical components.
 ## Dependencies
 
 * Python3
-* CherryPy
 * Jinja2
-* Elasticsearch (for search functionality)
+* Pillow
 
 ## Development
 
-(TODO: Link to something explaining how to set up a venv.)
-
-Create and activate a Python3 virtual environment (venv), then:
-
 ```
 $ pip3 install -r requirements.txt
-$ ./app.py
+$ python3 ./lib/render.py
 ```
 
 ## Contributing
