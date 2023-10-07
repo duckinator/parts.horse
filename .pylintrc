@@ -5,7 +5,6 @@ jobs=1
 # List of plugins (as comma separated values of python modules names) to load,
 # usually to register additional checkers.
 load-plugins=pylint.extensions.check_elif,
-             pylint.extensions.emptystring,
              pylint.extensions.overlapping_exceptions,
              pylint.extensions.redefined_variable_type,
 
@@ -28,6 +27,7 @@ disable=missing-docstring,
         consider-iterating-dictionary,
         no-else-return,
         consider-using-f-string,
+        use-implicit-booleaness-not-comparison-to-zero, # `len(x) == 0` is way clearer than `not len(x)`.
         unspecified-encoding,  # This warning *might* make sense to actually fix, at some point?
 
 
