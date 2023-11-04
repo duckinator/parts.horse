@@ -1,0 +1,49 @@
+CD40106 - Hex Schmitt Trigger
+=============================
+
+The CD40106 is a CMOS integrated circuit providing 6 inverters with
+Schmitt-Trigger inputs.
+
+It's available in 8-pin DIP (through-hole) and 8-pin SOIC (surface-mount) variants.
+
+More details can be found in the `Texas Instruments product page`_.
+
+.. _Texas Instruments product page: https://www.ti.com/product/cd40106b
+
+..
+    {
+      "INCOMPLETE":     true,
+      "name":           "CD40106 - Hex Schmitt Trigger",
+      "datasheet":      "http://pdf.datasheetcatalog.com/datasheets/135/108600_DS.pdf",
+      "details":        "",
+      "summary":        "Six inverters with schmitt triggers.",
+      "style":          "DIP",
+      "number_of_pins": 14,
+      "tags": ["cmos", "logic", "inverter"],
+      "pins": [
+        [["1",  ""],    ["14", "Vdd"]],
+        [["2",  ""],    ["13", ""]],
+        [["3",  ""],    ["12", ""]],
+        [["4",  ""],    ["11", ""]],
+        [["5",  ""],    ["10", ""]],
+        [["6",  ""],    [" 9", ""]],
+        [["7",  "Vss"], [" 8", ""]]
+      ],
+      "pin_functions": [
+        ["1",   "", ""],
+        ["2",   "", ""],
+        ["3",   "", ""],
+        ["4",   "", ""],
+        ["5",   "", ""],
+        ["6",   "", ""],
+        ["7",   "Vss",  "Ground"],
+        "--",
+        ["8",   "", ""],
+        ["9",   "", ""],
+        ["10",  "", ""],
+        ["11",  "", ""],
+        ["12",  "", ""],
+        ["13",  "", ""],
+        ["14",  "Vdd",  "DC Supply Voltage (3 to 15V DC"]
+      ]
+    }
