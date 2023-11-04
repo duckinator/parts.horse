@@ -1,0 +1,54 @@
+CD4011 - Quad 2-input NAND gate
+===============================
+
+The CD4011 contains four 2-input NAND gates, and can be powered by 3 to 18 volts.
+It is available in 14-pin DIP (through-hole) and 14-pin SOIC/SOP/TSSOP (surface-mount) variants.
+
+More details, and datasheets, can be found on the `Texas Instruments product page`_.
+
+Related:
+
+* `CD4012`_: with two 4-input NAND gates.
+* `CD4023`_, with three 3-input NAND gates.
+
+`View other CD4000-series chips. </4000-series>`_.
+
+.. _Texas Instruments product page: https://www.ti.com/product/cd4011b
+
+..
+    {
+      "name":           "CD4011 - Quad 2-input NAND gate",
+      "datasheet":      "http://pdf.datasheetcatalog.com/datasheets/208/108647_DS.pdf",
+      "details":        "",
+      "summary":        "Four 2-input NAND gates.",
+      "style":          "DIP",
+      "number_of_pins": 14,
+      "tags": ["cmos", "logic", "nand"],
+      "pins": [
+        [["1",  "1A"],  ["14", "Vdd"]],
+        [["2",  "1B"],  ["13", "4B"]],
+        [["3",  "1Y"],  ["12", "4A"]],
+        [["4",  "2Y"],  ["11", "4Y"]],
+        [["5",  "2A"],  ["10", "3Y"]],
+        [["6",  "2B"],  [" 9", "3B"]],
+        [["7",  "Vss"], [" 8", "3A"]]
+      ],
+      "left_pin_functions": [
+        ["1",   "1A",   "Input for NAND gate #1."],
+        ["2",   "1B",   "Input for NAND gate #1."],
+        ["3",   "1Y",   "Output for NAND gate #1."],
+        ["4",   "2Y",   "Output for NAND gate #2."],
+        ["5",   "2A",   "Input for NAND gate #2."],
+        ["6",   "2B",   "Input for NAND gate #2."],
+        ["7",   "Vss",  "Ground (0V)."]
+      ],
+      "right_pin_functions": [
+        ["14",  "Vdd",  "Positive supply voltage."],
+        ["13",  "4B",   "Input for NAND gate #4."],
+        ["12",  "4A",   "Input for NAND gate #4."],
+        ["11",  "4Y",   "Output for NAND gate #4."],
+        ["10",  "3Y",   "Output for NAND gate #3."],
+        ["9",   "3B",   "Input for NAND gate #3."],
+        ["8",   "3A",   "Input for NAND gate #3."]
+      ]
+    }
